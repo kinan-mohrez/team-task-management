@@ -2,6 +2,8 @@ package com.kinan.taskmanagement.auth.controller;
 
 import com.kinan.taskmanagement.auth.dto.LoginRequest;
 import com.kinan.taskmanagement.auth.dto.LoginResponse;
+import com.kinan.taskmanagement.auth.dto.RegisterRequest;
+import com.kinan.taskmanagement.auth.dto.RegisterResponse;
 import com.kinan.taskmanagement.auth.service.JwtService;
 import com.kinan.taskmanagement.user.entity.User;
 import com.kinan.taskmanagement.user.service.UserService;
@@ -43,5 +45,20 @@ public class AuthController {
         String token = jwtService.generateToken(user.getUsername());
 
         return new LoginResponse(token);
+    }
+
+    @PostMapping("/register")
+    public RegisterResponse register(@RequestBody RegisterRequest request) {
+
+        User user = new User();
+        user.setUsername(request.username());
+        user.setPassword(request.password());
+
+        User savedUser = userService.register(user);
+
+        return new RegisterResponse(
+                savedUser.getId(),
+                savedUser.getUsername()
+        );
     }
 }
