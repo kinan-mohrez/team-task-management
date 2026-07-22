@@ -1,156 +1,258 @@
-# Project Progress
+# PROJECT_PROGRESS.md
 
-**Last Updated:** 2026-07-22
+# Team Task Management System
 
----
+## Current Status
 
-# Project Status
-
-🟢 Authentication completed.
-
-🟢 PostgreSQL integration completed.
-
-🟢 Initial Dashboard implementation completed.
+Date: 2026-07-22
 
 ---
 
-# Current Architecture
+# Project Goal
 
-## Frontend
+Build an Enterprise-level Team Task Management System using:
 
-- Angular 13 (Modules)
+- Angular 13
 - Angular Material
-- Route Guards
-- HTTP Interceptors
+- Spring Boot
+- Spring Security
+- JWT Authentication
+- PostgreSQL
 
-## Backend
+Architecture requirements:
+
+- Clean Architecture
+- Modular Architecture
+- Enterprise structure
+- One step at a time
+- No unnecessary refactoring
+
+---
+
+# Frontend Status
+
+## Project Structure
+
+Completed
+
+- Core Module
+- Shared Module
+- Authentication Module
+- Dashboard Module
+- Users Module
+
+Project uses:
+
+- Angular Material
+- Lazy Loading
+- Feature Modules
+- Services separated from Components
+- Models separated in dedicated folder
+- Routing per feature
+
+---
+
+# Authentication Module
+
+Completed
+
+Features:
+
+- Login page
+- Authentication service
+- Route Guard
+- JWT preparation
+- Logout
+- Protected routes
+
+Status:
+
+✅ Completed
+
+---
+
+# Dashboard Module
+
+Completed
+
+Features:
+
+- Dashboard Layout
+- Navigation
+- Toolbar
+- Sidebar
+
+Status:
+
+✅ Completed
+
+---
+
+# Users Module
+
+Completed
+
+Implemented Features
+
+## User List
+
+- Angular Material Table
+- Display users
+- Edit action
+- Delete action
+- Add user button
+
+## User Form
+
+Supports
+
+- Create user
+- Edit user
+
+Using
+
+- Reactive Forms
+- Validation
+
+## Delete Confirmation
+
+Implemented using Angular Material Dialog.
+
+The user must confirm before deleting.
+
+## Notification Service
+
+Implemented globally using Angular Material Snackbar.
+
+Notifications available:
+
+- User created successfully
+- User updated successfully
+- User deleted successfully
+
+### Important Fix
+
+A dependency injection problem occurred:
+
+```
+NullInjectorError:
+No provider for MatSnackBar
+```
+
+Root cause:
+
+`NotificationService` is provided in the Root Injector (`providedIn: 'root'`), while `MatSnackBarModule` was imported only inside the lazy-loaded `UsersModule`.
+
+Solution:
+
+Import
+
+```ts
+MatSnackBarModule
+```
+
+inside
+
+```
+AppModule
+```
+
+instead of only inside `UsersModule`.
+
+This resolved the DI issue completely.
+
+Another issue fixed:
+
+The success notification after deleting a user was displayed before the delete confirmation.
+
+Solution:
+
+Move the success notification inside the confirmation block so it executes only after the user confirms the deletion.
+
+Status:
+
+✅ Completed
+
+---
+
+# Backend Status
+
+Completed
+
+## Authentication
 
 - Spring Boot
 - Spring Security
 - JWT Authentication
+- BCrypt Password Encoder
 
-## Database
+Status
 
-- PostgreSQL
-- Hibernate (JPA)
+✅ Completed
 
 ---
 
-# Completed Milestones
+# Database
 
-## Project Setup
-
-- Repository created
-- Professional README completed
-- Development progress tracking added
-
-## Backend
-
-- Spring Boot project configured
-- Spring Security implemented
-- JWT Authentication implemented
-- Login endpoint created
-- Password encryption using BCrypt
-- PostgreSQL integration completed
-
-## Database
+Completed
 
 - PostgreSQL installed
-- pgAdmin configured
-- Database `team_task_management` created
-- Spring Boot connected to PostgreSQL
-- Hibernate successfully generated database tables
-- User entity mapped to PostgreSQL
+- Database created
+- Spring Boot successfully connected
+- Authentication tested successfully
 
-## Frontend
+Status
 
-### Authentication
-
-- Login page created
-- Reactive Forms
-- Form validation
-- JWT Token storage
-- Auth Guard implemented
-- HTTP Interceptor implemented
-- Protected routes configured
-
-### Dashboard
-
-- Dashboard module created
-- Dashboard page created
-- Statistics cards implemented
-- Recent Tasks table implemented
-- Upcoming Deadlines section implemented
-- Dashboard service created
-- Dashboard models separated into dedicated files
-- Dashboard component refactored to use service layer
+✅ Completed
 
 ---
 
-# Current Progress
+# Git
 
-✅ Authentication flow completed.
+Repository successfully pushed to GitHub.
 
-✅ Database connection working.
+Latest commit includes:
 
-✅ JWT authentication working.
+- Users Module
+- CRUD operations
+- Delete Confirmation Dialog
+- Notification Service
+- Snackbar fixes
+- DI fixes
 
-✅ Initial dashboard completed.
+Status
 
-The project now has a complete authentication system and the foundation of the main application dashboard.
-
----
-
-# Next Milestones
-
-1. Improve Dashboard UI.
-2. Create Users Management module.
-3. Implement Roles & Permissions.
-4. Create Projects module.
-5. Create Tasks module.
-6. Connect Dashboard with backend APIs.
-7. Implement real CRUD operations.
+✅ Up to date
 
 ---
 
-# Git History
+# Next Step
 
-- Improve project documentation
-- Integrate frontend into main repository
-- Implement JWT Authentication
-- Configure Spring Security
-- Configure PostgreSQL
-- Connect Spring Boot to PostgreSQL
-- Create Authentication module
-- Create initial Dashboard
+Next feature:
 
----
+## Projects Module
 
-# Development Notes
+Start by creating
 
-Today's achievements:
+```
+features/projects
+```
 
-- Organized dashboard models.
-- Created Dashboard service.
-- Implemented Statistics cards.
-- Added Recent Tasks table.
-- Added Upcoming Deadlines section.
-- Improved project architecture by separating models and services.
+with routing.
 
-The project architecture is now cleaner and follows a structure closer to real enterprise Angular applications.
+This module will become the foundation for task management.
+
+Nothing else has been started yet.
 
 ---
 
-# Overall Progress
+# Notes
 
-Approximately **50%** completed.
+Continue working exactly from this file in future conversations.
 
-## Current Focus
+Rules:
 
-➡️ Build the core business modules:
-
-- Users
-- Roles
-- Projects
-- Tasks
-- Dashboard API integration
+- One step only.
+- Enterprise-level quality.
+- Preserve project architecture.
+- Follow Clean Code principles.

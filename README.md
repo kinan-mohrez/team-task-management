@@ -1,75 +1,35 @@
 # Team Task Management System
 
-A professional full-stack task management platform built with **Angular**, **Spring Boot**, and **PostgreSQL**.
+An Enterprise-level Full Stack Team Task Management application built to demonstrate modern software engineering practices using Angular and Spring Boot.
 
-The application follows enterprise-level architecture and demonstrates modern software engineering practices including modular frontend architecture, layered backend design, JWT authentication, and scalable REST APIs.
+This project is being developed as a real-world production-style application following Clean Architecture, Modular Architecture, and Clean Code principles.
 
 ---
 
-# Features
-
-## Authentication
-
-- JWT Authentication
-- Spring Security
-- BCrypt Password Encryption
-- Route Guards
-- HTTP Interceptor
-- Protected Routes
-- Secure REST APIs
-
-## Dashboard
-
-- Responsive Dashboard
-- Statistics Cards
-- Recent Tasks
-- Upcoming Deadlines
-- Service-Based Architecture
-- Modular Components
-
-## Backend
-
-- Spring Boot REST API
-- Spring Data JPA
-- Hibernate
-- Layered Architecture
-- DTO Pattern
-- Validation
-- Global Exception Handling (Planned)
+# Tech Stack
 
 ## Frontend
 
 - Angular 13
 - Angular Material
-- Modular Architecture
-- Feature Modules
-- Core Module
-- Shared Module
-- Services Layer
-- Models Layer
-- Route Lazy Loading
-
----
-
-# Technology Stack
-
-## Frontend
-
-- Angular 13
 - TypeScript
-- Angular Material
 - RxJS
-- SCSS
+- Reactive Forms
+- Angular Routing
+- Lazy Loading
+
+---
 
 ## Backend
 
-- Java 17
 - Spring Boot
 - Spring Security
+- JWT Authentication
 - Spring Data JPA
 - Hibernate
-- JWT
-- Maven
+- BCrypt Password Encoder
+
+---
 
 ## Database
 
@@ -77,96 +37,146 @@ The application follows enterprise-level architecture and demonstrates modern so
 
 ---
 
-# Current Project Structure
+# Project Architecture
 
-```text
-team-task-management
-│
-├── backend
-│   ├── auth
-│   ├── config
-│   ├── security
-│   ├── user
-│   ├── common
-│   └── ...
-│
-├── frontend
-│   ├── core
-│   ├── shared
-│   ├── models
-│   ├── features
-│   │     ├── auth
-│   │     └── dashboard
-│   └── ...
-│
-├── PROJECT_PROGRESS.md
-└── README.md
+## Frontend
+
 ```
+src/app
+│
+├── core
+├── shared
+├── features
+│     ├── auth
+│     ├── dashboard
+│     ├── users
+│     └── projects (coming next)
+│
+├── models
+├── services
+└── layout
+```
+
+The application follows a modular architecture where every business feature is isolated inside its own module.
 
 ---
 
-# Development Status
+# Current Features
 
-| Feature | Status |
-|---------|--------|
-| Project Setup | ✅ |
-| Angular Architecture | ✅ |
-| Spring Boot Architecture | ✅ |
-| JWT Authentication | ✅ |
-| Spring Security | ✅ |
-| Login Module | ✅ |
-| Dashboard Module | ✅ |
-| Dashboard Service | ✅ |
-| Dashboard Models | ✅ |
-| PostgreSQL Integration | ✅ |
-| User CRUD | 🚧 |
-| Team Management | ⏳ |
-| Project Management | ⏳ |
-| Task Management | ⏳ |
-| Roles & Permissions | ⏳ |
+## Authentication
+
+- Login page
+- JWT Authentication
+- Route Guards
+- Authentication Service
+- Logout
+
+Status
+
+✅ Completed
+
+---
+
+## Dashboard
+
+- Responsive Layout
+- Navigation
+- Sidebar
+- Toolbar
+
+Status
+
+✅ Completed
+
+---
+
+## Users Management
+
+Implemented features
+
+- View users
+- Create user
+- Edit user
+- Delete user
+- Delete confirmation dialog
+- Global notification service
+- Reactive forms
+- Form validation
+
+Status
+
+✅ Completed
+
+---
+
+# Backend
+
+Implemented
+
+- Spring Boot project
+- Spring Security
+- JWT Authentication
+- User authentication endpoint
+- PostgreSQL integration
+- BCrypt password encryption
+
+Status
+
+✅ Completed
+
+---
+
+# Project Principles
+
+The project follows the following engineering principles:
+
+- Clean Architecture
+- Clean Code
+- SOLID Principles
+- Modular Design
+- Separation of Concerns
+- Reusable Components
+- Feature-based Structure
+
+---
+
+# Development Rules
+
+This project is intentionally developed one step at a time.
+
+Every feature is completed before moving to the next one.
+
+The architecture is preserved throughout the project to simulate development inside a professional software company.
 
 ---
 
 # Roadmap
 
-### Phase 1
+Completed
 
-- ✅ Authentication
-- ✅ Dashboard
-- ✅ PostgreSQL Integration
+- Authentication Module
+- Dashboard Module
+- Users Module
+- PostgreSQL Integration
+- JWT Authentication
 
-### Phase 2
+Next
 
-- User Management
+- Projects Module
+- Tasks Module
 - Team Management
-- Project Management
-
-### Phase 3
-
-- Task Management
-- Role-Based Authorization
-- Dashboard Analytics
-- Notifications
+- Comments
 - File Attachments
+- Dashboard Statistics
+- Role & Permission Management
+- REST API Integration
+- Unit Testing
+- Docker
+- Deployment
 
 ---
 
-# Running the Project
-
-## Backend
-
-```bash
-cd backend
-mvn spring-boot:run
-```
-
-Backend:
-
-```
-http://localhost:8080
-```
-
-## Frontend
+# Running the Frontend
 
 ```bash
 cd frontend
@@ -174,7 +184,7 @@ npm install
 ng serve
 ```
 
-Frontend:
+Application runs on
 
 ```
 http://localhost:4200
@@ -182,40 +192,48 @@ http://localhost:4200
 
 ---
 
-# Architecture
+# Running the Backend
 
-## Frontend
+```bash
+cd backend
+mvn spring-boot:run
+```
 
-- Core Module
-- Shared Module
-- Feature Modules
-- Service Layer
-- Models Layer
-- Angular Material
+Backend runs on
 
-## Backend
-
-- Controller Layer
-- Service Layer
-- Repository Layer
-- Entity Layer
-- DTO Layer
-- Security Layer
+```
+http://localhost:8080
+```
 
 ---
 
-# Planned Features
+# Database Configuration
 
-- User Management
-- Teams
-- Projects
-- Tasks
-- Comments
-- Attachments
-- Activity Timeline
-- Notifications
-- User Profiles
-- Admin Dashboard
+Example configuration
+
+```properties
+spring.datasource.url=jdbc:postgresql://localhost:5432/team_task_management
+spring.datasource.username=postgres
+spring.datasource.password=your_password
+
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+```
+
+---
+
+# Project Status
+
+| Module                 | Status       |
+| ---------------------- | ------------ |
+| Authentication         | ✅ Completed |
+| Dashboard              | ✅ Completed |
+| Users                  | ✅ Completed |
+| Projects               | ⏳ Planned   |
+| Tasks                  | ⏳ Planned   |
+| Teams                  | ⏳ Planned   |
+| Backend Authentication | ✅ Completed |
+| PostgreSQL             | ✅ Completed |
 
 ---
 
@@ -223,16 +241,8 @@ http://localhost:4200
 
 **Kinan Mohrez**
 
-Full Stack Developer
+Software Engineer
 
-### Technologies
+Frontend & Full Stack Developer
 
-- Angular
-- TypeScript
-- Java
-- Spring Boot
-- Spring Security
-- PostgreSQL
-- Hibernate
-- REST APIs
-- JWT
+Germany
