@@ -1,0 +1,195 @@
+<div class="user-form-page">
+  <div class="page-header">
+    <div class="page-heading">
+      <h1>
+        {{ isEditMode ? 'Edit User' : 'Add User' }}
+      </h1>
+
+      <p>
+        {{
+          isEditMode
+            ? 'Update the user information and permissions.'
+            : 'Create a new user and assign a system role.'
+        }}
+      </p>
+    </div>
+  </div>
+
+  <mat-card class="user-form-card">
+    <form
+      [formGroup]="userForm"
+      (ngSubmit)="onSubmit()"
+      novalidate
+    >
+      <mat-card-content>
+        <div class="form-section">
+          <div class="section-header">
+            <mat-icon>person</mat-icon>
+
+            <div>
+              <h2>Personal Information</h2>
+              <p>Enter the user’s basic information.</p>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <mat-form-field appearance="outline">
+              <mat-label>First Name</mat-label>
+
+              <input
+                matInput
+                type="text"
+                formControlName="firstName"
+                autocomplete="given-name"
+                maxlength="50"
+              />
+
+              <mat-icon matSuffix>badge</mat-icon>
+
+              <mat-error
+                *ngIf="hasError('firstName', 'required')"
+              >
+                First name is required.
+              </mat-error>
+
+              <mat-error
+                *ngIf="hasError('firstName', 'maxlength')"
+              >
+                First name cannot exceed 50 characters.
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Last Name</mat-label>
+
+              <input
+                matInput
+                type="text"
+                formControlName="lastName"
+                autocomplete="family-name"
+                maxlength="50"
+              />
+
+              <mat-icon matSuffix>badge</mat-icon>
+
+              <mat-error
+                *ngIf="hasError('lastName', 'required')"
+              >
+                Last name is required.
+              </mat-error>
+
+              <mat-error
+                *ngIf="hasError('lastName', 'maxlength')"
+              >
+                Last name cannot exceed 50 characters.
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <div class="form-section">
+          <div class="section-header">
+            <mat-icon>manage_accounts</mat-icon>
+
+            <div>
+              <h2>Account Information</h2>
+              <p>Configure the user’s email, role, and status.</p>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <mat-form-field appearance="outline">
+              <mat-label>Email Address</mat-label>
+
+              <input
+                matInput
+                type="email"
+                formControlName="email"
+                autocomplete="email"
+                maxlength="100"
+              />
+
+              <mat-icon matSuffix>email</mat-icon>
+
+              <mat-error
+                *ngIf="hasError('email', 'required')"
+              >
+                Email address is required.
+              </mat-error>
+
+              <mat-error
+                *ngIf="hasError('email', 'email')"
+              >
+                Enter a valid email address.
+              </mat-error>
+
+              <mat-error
+                *ngIf="hasError('email', 'maxlength')"
+              >
+                Email address cannot exceed 100 characters.
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Role</mat-label>
+
+              <mat-select formControlName="role">
+                <mat-option
+                  *ngFor="let role of roles"
+                  [value]="role"
+                >
+                  {{ role }}
+                </mat-option>
+              </mat-select>
+
+              <mat-icon matSuffix>admin_panel_settings</mat-icon>
+
+              <mat-error
+                *ngIf="hasError('role', 'required')"
+              >
+                Role is required.
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="status-control">
+            <mat-slide-toggle formControlName="enabled">
+              Active user
+            </mat-slide-toggle>
+
+            <p>
+              Active users can sign in and access the system according
+              to their assigned role.
+            </p>
+          </div>
+        </div>
+      </mat-card-content>
+
+      <mat-divider></mat-divider>
+
+      <mat-card-actions class="form-actions">
+        <button
+          mat-stroked-button
+          type="button"
+          (click)="onCancel()"
+        >
+          Cancel
+        </button>
+
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+        >
+          <mat-icon>
+            {{ isEditMode ? 'save' : 'person_add' }}
+          </mat-icon>
+
+          {{ isEditMode ? 'Save Changes' : 'Create User' }}
+        </button>
+      </mat-card-actions>
+    </form>
+  </mat-card>
+</div>

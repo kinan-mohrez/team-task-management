@@ -9,6 +9,7 @@ import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import { MainLayoutComponent } from './layout/main-layout/main-layout.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CoreModule } from './core/core.module';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { CoreModule } from './core/core.module';
     BrowserAnimationsModule,
     HttpClientModule,
     CoreModule,
+    MatSnackBarModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

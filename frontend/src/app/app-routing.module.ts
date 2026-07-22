@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MainLayoutComponent } from './layout/main-layout/main-layout.component';
+
 import { AuthGuard } from './core/guards/auth.guard';
+import { MainLayoutComponent } from './layout/main-layout/main-layout.component';
 
 const routes: Routes = [
   {
@@ -20,6 +21,11 @@ const routes: Routes = [
           import('./features/dashboard/dashboard.module').then(
             (m) => m.DashboardModule,
           ),
+      },
+      {
+        path: 'users',
+        loadChildren: () =>
+          import('./features/users/users.module').then((m) => m.UsersModule),
       },
     ],
   },
