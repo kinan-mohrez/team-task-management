@@ -1,0 +1,174 @@
+.dashboard {
+  padding: 24px;
+  background-color: #f5f7fb;
+  min-height: calc(100vh - 64px);
+}
+
+.dashboard-header {
+  margin-bottom: 24px;
+
+  h1 {
+    margin: 0;
+    font-size: 32px;
+    font-weight: 600;
+    color: #1f2937;
+  }
+
+  p {
+    margin-top: 8px;
+    color: #6b7280;
+    font-size: 16px;
+  }
+}
+
+.statistics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.stat-card {
+  border-radius: 16px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+  }
+}
+
+.stat-card-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stat-title {
+  display: block;
+  color: #6b7280;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.stat-value {
+  margin: 0;
+  font-size: 34px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.stat-icon {
+  font-size: 42px;
+  width: 42px;
+  height: 42px;
+  color: #1976d2;
+}
+
+@media (max-width: 768px) {
+  .dashboard {
+    padding: 16px;
+  }
+
+  .dashboard-header h1 {
+    font-size: 26px;
+  }
+}
+
+.recent-tasks-card {
+  margin-top: 24px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+.recent-tasks-table {
+  width: 100%;
+}
+
+.mat-header-cell {
+  font-weight: 600;
+  color: #374151;
+  background-color: #f9fafb;
+}
+
+.mat-cell,
+.mat-header-cell {
+  padding: 16px;
+}
+
+.mat-row:hover {
+  background-color: #f9fafb;
+}
+
+.mat-column-title {
+  min-width: 220px;
+}
+
+.mat-column-project {
+  min-width: 220px;
+}
+
+.mat-column-status {
+  min-width: 140px;
+}
+
+.mat-column-dueDate {
+  min-width: 140px;
+}
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.status-badge--completed {
+  color: #166534;
+  background-color: #dcfce7;
+}
+
+.status-badge--in-progress {
+  color: #1d4ed8;
+  background-color: #dbeafe;
+}
+
+.status-badge--todo {
+  color: #92400e;
+  background-color: #fef3c7;
+}
+
+
+.upcoming-deadlines-card {
+  margin-top: 24px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.upcoming-deadlines-card mat-list-item {
+  height: auto;
+  min-height: 72px;
+}
+
+.upcoming-deadlines-card mat-icon {
+  color: #1976d2;
+}
+
+.deadline-date {
+  margin-left: auto;
+  color: #6b7280;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .deadline-date {
+    margin-left: 12px;
+    font-size: 12px;
+  }
+}

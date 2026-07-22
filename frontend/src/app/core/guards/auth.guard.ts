@@ -7,6 +7,7 @@ import {
   UrlTree,
 } from '@angular/router';
 import { Observable } from 'rxjs';
+
 import { TokenService } from '../services/token.service';
 
 @Injectable({
@@ -17,7 +18,8 @@ export class AuthGuard implements CanActivate {
     private tokenService: TokenService,
     private router: Router,
   ) {}
-  canActivate(
+
+  public canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot,
   ):
@@ -29,7 +31,10 @@ export class AuthGuard implements CanActivate {
       return true;
     }
 
-    this.router.navigate(['/login']);
-    return false;
+    return this.router.createUrlTree(['/login'], {
+      queryParams: {
+        returnUrl: state.url,
+      },
+    });
   }
 }
