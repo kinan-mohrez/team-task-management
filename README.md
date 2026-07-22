@@ -1,67 +1,69 @@
 # Team Task Management System
 
-A modern full-stack web application for managing teams, projects, and tasks. The application is designed with a scalable and modular architecture using Angular and Spring Boot, providing secure authentication, efficient project organization, and a maintainable RESTful API.
+A professional full-stack task management platform built with **Angular**, **Spring Boot**, and **PostgreSQL**.
+
+The application follows enterprise-level architecture and demonstrates modern software engineering practices including modular frontend architecture, layered backend design, JWT authentication, and scalable REST APIs.
 
 ---
 
-## Overview
+# Features
 
-The Team Task Management System is designed to simplify collaboration between teams by providing a centralized platform for managing projects, assigning tasks, and tracking progress.
-
-The application follows modern software engineering practices with a clear separation between frontend and backend, secure JWT-based authentication, and a modular architecture that supports future expansion.
-
----
-
-## Key Features
-
-### Authentication & Security
+## Authentication
 
 - JWT Authentication
 - Spring Security
-- Stateless Authentication
-- Password Encryption
-- Route Protection (Angular Guards)
-- HTTP Authorization Interceptor
-- Secure REST API
+- BCrypt Password Encryption
+- Route Guards
+- HTTP Interceptor
+- Protected Routes
+- Secure REST APIs
 
-### Backend
+## Dashboard
+
+- Responsive Dashboard
+- Statistics Cards
+- Recent Tasks
+- Upcoming Deadlines
+- Service-Based Architecture
+- Modular Components
+
+## Backend
 
 - Spring Boot REST API
 - Spring Data JPA
-- Hibernate ORM
-- User Management
-- Authentication Service
-- JWT Service
-- Security Configuration
-- CORS Configuration
+- Hibernate
 - Layered Architecture
+- DTO Pattern
+- Validation
+- Global Exception Handling (Planned)
 
-### Frontend
+## Frontend
 
 - Angular 13
+- Angular Material
 - Modular Architecture
-- Core & Shared Modules
 - Feature Modules
-- Authentication Module
-- Dashboard Module
-- API Service Layer
-- Responsive Routing
+- Core Module
+- Shared Module
+- Services Layer
+- Models Layer
+- Route Lazy Loading
 
 ---
 
-## Technology Stack
+# Technology Stack
 
-### Frontend
+## Frontend
 
 - Angular 13
 - TypeScript
-- SCSS
-- Angular Router
+- Angular Material
 - RxJS
+- SCSS
 
-### Backend
+## Backend
 
-- Java
+- Java 17
 - Spring Boot
 - Spring Security
 - Spring Data JPA
@@ -69,28 +71,32 @@ The application follows modern software engineering practices with a clear separ
 - JWT
 - Maven
 
-### Database
+## Database
 
 - PostgreSQL
 
 ---
 
-## Project Structure
+# Current Project Structure
 
 ```text
-team-task-management/
+team-task-management
 │
-├── backend/
-│   ├── auth/
-│   ├── config/
-│   ├── security/
-│   ├── user/
+├── backend
+│   ├── auth
+│   ├── config
+│   ├── security
+│   ├── user
+│   ├── common
 │   └── ...
 │
-├── frontend/
-│   ├── core/
-│   ├── shared/
-│   ├── features/
+├── frontend
+│   ├── core
+│   ├── shared
+│   ├── models
+│   ├── features
+│   │     ├── auth
+│   │     └── dashboard
 │   └── ...
 │
 ├── PROJECT_PROGRESS.md
@@ -99,61 +105,68 @@ team-task-management/
 
 ---
 
-## Current Development Status
+# Development Status
 
-| Module                 | Status         |
-| ---------------------- | -------------- |
-| Project Architecture   | ✅ Completed   |
-| Angular Setup          | ✅ Completed   |
-| Spring Boot Setup      | ✅ Completed   |
-| JWT Authentication     | ✅ Completed   |
-| Spring Security        | ✅ Completed   |
-| Login Flow             | ✅ Completed   |
-| Angular Authentication | ✅ Completed   |
-| PostgreSQL Integration | 🚧 In Progress |
-| User Registration      | 📋 Planned     |
-| Team Management        | 📋 Planned     |
-| Project Management     | 📋 Planned     |
-| Task Management        | 📋 Planned     |
-| Dashboard              | 📋 Planned     |
+| Feature | Status |
+|---------|--------|
+| Project Setup | ✅ |
+| Angular Architecture | ✅ |
+| Spring Boot Architecture | ✅ |
+| JWT Authentication | ✅ |
+| Spring Security | ✅ |
+| Login Module | ✅ |
+| Dashboard Module | ✅ |
+| Dashboard Service | ✅ |
+| Dashboard Models | ✅ |
+| PostgreSQL Integration | ✅ |
+| User CRUD | 🚧 |
+| Team Management | ⏳ |
+| Project Management | ⏳ |
+| Task Management | ⏳ |
+| Roles & Permissions | ⏳ |
 
 ---
 
-## Development Roadmap
+# Roadmap
 
-Upcoming milestones include:
+### Phase 1
 
-- PostgreSQL integration
-- User registration
-- Team management
-- Project management
-- Task management
-- Role-based authorization
-- Dashboard analytics
-- File attachments
+- ✅ Authentication
+- ✅ Dashboard
+- ✅ PostgreSQL Integration
+
+### Phase 2
+
+- User Management
+- Team Management
+- Project Management
+
+### Phase 3
+
+- Task Management
+- Role-Based Authorization
+- Dashboard Analytics
 - Notifications
-- User profile management
+- File Attachments
 
 ---
 
-## Running the Project
+# Running the Project
 
-### Backend
+## Backend
 
 ```bash
 cd backend
 mvn spring-boot:run
 ```
 
-Backend URL
+Backend:
 
-```text
+```
 http://localhost:8080
 ```
 
----
-
-### Frontend
+## Frontend
 
 ```bash
 cd frontend
@@ -161,66 +174,65 @@ npm install
 ng serve
 ```
 
-Frontend URL
+Frontend:
 
-```text
+```
 http://localhost:4200
 ```
 
 ---
 
-## Architecture Highlights
+# Architecture
 
-- Modular Angular Architecture
-- Layered Spring Boot Architecture
-- RESTful API Design
-- JWT-based Authentication
-- Stateless Security
-- Dependency Injection
-- Separation of Concerns
-- Scalable Project Structure
+## Frontend
 
----
+- Core Module
+- Shared Module
+- Feature Modules
+- Service Layer
+- Models Layer
+- Angular Material
 
-## Repository Contents
+## Backend
 
-| Directory             | Description                |
-| --------------------- | -------------------------- |
-| `frontend`            | Angular client application |
-| `backend`             | Spring Boot REST API       |
-| `PROJECT_PROGRESS.md` | Development progress log   |
-| `README.md`           | Project documentation      |
+- Controller Layer
+- Service Layer
+- Repository Layer
+- Entity Layer
+- DTO Layer
+- Security Layer
 
 ---
 
-## Future Enhancements
+# Planned Features
 
-The project is actively evolving with planned support for:
-
-- Team collaboration
-- Project workspaces
-- Task assignment workflow
-- Activity tracking
-- File management
+- User Management
+- Teams
+- Projects
+- Tasks
+- Comments
+- Attachments
+- Activity Timeline
 - Notifications
-- Reporting dashboard
-- Administrative features
+- User Profiles
+- Admin Dashboard
 
 ---
 
-## Author
+# Author
 
 **Kinan Mohrez**
 
 Full Stack Developer
 
-**Technologies**
+### Technologies
 
+- Angular
+- TypeScript
 - Java
 - Spring Boot
 - Spring Security
-- Angular
-- TypeScript
 - PostgreSQL
+- Hibernate
 - REST APIs
-- JWT Authentication
+- JWT
