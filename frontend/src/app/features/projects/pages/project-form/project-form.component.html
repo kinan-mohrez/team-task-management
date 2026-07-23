@@ -1,0 +1,169 @@
+<div class="project-form-page">
+  <div class="page-header">
+    <div class="page-heading">
+      <h1>
+        {{ isEditMode ? 'Edit Project' : 'Add Project' }}
+      </h1>
+
+      <p>
+        {{
+          isEditMode
+            ? 'Update the project information and status.'
+            : 'Create a new project and define its schedule.'
+        }}
+      </p>
+    </div>
+  </div>
+
+  <mat-card class="project-form-card">
+    <form
+      [formGroup]="projectForm"
+      (ngSubmit)="onSubmit()"
+      novalidate
+    >
+      <mat-card-content>
+        <div class="form-section">
+          <div class="section-header">
+            <mat-icon>folder</mat-icon>
+
+            <div>
+              <h2>Project Information</h2>
+              <p>Enter the project name and description.</p>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <mat-form-field appearance="outline">
+              <mat-label>Project Name</mat-label>
+
+              <input
+                matInput
+                type="text"
+                formControlName="name"
+                maxlength="100"
+              />
+
+              <mat-icon matSuffix>business_center</mat-icon>
+
+              <mat-error *ngIf="hasError('name', 'required')">
+                Project name is required.
+              </mat-error>
+
+              <mat-error *ngIf="hasError('name', 'maxlength')">
+                Project name cannot exceed 100 characters.
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Status</mat-label>
+
+              <mat-select formControlName="status">
+                <mat-option
+                  *ngFor="let status of statuses"
+                  [value]="status"
+                >
+                  {{ status }}
+                </mat-option>
+              </mat-select>
+
+              <mat-icon matSuffix>flag</mat-icon>
+
+              <mat-error *ngIf="hasError('status', 'required')">
+                Project status is required.
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <mat-form-field
+            appearance="outline"
+            class="full-width"
+          >
+            <mat-label>Description</mat-label>
+
+            <textarea
+              matInput
+              formControlName="description"
+              rows="5"
+              maxlength="500"
+            ></textarea>
+
+            <mat-error *ngIf="hasError('description', 'required')">
+              Project description is required.
+            </mat-error>
+
+            <mat-error *ngIf="hasError('description', 'maxlength')">
+              Project description cannot exceed 500 characters.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <div class="form-section">
+          <div class="section-header">
+            <mat-icon>date_range</mat-icon>
+
+            <div>
+              <h2>Project Schedule</h2>
+              <p>Define the planned project start and end dates.</p>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <mat-form-field appearance="outline">
+              <mat-label>Start Date</mat-label>
+
+              <input
+                matInput
+                type="date"
+                formControlName="startDate"
+              />
+
+              <mat-error *ngIf="hasError('startDate', 'required')">
+                Start date is required.
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>End Date</mat-label>
+
+              <input
+                matInput
+                type="date"
+                formControlName="endDate"
+              />
+
+              <mat-error *ngIf="hasError('endDate', 'required')">
+                End date is required.
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-card-content>
+
+      <mat-divider></mat-divider>
+
+      <mat-card-actions class="form-actions">
+        <button
+          mat-stroked-button
+          type="button"
+          (click)="onCancel()"
+        >
+          Cancel
+        </button>
+
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+        >
+          <mat-icon>
+            {{ isEditMode ? 'save' : 'add_business' }}
+          </mat-icon>
+
+          {{ isEditMode ? 'Save Changes' : 'Create Project' }}
+        </button>
+      </mat-card-actions>
+    </form>
+  </mat-card>
+</div>

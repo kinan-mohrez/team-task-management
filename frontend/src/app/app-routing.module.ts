@@ -27,6 +27,13 @@ const routes: Routes = [
         loadChildren: () =>
           import('./features/users/users.module').then((m) => m.UsersModule),
       },
+      {
+        path: 'projects',
+        loadChildren: () =>
+          import('./features/projects/projects.module').then(
+            (m) => m.ProjectsModule,
+          ),
+      },
     ],
   },
   {
