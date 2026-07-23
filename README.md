@@ -1,182 +1,217 @@
 # Team Task Management System
 
-An Enterprise-level Full Stack Team Task Management application built to demonstrate modern software engineering practices using Angular and Spring Boot.
+An enterprise-style full-stack application for managing users, projects, teams, and tasks.
 
-This project is being developed as a real-world production-style application following Clean Architecture, Modular Architecture, and Clean Code principles.
+The project is built with **Angular**, **Spring Boot**, and **PostgreSQL** to demonstrate professional frontend architecture, backend security, modular development, and clean software-engineering practices.
 
 ---
 
-# Tech Stack
+## Technology Stack
 
-## Frontend
+### Frontend
 
 - Angular 13
-- Angular Material
 - TypeScript
+- Angular Material
 - RxJS
 - Reactive Forms
-- Angular Routing
-- Lazy Loading
+- SCSS
+- Angular Router
+- Lazy-loaded feature modules
 
----
+### Backend
 
-## Backend
-
+- Java
 - Spring Boot
 - Spring Security
-- JWT Authentication
 - Spring Data JPA
 - Hibernate
+- JWT Authentication
 - BCrypt Password Encoder
+- Maven
 
----
-
-## Database
+### Database
 
 - PostgreSQL
 
 ---
 
-# Project Architecture
+## Current Features
 
-## Frontend
-
-```
-src/app
-│
-├── core
-├── shared
-├── features
-│     ├── auth
-│     ├── dashboard
-│     ├── users
-│     └── projects (coming next)
-│
-├── models
-├── services
-└── layout
-```
-
-The application follows a modular architecture where every business feature is isolated inside its own module.
-
----
-
-# Current Features
-
-## Authentication
+### Authentication
 
 - Login page
-- JWT Authentication
-- Route Guards
-- Authentication Service
-- Logout
+- JWT authentication
+- Authentication service
+- Route Guard
+- HTTP Interceptor
+- Protected routes
+- Logout functionality
+- Reactive Form validation
 
-Status
+### Dashboard
 
-✅ Completed
-
----
-
-## Dashboard
-
-- Responsive Layout
-- Navigation
-- Sidebar
+- Responsive application layout
+- Statistics cards
+- Recent tasks
+- Upcoming deadlines
+- Sidebar navigation
 - Toolbar
+- Service-based data access
+- Dedicated dashboard models
 
-Status
-
-✅ Completed
-
----
-
-## Users Management
-
-Implemented features
+### Users Management
 
 - View users
-- Create user
-- Edit user
-- Delete user
+- Create users
+- Edit users
+- Delete users
 - Delete confirmation dialog
-- Global notification service
-- Reactive forms
-- Form validation
+- Reactive Form validation
+- Success notifications
 
-Status
+### Projects Management
 
-✅ Completed
+- View projects
+- Create projects
+- Edit projects
+- Delete projects
+- Delete confirmation dialog
+- Project status management
+- Reactive Form validation
+- Success notifications
+
+### Tasks Management
+
+- View tasks
+- Create tasks
+- Edit tasks
+- Delete tasks
+- Delete confirmation dialog
+- Assign tasks to users
+- Link tasks to projects
+- Task status management
+- Task priority management
+- Due-date selection
+- Reactive Form validation
+- Success notifications
+- Strongly typed status and priority enums
 
 ---
 
-# Backend
+## Project Architecture
 
-Implemented
+### Frontend
 
-- Spring Boot project
-- Spring Security
-- JWT Authentication
-- User authentication endpoint
-- PostgreSQL integration
-- BCrypt password encryption
+```text
+frontend/src/app
+│
+├── core
+│   └── services
+│
+├── shared
+│
+├── layout
+│
+├── models
+│   ├── dashboard
+│   ├── project
+│   ├── tasks
+│   └── users
+│
+└── features
+    ├── auth
+    ├── dashboard
+    ├── users
+    ├── projects
+    └── tasks
+```
 
-Status
+Each business feature is isolated inside its own module and contains its own:
 
-✅ Completed
+- Pages
+- Components
+- Services
+- Routing configuration
+
+Shared domain models are stored in dedicated model folders.
+
+### Backend
+
+The backend follows a layered architecture:
+
+```text
+backend
+│
+├── controller
+├── service
+├── repository
+├── entity
+├── dto
+├── security
+├── config
+└── common
+```
 
 ---
 
-# Project Principles
+## Engineering Principles
 
-The project follows the following engineering principles:
+The project follows:
 
-- Clean Architecture
 - Clean Code
-- SOLID Principles
-- Modular Design
+- Modular Architecture
 - Separation of Concerns
+- Feature-based Architecture
 - Reusable Components
-- Feature-based Structure
+- Reusable Services
+- Strong typing
+- Dependency Injection
+- Lazy Loading
+- Layered backend design
+- Incremental feature development
 
 ---
 
-# Development Rules
+## Current Development Status
 
-This project is intentionally developed one step at a time.
+| Module                            | Status       |
+| --------------------------------- | ------------ |
+| Project setup                     | ✅ Completed |
+| Frontend architecture             | ✅ Completed |
+| Backend foundation                | ✅ Completed |
+| PostgreSQL integration            | ✅ Completed |
+| JWT authentication                | ✅ Completed |
+| Authentication                    | ✅ Completed |
+| Dashboard                         | ✅ Completed |
+| Users frontend CRUD               | ✅ Completed |
+| Projects frontend CRUD            | ✅ Completed |
+| Tasks frontend CRUD               | ✅ Completed |
+| Teams                             | ⏳ Planned   |
+| Roles and permissions             | ⏳ Planned   |
+| Backend business CRUD APIs        | ⏳ Planned   |
+| Frontend/backend CRUD integration | ⏳ Planned   |
+| Unit testing                      | ⏳ Planned   |
+| Docker                            | ⏳ Planned   |
+| Deployment                        | ⏳ Planned   |
 
-Every feature is completed before moving to the next one.
-
-The architecture is preserved throughout the project to simulate development inside a professional software company.
-
----
-
-# Roadmap
-
-Completed
-
-- Authentication Module
-- Dashboard Module
-- Users Module
-- PostgreSQL Integration
-- JWT Authentication
-
-Next
-
-- Projects Module
-- Tasks Module
-- Team Management
-- Comments
-- File Attachments
-- Dashboard Statistics
-- Role & Permission Management
-- REST API Integration
-- Unit Testing
-- Docker
-- Deployment
+> The Users, Projects, and Tasks modules currently use in-memory Angular services. Their Spring Boot CRUD APIs and database integration are planned for a later development phase.
 
 ---
 
-# Running the Frontend
+## Running the Project
+
+### Prerequisites
+
+Install:
+
+- Node.js and npm
+- Angular CLI
+- Java
+- Maven
+- PostgreSQL
+
+### Frontend
 
 ```bash
 cd frontend
@@ -184,32 +219,46 @@ npm install
 ng serve
 ```
 
-Application runs on
+The frontend runs at:
 
-```
+```text
 http://localhost:4200
 ```
 
----
+Available frontend routes include:
 
-# Running the Backend
+```text
+/login
+/dashboard
+/users
+/projects
+/tasks
+```
+
+### Backend
 
 ```bash
 cd backend
 mvn spring-boot:run
 ```
 
-Backend runs on
+The backend runs at:
 
-```
+```text
 http://localhost:8080
 ```
 
 ---
 
-# Database Configuration
+## Database Configuration
 
-Example configuration
+Create a PostgreSQL database named:
+
+```text
+team_task_management
+```
+
+Configure the backend in `application.properties`:
 
 ```properties
 spring.datasource.url=jdbc:postgresql://localhost:5432/team_task_management
@@ -220,29 +269,49 @@ spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
 ```
 
----
-
-# Project Status
-
-| Module                 | Status       |
-| ---------------------- | ------------ |
-| Authentication         | ✅ Completed |
-| Dashboard              | ✅ Completed |
-| Users                  | ✅ Completed |
-| Projects               | ⏳ Planned   |
-| Tasks                  | ⏳ Planned   |
-| Teams                  | ⏳ Planned   |
-| Backend Authentication | ✅ Completed |
-| PostgreSQL             | ✅ Completed |
+Do not commit real passwords, JWT secrets, or other credentials to GitHub.
 
 ---
 
-# Author
+## Roadmap
+
+### Completed
+
+- Project setup
+- Angular modular architecture
+- Spring Boot foundation
+- PostgreSQL integration
+- JWT authentication
+- Authentication Module
+- Dashboard Module
+- Users Module
+- Projects Module
+- Tasks Module
+- Global notification service
+- Delete confirmation dialogs
+
+### Planned
+
+- Teams Management
+- Roles and Permissions
+- Users REST API
+- Projects REST API
+- Tasks REST API
+- Frontend/backend CRUD integration
+- Comments
+- File attachments
+- Activity timeline
+- Dashboard analytics
+- Unit and integration tests
+- Docker configuration
+- Deployment
+
+---
+
+## Author
 
 **Kinan Mohrez**
 
 Software Engineer
-
-Frontend & Full Stack Developer
-
+Frontend & Full-Stack Developer
 Germany

@@ -1,16 +1,12 @@
-# PROJECT_PROGRESS.md
+# Team Task Management System — Project Progress
 
-# Team Task Management System
-
-## Current Status
-
-Date: 2026-07-22
+**Last Updated:** 2026-07-23
 
 ---
 
-# Project Goal
+## Project Goal
 
-Build an Enterprise-level Team Task Management System using:
+Build an enterprise-style Team Task Management System using:
 
 - Angular 13
 - Angular Material
@@ -18,241 +14,361 @@ Build an Enterprise-level Team Task Management System using:
 - Spring Security
 - JWT Authentication
 - PostgreSQL
+- Hibernate / JPA
 
-Architecture requirements:
+The project follows:
 
-- Clean Architecture
 - Modular Architecture
-- Enterprise structure
-- One step at a time
-- No unnecessary refactoring
+- Clean Architecture
+- Clean Code
+- Separation of Concerns
+- Feature-based Structure
+- Reusable Services and Components
+- Lazy-loaded Angular modules
 
 ---
 
-# Frontend Status
+## Current Status
 
-## Project Structure
+### Frontend
 
-Completed
+Completed modules:
 
-- Core Module
-- Shared Module
 - Authentication Module
 - Dashboard Module
 - Users Module
+- Projects Module
+- Tasks Module
 
-Project uses:
+### Backend
 
-- Angular Material
-- Lazy Loading
-- Feature Modules
-- Services separated from Components
-- Models separated in dedicated folder
-- Routing per feature
+Completed:
+
+- Spring Boot project setup
+- Spring Security configuration
+- JWT authentication
+- Login endpoint
+- BCrypt password encoding
+- PostgreSQL integration
+- Hibernate / JPA configuration
 
 ---
 
-# Authentication Module
+## Frontend Architecture
 
-Completed
+```text
+src/app
+│
+├── core
+│   └── services
+│       └── notification.service.ts
+│
+├── shared
+│
+├── layout
+│
+├── models
+│   ├── dashboard
+│   ├── project
+│   ├── tasks
+│   └── users
+│
+└── features
+    ├── auth
+    ├── dashboard
+    ├── users
+    ├── projects
+    └── tasks
+```
 
-Features:
+The frontend uses:
+
+- Angular feature modules
+- Lazy-loaded routing
+- Reactive Forms
+- Angular Material
+- Services separated from components
+- Models stored in dedicated folders
+- Shared global notification service
+- Confirmation dialogs for destructive actions
+
+---
+
+## Authentication Module
+
+Implemented:
 
 - Login page
+- Reactive Form validation
 - Authentication service
+- JWT token storage
 - Route Guard
-- JWT preparation
-- Logout
+- HTTP Interceptor
 - Protected routes
+- Logout functionality
 
-Status:
-
-✅ Completed
+**Status:** ✅ Completed
 
 ---
 
-# Dashboard Module
+## Dashboard Module
 
-Completed
+Implemented:
 
-Features:
-
-- Dashboard Layout
-- Navigation
-- Toolbar
+- Main dashboard page
+- Statistics cards
+- Recent tasks table
+- Upcoming deadlines
+- Dashboard service
+- Dedicated dashboard models
+- Navigation layout
 - Sidebar
+- Toolbar
 
-Status:
-
-✅ Completed
+**Status:** ✅ Completed
 
 ---
 
-# Users Module
+## Users Module
 
-Completed
+Implemented:
 
-Implemented Features
-
-## User List
-
-- Angular Material Table
-- Display users
-- Edit action
-- Delete action
-- Add user button
-
-## User Form
-
-Supports
-
+- User list
+- Angular Material table
 - Create user
 - Edit user
+- Delete user
+- Delete confirmation dialog
+- Reactive Form validation
+- Success notifications
+- In-memory user service
 
-Using
+User fields:
 
-- Reactive Forms
-- Validation
+- ID
+- First name
+- Last name
+- Email
+- Role
+- Enabled status
 
-## Delete Confirmation
-
-Implemented using Angular Material Dialog.
-
-The user must confirm before deleting.
-
-## Notification Service
-
-Implemented globally using Angular Material Snackbar.
-
-Notifications available:
-
-- User created successfully
-- User updated successfully
-- User deleted successfully
-
-### Important Fix
-
-A dependency injection problem occurred:
-
-```
-NullInjectorError:
-No provider for MatSnackBar
-```
-
-Root cause:
-
-`NotificationService` is provided in the Root Injector (`providedIn: 'root'`), while `MatSnackBarModule` was imported only inside the lazy-loaded `UsersModule`.
-
-Solution:
-
-Import
-
-```ts
-MatSnackBarModule
-```
-
-inside
-
-```
-AppModule
-```
-
-instead of only inside `UsersModule`.
-
-This resolved the DI issue completely.
-
-Another issue fixed:
-
-The success notification after deleting a user was displayed before the delete confirmation.
-
-Solution:
-
-Move the success notification inside the confirmation block so it executes only after the user confirms the deletion.
-
-Status:
-
-✅ Completed
+**Status:** ✅ Completed
 
 ---
 
-# Backend Status
+## Projects Module
 
-Completed
+Implemented:
 
-## Authentication
+- Project list
+- Angular Material table
+- Create project
+- Edit project
+- Delete project
+- Delete confirmation dialog
+- Reactive Form validation
+- Success notifications
+- In-memory project service
+
+Project fields:
+
+- ID
+- Name
+- Description
+- Start date
+- End date
+- Status
+
+**Status:** ✅ Completed
+
+---
+
+## Tasks Module
+
+Implemented:
+
+- Lazy-loaded Tasks Module
+- Task list
+- Angular Material table
+- Create task
+- Edit task
+- Delete task
+- Delete confirmation dialog
+- Reactive Form validation
+- Success notifications
+- In-memory task service
+
+Task fields:
+
+- ID
+- Title
+- Description
+- Status
+- Priority
+- Due date
+- Project
+- Assigned user
+
+Additional implementation details:
+
+- Project selection uses data from `ProjectService`.
+- Assigned-user selection uses data from `UsersService`.
+- Project and assigned-user names are displayed in the task table.
+- Task status uses `TaskStatus`.
+- Task priority uses `TaskPriority`.
+- The task model uses strongly typed enums.
+- Delete notifications appear only after confirmation.
+
+**Status:** ✅ Completed
+
+---
+
+## Global Notification Service
+
+Implemented using Angular Material Snackbar.
+
+Available methods:
+
+```ts
+showSuccess(message: string): void
+showError(message: string): void
+showInfo(message: string): void
+showWarning(message: string): void
+```
+
+`MatSnackBarModule` is imported in `AppModule` because `NotificationService` is provided through the root injector.
+
+This prevents the following dependency-injection error:
+
+```text
+NullInjectorError: No provider for MatSnackBar
+```
+
+**Status:** ✅ Completed
+
+---
+
+## Backend Status
+
+Implemented:
 
 - Spring Boot
 - Spring Security
 - JWT Authentication
 - BCrypt Password Encoder
+- PostgreSQL connection
+- Hibernate / JPA
+- Authentication endpoint
 
-Status
-
-✅ Completed
-
----
-
-# Database
-
-Completed
+Database:
 
 - PostgreSQL installed
 - Database created
-- Spring Boot successfully connected
+- Spring Boot connected successfully
 - Authentication tested successfully
 
-Status
+**Status:** ✅ Authentication foundation completed
 
-✅ Completed
+The frontend Users, Projects, and Tasks modules currently use in-memory services. Their real backend CRUD APIs have not yet been implemented.
 
 ---
 
-# Git
+## Development Status
 
-Repository successfully pushed to GitHub.
+| Feature                      | Status       |
+| ---------------------------- | ------------ |
+| Project setup                | ✅ Completed |
+| Angular architecture         | ✅ Completed |
+| Spring Boot architecture     | ✅ Completed |
+| PostgreSQL integration       | ✅ Completed |
+| JWT authentication           | ✅ Completed |
+| Authentication module        | ✅ Completed |
+| Dashboard module             | ✅ Completed |
+| Users frontend CRUD          | ✅ Completed |
+| Projects frontend CRUD       | ✅ Completed |
+| Tasks frontend CRUD          | ✅ Completed |
+| Global notifications         | ✅ Completed |
+| Delete confirmation dialogs  | ✅ Completed |
+| Teams module                 | ⏳ Planned   |
+| Users backend CRUD           | ⏳ Planned   |
+| Projects backend CRUD        | ⏳ Planned   |
+| Tasks backend CRUD           | ⏳ Planned   |
+| Roles and permissions        | ⏳ Planned   |
+| Frontend/backend integration | ⏳ Planned   |
+| Unit tests                   | ⏳ Planned   |
+| Docker                       | ⏳ Planned   |
+| Deployment                   | ⏳ Planned   |
 
-Latest commit includes:
+---
 
+## Important Technical Decisions
+
+- Features are implemented as independent Angular modules.
+- Feature routes use lazy loading.
+- Components do not directly manage shared application data.
+- Data access is handled through services.
+- Models are stored separately from components and services.
+- Reactive Forms are used for create and edit pages.
+- Angular Material Dialog is used before delete operations.
+- Angular Material Snackbar is used for global notifications.
+- Task status and priority are represented by enums.
+- Projects and users are selected by name rather than entering IDs manually.
+
+---
+
+## Git Status
+
+The GitHub repository already contains the previous completed work, including:
+
+- Authentication
+- Dashboard
 - Users Module
-- CRUD operations
-- Delete Confirmation Dialog
 - Notification Service
-- Snackbar fixes
-- DI fixes
+- Snackbar dependency-injection fix
 
-Status
+The following local changes are ready to be committed:
 
-✅ Up to date
-
----
-
-# Next Step
-
-Next feature:
-
-## Projects Module
-
-Start by creating
-
-```
-features/projects
-```
-
-with routing.
-
-This module will become the foundation for task management.
-
-Nothing else has been started yet.
+- Projects Module
+- Tasks Module
+- Project CRUD functionality
+- Task CRUD functionality
+- Delete confirmation dialogs
+- Project and user selection for tasks
+- Task status and priority enums
+- Updated documentation
 
 ---
 
-# Notes
+## Next Step
 
-Continue working exactly from this file in future conversations.
+Update the documentation and push the completed Projects and Tasks modules to GitHub.
 
-Rules:
+Suggested commit:
 
-- One step only.
-- Enterprise-level quality.
-- Preserve project architecture.
+```bash
+git add .
+git commit -m "feat: implement projects and tasks management"
+git push origin main
+```
+
+After pushing, the next development milestone should be selected without changing the existing architecture.
+
+Recommended next feature:
+
+```text
+Teams Module
+```
+
+---
+
+## Development Rules
+
+Continue using these rules:
+
+- Work one step at a time.
+- Preserve the current architecture.
+- Do not perform unnecessary refactoring.
 - Follow Clean Code principles.
+- Complete and test each feature before starting another.
+- Keep components, services, models, and routing separated.
+- Build the project as a real enterprise portfolio application.
