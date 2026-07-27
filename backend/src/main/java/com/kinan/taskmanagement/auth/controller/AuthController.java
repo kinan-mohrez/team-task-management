@@ -38,7 +38,7 @@ public class AuthController {
         User user = userService.findByUsername(request.username())
                 .orElseThrow(() -> new RuntimeException("Invalid username or password"));
 
-        if (!passwordEncoder.matches(request.password(), user.getPassword())) {
+        if (!passwordEncoder.matches(request.password(),user.getPassword())) {
             throw new RuntimeException("Invalid username or password");
         }
 

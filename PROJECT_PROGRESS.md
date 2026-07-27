@@ -1,6 +1,6 @@
 # Team Task Management System — Project Progress
 
-**Last Updated:** 2026-07-23
+**Last Updated:** 2026-07-27
 
 ---
 
@@ -25,6 +25,8 @@ The project follows:
 - Feature-based Structure
 - Reusable Services and Components
 - Lazy-loaded Angular modules
+- DTO-based API communication
+- Secure stateless authentication
 
 ---
 
@@ -40,17 +42,24 @@ Completed modules:
 - Projects Module
 - Tasks Module
 
+The Users, Projects, and Tasks modules currently use in-memory services and are not yet connected to their backend APIs.
+
 ### Backend
 
 Completed:
 
 - Spring Boot project setup
 - Spring Security configuration
-- JWT authentication
+- Stateless JWT authentication
 - Login endpoint
 - BCrypt password encoding
 - PostgreSQL integration
 - Hibernate / JPA configuration
+- User domain foundation
+- User creation endpoint
+- Protected user-list endpoint
+- DTO and mapper structure
+- End-to-end authentication testing
 
 ---
 
@@ -129,7 +138,7 @@ Implemented:
 
 ---
 
-## Users Module
+## Users Frontend Module
 
 Implemented:
 
@@ -152,7 +161,7 @@ User fields:
 - Role
 - Enabled status
 
-**Status:** ✅ Completed
+**Status:** ✅ Frontend CRUD completed with in-memory data
 
 ---
 
@@ -179,7 +188,7 @@ Project fields:
 - End date
 - Status
 
-**Status:** ✅ Completed
+**Status:** ✅ Frontend CRUD completed with in-memory data
 
 ---
 
@@ -219,7 +228,7 @@ Additional implementation details:
 - The task model uses strongly typed enums.
 - Delete notifications appear only after confirmation.
 
-**Status:** ✅ Completed
+**Status:** ✅ Frontend CRUD completed with in-memory data
 
 ---
 
@@ -248,56 +257,183 @@ NullInjectorError: No provider for MatSnackBar
 
 ---
 
-## Backend Status
+## Backend Architecture
+
+The backend uses feature-oriented packages and separates responsibilities between:
+
+- Controllers
+- Services
+- Repositories
+- Entities
+- DTOs
+- Mappers
+- Security filters
+- Configuration
+- Exception handling
+
+Current backend packages include:
+
+```text
+com.kinan.taskmanagement
+│
+├── auth
+├── common
+├── config
+├── exception
+└── user
+```
+
+---
+
+## Authentication Backend
 
 Implemented:
 
-- Spring Boot
 - Spring Security
-- JWT Authentication
-- BCrypt Password Encoder
-- PostgreSQL connection
-- Hibernate / JPA
-- Authentication endpoint
+- Stateless session management
+- JWT generation
+- JWT validation
+- JWT authentication filter
+- BCrypt password verification
+- Public authentication endpoint
+- Protected application endpoints
 
-Database:
+Authentication endpoint:
+
+```http
+POST /api/auth/login
+```
+
+Tested successfully with a valid username and password.
+
+The response returns a JWT token that can be used as:
+
+```http
+Authorization: Bearer <token>
+```
+
+**Status:** ✅ Completed and tested
+
+---
+
+## Users Backend Foundation
+
+Implemented:
+
+- `User` JPA entity
+- `UserRepository`
+- `UserService`
+- `UserController`
+- `UserMapper`
+- `UserResponse`
+- `CreateUserRequest`
+- `UpdateUserRequest`
+- BCrypt password encoding
+- Username uniqueness validation
+- Email uniqueness validation
+- PostgreSQL persistence
+
+Current user fields:
+
+- ID
+- First name
+- Last name
+- Username
+- Email
+- Password
+- Role
+- Enabled status
+
+Implemented and tested endpoints:
+
+```http
+POST /api/users
+GET /api/users
+```
+
+Test flow completed successfully:
+
+1. Temporarily allowed `POST /api/users` to create the initial administrator through Postman.
+2. Created the administrator and persisted it in PostgreSQL.
+3. Logged in through `/api/auth/login`.
+4. Received a valid JWT token.
+5. Used the token to access the protected `/api/users` endpoint.
+6. Confirmed that the user list was returned successfully.
+7. Removed the temporary public access rule from `SecurityConfig`.
+8. Confirmed that user endpoints are protected again.
+
+Current security configuration:
+
+```java
+.requestMatchers("/api/auth/**").permitAll()
+.anyRequest().authenticated()
+```
+
+This means that only authentication endpoints are public. User endpoints require a valid JWT.
+
+**Status:** 🚧 Backend foundation completed; full CRUD still in progress
+
+---
+
+## Database Status
+
+Implemented and verified:
 
 - PostgreSQL installed
-- Database created
+- `team_task_management` database created
 - Spring Boot connected successfully
-- Authentication tested successfully
+- Hibernate schema update enabled
+- User table synchronized with the current entity
+- User data persisted through the REST API
+- Password stored using BCrypt
+- Authentication verified against database data
 
-**Status:** ✅ Authentication foundation completed
+Hibernate configuration:
 
-The frontend Users, Projects, and Tasks modules currently use in-memory services. Their real backend CRUD APIs have not yet been implemented.
+```properties
+spring.jpa.hibernate.ddl-auto=update
+```
+
+**Status:** ✅ Connected and tested
 
 ---
 
 ## Development Status
 
-| Feature                      | Status       |
-| ---------------------------- | ------------ |
-| Project setup                | ✅ Completed |
-| Angular architecture         | ✅ Completed |
-| Spring Boot architecture     | ✅ Completed |
-| PostgreSQL integration       | ✅ Completed |
-| JWT authentication           | ✅ Completed |
-| Authentication module        | ✅ Completed |
-| Dashboard module             | ✅ Completed |
-| Users frontend CRUD          | ✅ Completed |
-| Projects frontend CRUD       | ✅ Completed |
-| Tasks frontend CRUD          | ✅ Completed |
-| Global notifications         | ✅ Completed |
-| Delete confirmation dialogs  | ✅ Completed |
-| Teams module                 | ⏳ Planned   |
-| Users backend CRUD           | ⏳ Planned   |
-| Projects backend CRUD        | ⏳ Planned   |
-| Tasks backend CRUD           | ⏳ Planned   |
-| Roles and permissions        | ⏳ Planned   |
-| Frontend/backend integration | ⏳ Planned   |
-| Unit tests                   | ⏳ Planned   |
-| Docker                       | ⏳ Planned   |
-| Deployment                   | ⏳ Planned   |
+| Feature                      | Status         |
+| ---------------------------- | -------------- |
+| Project setup                | ✅ Completed   |
+| Angular architecture         | ✅ Completed   |
+| Spring Boot architecture     | ✅ Completed   |
+| PostgreSQL integration       | ✅ Completed   |
+| JWT authentication           | ✅ Completed   |
+| Authentication module        | ✅ Completed   |
+| Dashboard module             | ✅ Completed   |
+| Users frontend CRUD          | ✅ Completed   |
+| Projects frontend CRUD       | ✅ Completed   |
+| Tasks frontend CRUD          | ✅ Completed   |
+| Global notifications         | ✅ Completed   |
+| Delete confirmation dialogs  | ✅ Completed   |
+| User backend entity          | ✅ Completed   |
+| User backend repository      | ✅ Completed   |
+| User backend DTOs            | ✅ Completed   |
+| User backend mapper          | ✅ Completed   |
+| Create user API              | ✅ Completed   |
+| Get users API                | ✅ Completed   |
+| Get user by ID API           | 🚧 In progress |
+| Update user API              | ⏳ Planned     |
+| Delete user API              | ⏳ Planned     |
+| Projects backend CRUD        | ⏳ Planned     |
+| Tasks backend CRUD           | ⏳ Planned     |
+| Teams module                 | ⏳ Planned     |
+| Roles and permissions        | ⏳ Planned     |
+| Frontend/backend integration | ⏳ Planned     |
+| Global exception handling    | ⏳ Planned     |
+| Request validation           | ⏳ Planned     |
+| Pagination and filtering     | ⏳ Planned     |
+| Unit tests                   | ⏳ Planned     |
+| Docker                       | ⏳ Planned     |
+| Deployment                   | ⏳ Planned     |
 
 ---
 
@@ -313,50 +449,77 @@ The frontend Users, Projects, and Tasks modules currently use in-memory services
 - Angular Material Snackbar is used for global notifications.
 - Task status and priority are represented by enums.
 - Projects and users are selected by name rather than entering IDs manually.
+- Backend entities are not returned directly from controllers.
+- DTOs are used for API request and response objects.
+- Mappers convert between entities and DTOs.
+- Passwords are encoded before database persistence.
+- Authentication is stateless.
+- JWT authentication is handled by a dedicated security filter.
+- Only `/api/auth/**` is publicly accessible.
+- User creation is performed through the REST API rather than direct database manipulation.
+
+---
+
+## Current Tested API Flow
+
+```text
+Create user through REST API
+        ↓
+Persist user in PostgreSQL
+        ↓
+Encode password using BCrypt
+        ↓
+Log in using username and password
+        ↓
+Generate JWT token
+        ↓
+Send token in Authorization header
+        ↓
+Access protected users endpoint
+```
+
+This complete flow has been tested successfully using Postman.
 
 ---
 
 ## Git Status
 
-The GitHub repository already contains the previous completed work, including:
+The current local changes include:
 
-- Authentication
-- Dashboard
-- Users Module
-- Notification Service
-- Snackbar dependency-injection fix
+- User backend entity expansion
+- User repository updates
+- User DTOs
+- User mapper
+- User service
+- User controller
+- User creation endpoint
+- Protected user-list endpoint
+- Updated Spring Security rules
+- PostgreSQL schema updates
+- Updated project documentation
 
-The following local changes are ready to be committed:
-
-- Projects Module
-- Tasks Module
-- Project CRUD functionality
-- Task CRUD functionality
-- Delete confirmation dialogs
-- Project and user selection for tasks
-- Task status and priority enums
-- Updated documentation
+These changes represent the first backend milestone for user management and are ready to be committed after updating the `README.md`.
 
 ---
 
 ## Next Step
 
-Update the documentation and push the completed Projects and Tasks modules to GitHub.
+Update the `README.md` to document the new Users backend foundation and API authentication flow.
 
-Suggested commit:
+After updating the documentation:
 
 ```bash
 git add .
-git commit -m "feat: implement projects and tasks management"
+git commit -m "feat: implement users backend foundation"
 git push origin main
 ```
 
-After pushing, the next development milestone should be selected without changing the existing architecture.
+After pushing, continue the Users backend CRUD implementation.
 
-Recommended next feature:
+Recommended next backend endpoint:
 
-```text
-Teams Module
+```http
+GET /api/users/{id}
 ```
 
 ---
@@ -370,5 +533,8 @@ Continue using these rules:
 - Do not perform unnecessary refactoring.
 - Follow Clean Code principles.
 - Complete and test each feature before starting another.
-- Keep components, services, models, and routing separated.
-- Build the project as a real enterprise portfolio application.
+- Keep components, services, models, DTOs, mappers, and routing separated.
+- Do not expose entities directly through REST controllers.
+- Do not store plain-text passwords.
+- Do not make protected endpoints publicly accessible except for temporary local testing.
+- Build the project as a real enterprise application.
