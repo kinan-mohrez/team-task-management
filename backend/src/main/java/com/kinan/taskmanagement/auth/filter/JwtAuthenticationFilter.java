@@ -1,13 +1,15 @@
 package com.kinan.taskmanagement.auth.filter;
 
 import com.kinan.taskmanagement.auth.service.JwtService;
+import com.kinan.taskmanagement.user.entity.User;
+import com.kinan.taskmanagement.user.service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -18,9 +20,14 @@ import java.util.List;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
+    private final UserService userService;
 
-    public JwtAuthenticationFilter(JwtService jwtService) {
+    public JwtAuthenticationFilter(
+            JwtService jwtService,
+            UserService userService
+    ) {
         this.jwtService = jwtService;
+        this.userService = userService;
     }
 
     @Override
@@ -30,9 +37,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             FilterChain filterChain
     ) throws ServletException, IOException {
 
-        String authorizationHeader = request.getHeader("Authorization");
+        String authorizationHeader =
+                request.getHeader("Authorization");
 
-        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+        if (authorizationHeader == null
+                || !authorizationHeader.startsWith("Bearer ")) {
+
             filterChain.doFilter(request, response);
             return;
         }
@@ -40,17 +50,32 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String token = authorizationHeader.substring(7);
 
         try {
-            String username = jwtService.extractUsername(token);
+            String username =
+                    this.jwtService.extractUsername(token);
 
-            UsernamePasswordAuthenticationToken authentication =
-                    new UsernamePasswordAuthenticationToken(
-                            username,
-                            null,
-                            List.of(new SimpleGrantedAuthority("ROLE_USER"))
-                    );
+            if (SecurityContextHolder.getContext()
+                    .getAuthentication() == null) {
 
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-        } catch (Exception ignored) {
+                User user = this.userService.findByUsername(username)
+                        .orElseThrow();
+
+                String authority =
+                        "ROLE_" + user.getRole().name();
+
+                UsernamePasswordAuthenticationToken authentication =
+                        new UsernamePasswordAuthenticationToken(
+                                username,
+                                null,
+                                List.of(
+                                        new SimpleGrantedAuthority(authority)
+                                )
+                        );
+
+                SecurityContextHolder.getContext()
+                        .setAuthentication(authentication);
+            }
+
+        } catch (Exception exception) {
             SecurityContextHolder.clearContext();
         }
 

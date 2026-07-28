@@ -1,12 +1,21 @@
-# Team Task Management System — Project Progress
+# 🚀 Team Task Management System — Project Progress
 
-**Last Updated:** 2026-07-27
+> Enterprise-style Full-Stack application built with **Angular**, **Spring Boot**, **Spring Security**, **JWT**, and **PostgreSQL**.
+
+![Angular](https://img.shields.io/badge/Angular-13-DD0031?logo=angular&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.x-6DB33F?logo=springboot&logoColor=white)
+![Spring Security](https://img.shields.io/badge/Spring%20Security-Enabled-6DB33F?logo=springsecurity&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-Authentication-000000?logo=jsonwebtokens&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-4169E1?logo=postgresql&logoColor=white)
+![Status](https://img.shields.io/badge/Status-In%20Development-orange)
+
+**Last Updated:** **2026-07-28**
 
 ---
 
-## Project Goal
+# 🎯 Project Goal
 
-Build an enterprise-style Team Task Management System using:
+Build an enterprise-style **Team Task Management System** using:
 
 - Angular 13
 - Angular Material
@@ -18,23 +27,23 @@ Build an enterprise-style Team Task Management System using:
 
 The project follows:
 
-- Modular Architecture
-- Clean Architecture
-- Clean Code
-- Separation of Concerns
-- Feature-based Structure
-- Reusable Services and Components
-- Lazy-loaded Angular modules
-- DTO-based API communication
-- Secure stateless authentication
+- ✅ Modular Architecture
+- ✅ Clean Architecture
+- ✅ Clean Code
+- ✅ Separation of Concerns
+- ✅ Feature-based Structure
+- ✅ Reusable Services and Components
+- ✅ Lazy-loaded Angular Modules
+- ✅ DTO-based API Communication
+- ✅ Secure Stateless Authentication
 
 ---
 
-## Current Status
+# 📌 Current Status
 
-### Frontend
+## 🖥️ Frontend
 
-Completed modules:
+### ✅ Completed Modules
 
 - Authentication Module
 - Dashboard Module
@@ -42,28 +51,44 @@ Completed modules:
 - Projects Module
 - Tasks Module
 
-The Users, Projects, and Tasks modules currently use in-memory services and are not yet connected to their backend APIs.
+The **Users**, **Projects**, and **Tasks** modules currently use in-memory services and are not yet connected to their backend APIs.
 
-### Backend
+### 🎯 Next Frontend Goal
 
-Completed:
+Integrate the Angular application with the completed backend APIs, starting with:
+
+- Authentication
+- Force Change Password
+- Users Module
+
+---
+
+## ⚙️ Backend
+
+### ✅ Completed
 
 - Spring Boot project setup
 - Spring Security configuration
 - Stateless JWT authentication
 - Login endpoint
+- JWT Authentication Filter
 - BCrypt password encoding
 - PostgreSQL integration
 - Hibernate / JPA configuration
-- User domain foundation
-- User creation endpoint
-- Protected user-list endpoint
-- DTO and mapper structure
-- End-to-end authentication testing
+- Complete Users CRUD REST API
+- DTO & Mapper architecture
+- Request validation
+- Global exception handling
+- Role-based authorization
+- Password change endpoint
+- Administrator password reset endpoint
+- Force Change Password backend implementation
+- `mustChangePassword` login support
+- End-to-end authentication & password management testing
 
 ---
 
-## Frontend Architecture
+# 🏗️ Frontend Architecture
 
 ```text
 src/app
@@ -92,20 +117,20 @@ src/app
 
 The frontend uses:
 
-- Angular feature modules
-- Lazy-loaded routing
-- Reactive Forms
-- Angular Material
-- Services separated from components
-- Models stored in dedicated folders
-- Shared global notification service
-- Confirmation dialogs for destructive actions
+- ✅ Angular Feature Modules
+- ✅ Lazy-loaded Routing
+- ✅ Reactive Forms
+- ✅ Angular Material
+- ✅ Services separated from Components
+- ✅ Dedicated Models
+- ✅ Global Notification Service
+- ✅ Confirmation Dialogs
 
 ---
 
-## Authentication Module
+# 🔐 Authentication Module
 
-Implemented:
+### ✅ Implemented
 
 - Login page
 - Reactive Form validation
@@ -118,11 +143,17 @@ Implemented:
 
 **Status:** ✅ Completed
 
+### 🚧 Next Step
+
+- Support `mustChangePassword`
+- Redirect users to the Change Password page when required
+- Block application access until the password has been changed successfully
+
 ---
 
-## Dashboard Module
+# 📊 Dashboard Module
 
-Implemented:
+### ✅ Implemented
 
 - Main dashboard page
 - Statistics cards
@@ -138,9 +169,9 @@ Implemented:
 
 ---
 
-## Users Frontend Module
+# 👥 Users Frontend Module
 
-Implemented:
+### ✅ Implemented
 
 - User list
 - Angular Material table
@@ -152,7 +183,7 @@ Implemented:
 - Success notifications
 - In-memory user service
 
-User fields:
+### 📄 User Fields
 
 - ID
 - First name
@@ -165,9 +196,9 @@ User fields:
 
 ---
 
-## Projects Module
+# 📁 Projects Module
 
-Implemented:
+### ✅ Implemented
 
 - Project list
 - Angular Material table
@@ -179,7 +210,7 @@ Implemented:
 - Success notifications
 - In-memory project service
 
-Project fields:
+### 📄 Project Fields
 
 - ID
 - Name
@@ -192,9 +223,9 @@ Project fields:
 
 ---
 
-## Tasks Module
+# ✅ Tasks Module
 
-Implemented:
+### ✅ Implemented
 
 - Lazy-loaded Tasks Module
 - Task list
@@ -207,7 +238,7 @@ Implemented:
 - Success notifications
 - In-memory task service
 
-Task fields:
+### 📄 Task Fields
 
 - ID
 - Title
@@ -218,7 +249,7 @@ Task fields:
 - Project
 - Assigned user
 
-Additional implementation details:
+### ⚙️ Additional Implementation Details
 
 - Project selection uses data from `ProjectService`.
 - Assigned-user selection uses data from `UsersService`.
@@ -232,11 +263,11 @@ Additional implementation details:
 
 ---
 
-## Global Notification Service
+# 🔔 Global Notification Service
 
-Implemented using Angular Material Snackbar.
+Implemented using **Angular Material Snackbar**.
 
-Available methods:
+### ✅ Available Methods
 
 ```ts
 showSuccess(message: string): void
@@ -245,9 +276,11 @@ showInfo(message: string): void
 showWarning(message: string): void
 ```
 
+### ⚙️ Configuration
+
 `MatSnackBarModule` is imported in `AppModule` because `NotificationService` is provided through the root injector.
 
-This prevents the following dependency-injection error:
+This prevents the following dependency injection error:
 
 ```text
 NullInjectorError: No provider for MatSnackBar
@@ -257,9 +290,11 @@ NullInjectorError: No provider for MatSnackBar
 
 ---
 
-## Backend Architecture
+# 🏗️ Backend Architecture
 
-The backend uses feature-oriented packages and separates responsibilities between:
+The backend follows a **feature-oriented architecture**, separating responsibilities into dedicated layers to ensure scalability, maintainability, and clean code.
+
+### 📦 Package Structure
 
 - Controllers
 - Services
@@ -267,11 +302,11 @@ The backend uses feature-oriented packages and separates responsibilities betwee
 - Entities
 - DTOs
 - Mappers
-- Security filters
+- Security
 - Configuration
-- Exception handling
+- Exception Handling
 
-Current backend packages include:
+Current backend packages:
 
 ```text
 com.kinan.taskmanagement
@@ -280,23 +315,34 @@ com.kinan.taskmanagement
 ├── common
 ├── config
 ├── exception
+├── security
 └── user
+    ├── controller
+    ├── dto
+    ├── entity
+    ├── mapper
+    ├── repository
+    └── service
 ```
+
+**Status:** ✅ Enterprise Architecture Implemented
 
 ---
 
-## Authentication Backend
+# 🔐 Authentication Backend
 
-Implemented:
+### ✅ Implemented
 
 - Spring Security
-- Stateless session management
-- JWT generation
-- JWT validation
-- JWT authentication filter
-- BCrypt password verification
-- Public authentication endpoint
-- Protected application endpoints
+- Stateless Session Management
+- JWT Generation
+- JWT Validation
+- JWT Authentication Filter
+- BCrypt Password Encoding
+- Public Authentication Endpoint
+- Protected REST Endpoints
+- User Roles loaded from PostgreSQL
+- `mustChangePassword` support
 
 Authentication endpoint:
 
@@ -304,63 +350,74 @@ Authentication endpoint:
 POST /api/auth/login
 ```
 
-Tested successfully with a valid username and password.
+Example successful response:
 
-The response returns a JWT token that can be used as:
+```json
+{
+	"token": "<JWT_TOKEN>",
+	"mustChangePassword": false
+}
+```
+
+The JWT token is sent using:
 
 ```http
 Authorization: Bearer <token>
 ```
 
-**Status:** ✅ Completed and tested
+Authentication flow has been fully tested using Postman.
+
+**Status:** ✅ Completed and Tested
 
 ---
 
-## Users Backend Foundation
+# 👥 Users Backend
 
-Implemented:
+### ✅ Implemented
 
-- `User` JPA entity
+- `User` JPA Entity
 - `UserRepository`
 - `UserService`
 - `UserController`
 - `UserMapper`
-- `UserResponse`
 - `CreateUserRequest`
 - `UpdateUserRequest`
-- BCrypt password encoding
-- Username uniqueness validation
-- Email uniqueness validation
-- PostgreSQL persistence
+- `UserResponse`
+- Complete CRUD Operations
+- Request Validation
+- Global Exception Handling
+- BCrypt Password Encoding
+- Username Uniqueness Validation
+- Email Uniqueness Validation
+- PostgreSQL Persistence
+- Role Support
+- Password Change
+- Administrator Password Reset
+- Force Change Password
 
-Current user fields:
+### 📄 User Fields
 
 - ID
-- First name
-- Last name
+- First Name
+- Last Name
 - Username
 - Email
 - Password
 - Role
-- Enabled status
+- Enabled Status
+- Must Change Password
 
-Implemented and tested endpoints:
+### 🌐 Implemented REST Endpoints
 
 ```http
-POST /api/users
-GET /api/users
+POST   /api/users
+GET    /api/users
+GET    /api/users/{id}
+PUT    /api/users/{id}
+DELETE /api/users/{id}
 ```
 
-Test flow completed successfully:
-
-1. Temporarily allowed `POST /api/users` to create the initial administrator through Postman.
-2. Created the administrator and persisted it in PostgreSQL.
-3. Logged in through `/api/auth/login`.
-4. Received a valid JWT token.
-5. Used the token to access the protected `/api/users` endpoint.
-6. Confirmed that the user list was returned successfully.
-7. Removed the temporary public access rule from `SecurityConfig`.
-8. Confirmed that user endpoints are protected again.
+### 🔒 Security
 
 Current security configuration:
 
@@ -369,15 +426,34 @@ Current security configuration:
 .anyRequest().authenticated()
 ```
 
-This means that only authentication endpoints are public. User endpoints require a valid JWT.
+This means:
 
-**Status:** 🚧 Backend foundation completed; full CRUD still in progress
+- Authentication endpoints are public.
+- Every other endpoint requires a valid JWT.
+- User roles are loaded from PostgreSQL.
+- Passwords are stored using BCrypt.
+- Administrative operations are protected.
 
----
+### 🧪 Tested Successfully
 
-## Database Status
+- Create User
+- Get All Users
+- Get User By ID
+- Update User
+- Delete User
+- Login
+- JWT Authentication
+- Password Change
+- Administrator Password Reset
+- Force Change Password
+- Validation Errors
+- Protected Endpoints
 
-Implemented and verified:
+**Status:** ✅ Backend CRUD Completed
+
+# 🗄️ Database Status
+
+### ✅ Implemented and Verified
 
 - PostgreSQL installed
 - `team_task_management` database created
@@ -385,8 +461,12 @@ Implemented and verified:
 - Hibernate schema update enabled
 - User table synchronized with the current entity
 - User data persisted through the REST API
-- Password stored using BCrypt
+- Passwords stored using BCrypt
 - Authentication verified against database data
+- Roles persisted in PostgreSQL
+- `must_change_password` column added successfully
+- Password management fully tested
+- Force Change Password flow verified
 
 Hibernate configuration:
 
@@ -394,50 +474,57 @@ Hibernate configuration:
 spring.jpa.hibernate.ddl-auto=update
 ```
 
-**Status:** ✅ Connected and tested
+Database migration executed:
+
+```sql
+ALTER TABLE users
+ADD COLUMN must_change_password BOOLEAN NOT NULL DEFAULT FALSE;
+```
+
+**Status:** ✅ Connected and Fully Tested
 
 ---
 
-## Development Status
+# 📈 Development Status
 
-| Feature                      | Status         |
-| ---------------------------- | -------------- |
-| Project setup                | ✅ Completed   |
-| Angular architecture         | ✅ Completed   |
-| Spring Boot architecture     | ✅ Completed   |
-| PostgreSQL integration       | ✅ Completed   |
-| JWT authentication           | ✅ Completed   |
-| Authentication module        | ✅ Completed   |
-| Dashboard module             | ✅ Completed   |
-| Users frontend CRUD          | ✅ Completed   |
-| Projects frontend CRUD       | ✅ Completed   |
-| Tasks frontend CRUD          | ✅ Completed   |
-| Global notifications         | ✅ Completed   |
-| Delete confirmation dialogs  | ✅ Completed   |
-| User backend entity          | ✅ Completed   |
-| User backend repository      | ✅ Completed   |
-| User backend DTOs            | ✅ Completed   |
-| User backend mapper          | ✅ Completed   |
-| Create user API              | ✅ Completed   |
-| Get users API                | ✅ Completed   |
-| Get user by ID API           | 🚧 In progress |
-| Update user API              | ⏳ Planned     |
-| Delete user API              | ⏳ Planned     |
-| Projects backend CRUD        | ⏳ Planned     |
-| Tasks backend CRUD           | ⏳ Planned     |
-| Teams module                 | ⏳ Planned     |
-| Roles and permissions        | ⏳ Planned     |
-| Frontend/backend integration | ⏳ Planned     |
-| Global exception handling    | ⏳ Planned     |
-| Request validation           | ⏳ Planned     |
-| Pagination and filtering     | ⏳ Planned     |
-| Unit tests                   | ⏳ Planned     |
-| Docker                       | ⏳ Planned     |
-| Deployment                   | ⏳ Planned     |
+| Feature                          | Status       |
+| -------------------------------- | ------------ |
+| Project Setup                    | ✅ Completed |
+| Angular Architecture             | ✅ Completed |
+| Spring Boot Architecture         | ✅ Completed |
+| PostgreSQL Integration           | ✅ Completed |
+| JWT Authentication               | ✅ Completed |
+| Authentication Module            | ✅ Completed |
+| Dashboard Module                 | ✅ Completed |
+| Users Frontend CRUD              | ✅ Completed |
+| Projects Frontend CRUD           | ✅ Completed |
+| Tasks Frontend CRUD              | ✅ Completed |
+| Global Notifications             | ✅ Completed |
+| Delete Confirmation Dialogs      | ✅ Completed |
+| User Backend Entity              | ✅ Completed |
+| User Backend Repository          | ✅ Completed |
+| User Backend DTOs                | ✅ Completed |
+| User Backend Mapper              | ✅ Completed |
+| Users Backend CRUD               | ✅ Completed |
+| Roles & Authorization            | ✅ Completed |
+| Request Validation               | ✅ Completed |
+| Global Exception Handling        | ✅ Completed |
+| Change Password                  | ✅ Completed |
+| Admin Reset Password             | ✅ Completed |
+| Force Change Password (Backend)  | ✅ Completed |
+| Force Change Password (Frontend) | 🚧 Next Step |
+| Frontend ↔ Backend Integration   | ⏳ Planned   |
+| Projects Backend CRUD            | ⏳ Planned   |
+| Tasks Backend CRUD               | ⏳ Planned   |
+| Teams Module                     | ⏳ Planned   |
+| Pagination & Filtering           | ⏳ Planned   |
+| Unit Tests                       | ⏳ Planned   |
+| Docker                           | ⏳ Planned   |
+| Deployment                       | ⏳ Planned   |
 
 ---
 
-## Important Technical Decisions
+# 🧠 Important Technical Decisions
 
 - Features are implemented as independent Angular modules.
 - Feature routes use lazy loading.
@@ -447,94 +534,166 @@ spring.jpa.hibernate.ddl-auto=update
 - Reactive Forms are used for create and edit pages.
 - Angular Material Dialog is used before delete operations.
 - Angular Material Snackbar is used for global notifications.
-- Task status and priority are represented by enums.
+- Task status and priority are represented by strongly typed enums.
 - Projects and users are selected by name rather than entering IDs manually.
-- Backend entities are not returned directly from controllers.
-- DTOs are used for API request and response objects.
+- Backend entities are never exposed directly through REST controllers.
+- DTOs are used for every API request and response.
 - Mappers convert between entities and DTOs.
-- Passwords are encoded before database persistence.
-- Authentication is stateless.
-- JWT authentication is handled by a dedicated security filter.
-- Only `/api/auth/**` is publicly accessible.
-- User creation is performed through the REST API rather than direct database manipulation.
+- Passwords are encoded using BCrypt before database persistence.
+- Authentication is completely stateless.
+- JWT authentication is handled through a dedicated security filter.
+- User roles are loaded from PostgreSQL.
+- Only `/api/auth/**` endpoints are publicly accessible.
+- Password encoding is configured through a dedicated `PasswordEncoderConfig`.
+- Administrator password resets require the user to change the password on the next login.
+- `mustChangePassword` is returned in the login response to support the frontend flow.
 
 ---
 
-## Current Tested API Flow
+# 🔄 Current Tested Authentication Flow
 
 ```text
-Create user through REST API
-        ↓
-Persist user in PostgreSQL
-        ↓
-Encode password using BCrypt
-        ↓
-Log in using username and password
-        ↓
-Generate JWT token
-        ↓
-Send token in Authorization header
-        ↓
-Access protected users endpoint
+User logs in
+      ↓
+Spring Security authenticates the request
+      ↓
+User loaded from PostgreSQL
+      ↓
+BCrypt verifies the password
+      ↓
+JWT token generated
+      ↓
+Login response returns:
+    • JWT Token
+    • mustChangePassword
+      ↓
+Frontend stores the JWT
+      ↓
+JWT sent in Authorization header
+      ↓
+JWT Filter validates the token
+      ↓
+Protected endpoint accessed successfully
 ```
 
-This complete flow has been tested successfully using Postman.
+Authentication flow has been fully tested using Postman.
 
 ---
 
-## Git Status
+# 🔑 Current Tested Password Management Flow
 
-The current local changes include:
+```text
+Administrator resets user password
+          ↓
+Password encoded using BCrypt
+          ↓
+mustChangePassword = true
+          ↓
+User logs in
+          ↓
+Login response returns mustChangePassword = true
+          ↓
+Frontend redirects user to Change Password
+          ↓
+User changes password
+          ↓
+Current password verified
+          ↓
+New password encoded
+          ↓
+mustChangePassword = false
+```
 
-- User backend entity expansion
-- User repository updates
-- User DTOs
-- User mapper
-- User service
-- User controller
-- User creation endpoint
-- Protected user-list endpoint
-- Updated Spring Security rules
-- PostgreSQL schema updates
-- Updated project documentation
-
-These changes represent the first backend milestone for user management and are ready to be committed after updating the `README.md`.
+The backend implementation has been fully completed and tested.
 
 ---
 
-## Next Step
+# 📦 Git Status
 
-Update the `README.md` to document the new Users backend foundation and API authentication flow.
+Current local changes include:
 
-After updating the documentation:
+- Complete Users Backend CRUD
+- Request Validation
+- Global Exception Handling
+- Role Support
+- JWT Authentication Improvements
+- Password Change Endpoint
+- Administrator Password Reset
+- Force Change Password Backend
+- `mustChangePassword` Login Support
+- PasswordEncoder Configuration
+- PostgreSQL Schema Updates
+- Updated Project Documentation
+
+These changes are ready to be committed and pushed to GitHub.
+
+Recommended commands:
 
 ```bash
+git status
 git add .
-git commit -m "feat: implement users backend foundation"
+git commit -m "feat: complete backend password management"
 git push origin main
 ```
 
-After pushing, continue the Users backend CRUD implementation.
+---
 
-Recommended next backend endpoint:
+# ⏭️ Next Step
 
-```http
-GET /api/users/{id}
+The backend authentication system and password management are now complete.
+
+The next development phase is to integrate the Angular frontend with the completed backend APIs.
+
+### 🎯 Upcoming Tasks
+
+1. Extend the Angular login response model to include:
+
+```ts
+mustChangePassword: boolean;
+```
+
+2. Update the authentication service to handle the new response.
+
+3. Redirect users to the **Change Password** page when:
+
+```ts
+mustChangePassword === true;
+```
+
+4. Prevent users from accessing the application until they successfully change their password.
+
+5. Connect the Angular Users module to the completed Users REST API.
+
+6. After completing the frontend integration, begin implementing the Projects backend module.
+
+---
+
+# 📦 Ready for GitHub
+
+The current implementation is ready to be committed.
+
+```bash
+git status
+git add .
+git commit -m "feat: complete backend password management"
+git push origin main
 ```
 
 ---
 
-## Development Rules
+# 📋 Development Rules
 
-Continue using these rules:
+Continue following these rules throughout the project:
 
 - Work one step at a time.
-- Preserve the current architecture.
-- Do not perform unnecessary refactoring.
+- Preserve the existing architecture.
+- Avoid unnecessary refactoring.
 - Follow Clean Code principles.
-- Complete and test each feature before starting another.
-- Keep components, services, models, DTOs, mappers, and routing separated.
-- Do not expose entities directly through REST controllers.
-- Do not store plain-text passwords.
-- Do not make protected endpoints publicly accessible except for temporary local testing.
-- Build the project as a real enterprise application.
+- Follow SOLID principles whenever applicable.
+- Complete and fully test each feature before starting the next.
+- Keep Components, Services, Models, DTOs, Mappers, and Routing separated.
+- Never expose JPA entities directly through REST controllers.
+- Store passwords only as BCrypt hashes.
+- Keep authentication stateless using JWT.
+- Protect all REST endpoints except `/api/auth/**`.
+- Build the project as a real enterprise application suitable for production-quality architecture.

@@ -1,5 +1,6 @@
 package com.kinan.taskmanagement.user.dto;
 
+import com.kinan.taskmanagement.user.enums.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,7 +24,7 @@ public class UserResponse {
 
     private String email;
 
-    private String role;
+    private UserRole role;
 
     private boolean enabled;
 }

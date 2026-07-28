@@ -1,7 +1,9 @@
 package com.kinan.taskmanagement.user.service;
 
-import com.kinan.taskmanagement.user.dto.CreateUserRequest;
-import com.kinan.taskmanagement.user.dto.UserResponse;
+import com.kinan.taskmanagement.exception.DuplicateResourceException;
+import com.kinan.taskmanagement.exception.InvalidPasswordException;
+import com.kinan.taskmanagement.exception.ResourceNotFoundException;
+import com.kinan.taskmanagement.user.dto.*;
 import com.kinan.taskmanagement.user.entity.User;
 import com.kinan.taskmanagement.user.mapper.UserMapper;
 import com.kinan.taskmanagement.user.repository.UserRepository;
@@ -17,7 +19,6 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-
     public UserService(
             UserRepository userRepository,
             PasswordEncoder passwordEncoder
@@ -27,23 +28,28 @@ public class UserService {
     }
 
     public Optional<User> findByUsername(String username) {
-        return userRepository.findByUsername(username);
+
+        return this.userRepository.findByUsername(username);
     }
 
     public User register(User user) {
 
-        if (userRepository.findByUsername(user.getUsername()).isPresent()) {
-            throw new RuntimeException("Username already exists");
+        if (this.userRepository.findByUsername(user.getUsername()).isPresent()) {
+            throw new DuplicateResourceException(
+                    "Username '" + user.getUsername() + "' already exists"
+            );
         }
 
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(
+                this.passwordEncoder.encode(user.getPassword())
+        );
 
-        return userRepository.save(user);
+        return this.userRepository.save(user);
     }
 
     public List<UserResponse> getAllUsers() {
 
-        return userRepository.findAll()
+        return this.userRepository.findAll()
                 .stream()
                 .map(UserMapper::toResponse)
                 .toList();
@@ -51,12 +57,16 @@ public class UserService {
 
     public UserResponse createUser(CreateUserRequest request) {
 
-        if (userRepository.existsByUsername(request.getUsername())) {
-            throw new RuntimeException("Username already exists");
+        if (this.userRepository.existsByUsername(request.getUsername())) {
+            throw new DuplicateResourceException(
+                    "Username '" + request.getUsername() + "' already exists"
+            );
         }
 
-        if (userRepository.existsByEmail(request.getEmail())) {
-            throw new RuntimeException("Email already exists");
+        if (this.userRepository.existsByEmail(request.getEmail())) {
+            throw new DuplicateResourceException(
+                    "Email '" + request.getEmail() + "' already exists"
+            );
         }
 
         User user = new User();
@@ -65,19 +75,143 @@ public class UserService {
         user.setLastName(request.getLastName());
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setPassword(
+                this.passwordEncoder.encode(request.getPassword())
+        );
         user.setRole(request.getRole());
         user.setEnabled(request.isEnabled());
 
-        User savedUser = userRepository.save(user);
+        User savedUser = this.userRepository.save(user);
 
         return UserMapper.toResponse(savedUser);
     }
+
+    public User findById(Long id) {
+
+        return this.userRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "User with id " + id + " was not found"
+                        )
+                );
+    }
+
     public UserResponse getUserById(Long id) {
 
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        return UserMapper.toResponse(
+                this.findById(id)
+        );
+    }
 
-        return UserMapper.toResponse(user);
+    public UserResponse updateUser(
+            Long id,
+            UpdateUserRequest request
+    ) {
+
+        User user = this.findById(id);
+
+        if (!user.getUsername().equals(request.getUsername())
+                && this.userRepository.existsByUsername(
+                request.getUsername())) {
+
+            throw new DuplicateResourceException(
+                    "Username '" + request.getUsername() + "' already exists"
+            );
+        }
+
+        if (!user.getEmail().equals(request.getEmail())
+                && this.userRepository.existsByEmail(
+                request.getEmail())) {
+
+            throw new DuplicateResourceException(
+                    "Email '" + request.getEmail() + "' already exists"
+            );
+        }
+
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+        user.setUsername(request.getUsername());
+        user.setEmail(request.getEmail());
+        user.setRole(request.getRole());
+        user.setEnabled(request.isEnabled());
+
+        User updatedUser = this.userRepository.save(user);
+
+        return UserMapper.toResponse(updatedUser);
+    }
+
+    public void deleteUser(Long id) {
+
+        User user = this.findById(id);
+
+        this.userRepository.delete(user);
+    }
+
+    public void changePassword(
+            String username,
+            ChangePasswordRequest request
+    ) {
+
+        User user = this.findByUsername(username)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "User not found with username: " + username
+                        )
+                );
+
+        if (!this.passwordEncoder.matches(
+                request.getCurrentPassword(),
+                user.getPassword())) {
+
+            throw new InvalidPasswordException(
+                    "Current password is incorrect"
+            );
+        }
+
+        if (this.passwordEncoder.matches(
+                request.getNewPassword(),
+                user.getPassword())) {
+
+            throw new InvalidPasswordException(
+                    "New password must be different from the current password"
+            );
+        }
+
+        user.setPassword(
+                this.passwordEncoder.encode(
+                        request.getNewPassword()
+                )
+        );
+
+        user.setMustChangePassword(false);
+
+        this.userRepository.save(user);
+    }
+
+    public void resetPassword(
+            Long id,
+            ResetPasswordRequest request
+    ) {
+
+        User user = this.findById(id);
+
+        if (this.passwordEncoder.matches(
+                request.getNewPassword(),
+                user.getPassword())) {
+
+            throw new InvalidPasswordException(
+                    "New password must be different from the current password"
+            );
+        }
+
+        user.setPassword(
+                this.passwordEncoder.encode(
+                        request.getNewPassword()
+                )
+        );
+
+        user.setMustChangePassword(true);
+
+        this.userRepository.save(user);
     }
 }

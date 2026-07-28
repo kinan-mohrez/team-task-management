@@ -2,7 +2,7 @@
 
 An enterprise-style full-stack application for managing users, projects, teams, and tasks.
 
-The project is built with **Angular**, **Spring Boot**, **Spring Security**, **JWT**, and **PostgreSQL**, following enterprise software engineering practices with a strong focus on modular architecture, clean code, maintainability, and scalability.
+The project is built with **Angular**, **Spring Boot**, **Spring Security**, **JWT**, and **PostgreSQL**, following enterprise software engineering practices with a strong focus on modular architecture, clean code, maintainability, scalability, and security.
 
 ---
 
@@ -38,7 +38,7 @@ The project is built with **Angular**, **Spring Boot**, **Spring Security**, **J
 
 # Current Features
 
-## Authentication
+## 🔐 Authentication
 
 ### Frontend
 
@@ -55,12 +55,15 @@ The project is built with **Angular**, **Spring Boot**, **Spring Security**, **J
 - JWT generation
 - JWT validation
 - Stateless authentication
-- BCrypt password verification
+- JWT Authentication Filter
+- BCrypt password encoding
 - Protected REST endpoints
+- Role-based authentication
+- `mustChangePassword` login support
 
 ---
 
-## Dashboard
+## 📊 Dashboard
 
 - Statistics cards
 - Recent tasks
@@ -71,7 +74,7 @@ The project is built with **Angular**, **Spring Boot**, **Spring Security**, **J
 
 ---
 
-## Users
+## 👥 Users
 
 ### Frontend
 
@@ -83,31 +86,36 @@ The project is built with **Angular**, **Spring Boot**, **Spring Security**, **J
 - Angular Material table
 - Reactive Forms
 - Success notifications
+- In-memory data service
 
 ### Backend
 
 Implemented:
 
+- Complete Users CRUD
 - User entity
-- User repository
-- User service
-- User controller
+- Repository layer
+- Service layer
+- REST Controller
 - DTOs
-- Entity-to-DTO mapper
-- Create User API
-- Get Users API
-- Password encryption
-- Username validation
-- Email validation
+- Entity-to-DTO Mapper
+- Request validation
+- Global exception handling
+- Username uniqueness validation
+- Email uniqueness validation
+- BCrypt password encoding
 - PostgreSQL persistence
+- Password change endpoint
+- Administrator password reset endpoint
+- Force Change Password support
 
-Authentication flow tested successfully using Postman.
+Authentication and all user endpoints have been successfully tested using Postman.
 
 ---
 
-## Projects
+## 📁 Projects
 
-Implemented on the frontend:
+### Frontend
 
 - View projects
 - Create project
@@ -116,13 +124,15 @@ Implemented on the frontend:
 - Status management
 - Angular Material table
 
-Backend implementation is planned.
+### Backend
+
+Planned.
 
 ---
 
-## Tasks
+## ✅ Tasks
 
-Implemented on the frontend:
+### Frontend
 
 - View tasks
 - Create task
@@ -135,7 +145,9 @@ Implemented on the frontend:
 - Project assignment
 - Angular Material table
 
-Backend implementation is planned.
+### Backend
+
+Planned.
 
 ---
 
@@ -165,12 +177,12 @@ frontend/src/app
 
 Each feature is isolated inside its own module.
 
-The architecture follows:
+The frontend architecture follows:
 
 - Feature Modules
 - Lazy Loading
 - Shared Models
-- Service-based state management
+- Service-based Architecture
 - Separation of Concerns
 
 ---
@@ -184,6 +196,7 @@ backend
 ├── common
 ├── config
 ├── exception
+├── security
 └── user
     ├── controller
     ├── dto
@@ -202,6 +215,7 @@ The backend follows a layered architecture using:
 - Mappers
 - JPA Entities
 - Spring Security
+- Global Exception Handling
 
 ---
 
@@ -213,27 +227,31 @@ The backend follows a layered architecture using:
 POST /api/auth/login
 ```
 
-Returns a JWT token.
+Returns:
+
+```json
+{
+	"token": "<JWT_TOKEN>",
+	"mustChangePassword": false
+}
+```
 
 ---
 
 ## Protected Endpoints
 
 ```http
-GET /api/users
+GET    /api/users
+GET    /api/users/{id}
+POST   /api/users
+PUT    /api/users/{id}
+DELETE /api/users/{id}
 ```
 
-Requires:
+All protected endpoints require:
 
 ```http
 Authorization: Bearer <JWT_TOKEN>
-```
-
-Currently implemented:
-
-```http
-POST /api/users
-GET /api/users
 ```
 
 ---
@@ -253,7 +271,7 @@ spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
 ```
 
-Passwords are stored using BCrypt.
+Passwords are securely stored using **BCrypt**.
 
 ---
 
@@ -276,26 +294,29 @@ This project follows:
 
 # Current Development Status
 
-| Feature                      | Status |
-| ---------------------------- | ------ |
-| Angular Architecture         | ✅     |
-| Spring Boot Foundation       | ✅     |
-| PostgreSQL                   | ✅     |
-| JWT Authentication           | ✅     |
-| Authentication               | ✅     |
-| Dashboard                    | ✅     |
-| Users Frontend CRUD          | ✅     |
-| Users Backend Foundation     | ✅     |
-| Projects Frontend CRUD       | ✅     |
-| Tasks Frontend CRUD          | ✅     |
-| Projects Backend             | ⏳     |
-| Tasks Backend                | ⏳     |
-| Teams Module                 | ⏳     |
-| Roles & Permissions          | ⏳     |
-| Frontend/Backend Integration | ⏳     |
-| Unit Tests                   | ⏳     |
-| Docker                       | ⏳     |
-| Deployment                   | ⏳     |
+| Feature                         | Status |
+| ------------------------------- | ------ |
+| Angular Architecture            | ✅     |
+| Spring Boot Architecture        | ✅     |
+| PostgreSQL                      | ✅     |
+| JWT Authentication              | ✅     |
+| Authentication                  | ✅     |
+| Dashboard                       | ✅     |
+| Users Frontend CRUD             | ✅     |
+| Users Backend CRUD              | ✅     |
+| Request Validation              | ✅     |
+| Global Exception Handling       | ✅     |
+| Password Management             | ✅     |
+| Force Change Password (Backend) | ✅     |
+| Projects Frontend CRUD          | ✅     |
+| Tasks Frontend CRUD             | ✅     |
+| Frontend/Backend Integration    | 🚧     |
+| Projects Backend                | ⏳     |
+| Tasks Backend                   | ⏳     |
+| Teams Module                    | ⏳     |
+| Unit Tests                      | ⏳     |
+| Docker                          | ⏳     |
+| Deployment                      | ⏳     |
 
 ---
 
@@ -336,15 +357,12 @@ http://localhost:8080
 
 Upcoming milestones:
 
-- Complete Users Backend CRUD
+- Integrate Angular with the completed Users REST API
+- Implement Force Change Password in the frontend
 - Projects Backend CRUD
 - Tasks Backend CRUD
-- Connect Angular to REST APIs
 - Pagination
 - Filtering
-- Validation
-- Global Exception Handling
-- Role-based Authorization
 - Unit Testing
 - Docker
 - Deployment

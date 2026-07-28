@@ -44,7 +44,10 @@ public class AuthController {
 
         String token = jwtService.generateToken(user.getUsername());
 
-        return new LoginResponse(token);
+        return new LoginResponse(
+                token,
+                user.isMustChangePassword()
+        );
     }
 
     @PostMapping("/register")
