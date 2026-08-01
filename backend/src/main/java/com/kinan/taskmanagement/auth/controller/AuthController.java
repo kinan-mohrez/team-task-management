@@ -7,6 +7,7 @@ import com.kinan.taskmanagement.auth.dto.RegisterResponse;
 import com.kinan.taskmanagement.auth.service.JwtService;
 import com.kinan.taskmanagement.user.entity.User;
 import com.kinan.taskmanagement.user.service.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
+@Tag(
+        name = "Authentication",
+        description = "Authentication endpoints"
+)
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {

@@ -1,8 +1,8 @@
 # Team Task Management System
 
-An enterprise-style full-stack application for managing users, projects, teams, and tasks.
+An enterprise-style Full-Stack application for managing users, projects, teams, and tasks.
 
-The project is built with **Angular**, **Spring Boot**, **Spring Security**, **JWT**, and **PostgreSQL**, following enterprise software engineering practices with a strong focus on modular architecture, clean code, maintainability, scalability, and security.
+The project is built with **Angular**, **Spring Boot**, **Spring Security**, **JWT**, and **PostgreSQL**, following modern software engineering practices with a strong focus on clean architecture, maintainability, scalability, and security.
 
 ---
 
@@ -10,144 +10,108 @@ The project is built with **Angular**, **Spring Boot**, **Spring Security**, **J
 
 ## Frontend
 
-- Angular 13
-- TypeScript
-- Angular Material
-- RxJS
-- Reactive Forms
-- SCSS
-- Angular Router
-- Lazy-loaded Feature Modules
+* Angular 13
+* TypeScript
+* Angular Material
+* RxJS
+* Reactive Forms
+* SCSS
 
 ## Backend
 
-- Java
-- Spring Boot
-- Spring Security
-- Spring Data JPA
-- Hibernate
-- JWT Authentication
-- BCrypt Password Encoder
-- Maven
+* Java
+* Spring Boot
+* Spring Security
+* Spring Data JPA
+* Hibernate
+* JWT Authentication
+* Maven
 
 ## Database
 
-- PostgreSQL
+* PostgreSQL
 
 ---
 
 # Current Features
 
-## 🔐 Authentication
+## Authentication
 
 ### Frontend
 
-- Login page
-- JWT Authentication
-- Route Guard
-- HTTP Interceptor
-- Logout
-- Reactive Form validation
+* Login
+* JWT Authentication
+* Route Guard
+* HTTP Interceptor
+* Token Storage
+* Logout
 
 ### Backend
 
-- Secure login endpoint
-- JWT generation
-- JWT validation
-- Stateless authentication
-- JWT Authentication Filter
-- BCrypt password encoding
-- Protected REST endpoints
-- Role-based authentication
-- `mustChangePassword` login support
+* Secure Login
+* JWT Generation
+* JWT Validation
+* Stateless Authentication
+* Role-based Authorization
+* Password Change
+* Admin Password Reset
+* Force Change Password
 
 ---
 
-## 📊 Dashboard
+## Dashboard
 
-- Statistics cards
-- Recent tasks
-- Upcoming deadlines
-- Responsive layout
-- Sidebar
-- Toolbar
+* Statistics
+* Recent Tasks
+* Upcoming Deadlines
+* Responsive Layout
 
 ---
 
-## 👥 Users
+## Users
 
 ### Frontend
 
-- View users
-- Create user
-- Edit user
-- Delete user
-- Delete confirmation dialog
-- Angular Material table
-- Reactive Forms
-- Success notifications
-- In-memory data service
+* View Users
+* Create User
+* Edit User
+* Delete User
+* Angular Material Table
+* Reactive Forms
+* Delete Confirmation Dialog
 
 ### Backend
 
-Implemented:
-
-- Complete Users CRUD
-- User entity
-- Repository layer
-- Service layer
-- REST Controller
-- DTOs
-- Entity-to-DTO Mapper
-- Request validation
-- Global exception handling
-- Username uniqueness validation
-- Email uniqueness validation
-- BCrypt password encoding
-- PostgreSQL persistence
-- Password change endpoint
-- Administrator password reset endpoint
-- Force Change Password support
-
-Authentication and all user endpoints have been successfully tested using Postman.
+* Complete CRUD
+* DTO Architecture
+* Mapper Architecture
+* Request Validation
+* Global Exception Handling
+* PostgreSQL Persistence
 
 ---
 
-## 📁 Projects
+## Projects
 
 ### Frontend
 
-- View projects
-- Create project
-- Edit project
-- Delete project
-- Status management
-- Angular Material table
+* Complete CRUD
 
 ### Backend
 
-Planned.
+* Planned
 
 ---
 
-## ✅ Tasks
+## Tasks
 
 ### Frontend
 
-- View tasks
-- Create task
-- Edit task
-- Delete task
-- Task priority
-- Task status
-- Due dates
-- User assignment
-- Project assignment
-- Angular Material table
+* Complete CRUD
 
 ### Backend
 
-Planned.
+* Planned
 
 ---
 
@@ -159,33 +123,27 @@ Planned.
 frontend/src/app
 │
 ├── core
+│   ├── dto
+│   ├── services
+│   ├── guards
+│   ├── interceptors
+│   └── constants
+│
 ├── shared
-├── layout
-├── models
+│   ├── components
+│   ├── directives
+│   ├── pipes
+│   └── enums
+│
+├── features
+│   ├── auth
 │   ├── dashboard
 │   ├── users
-│   ├── project
+│   ├── projects
 │   └── tasks
 │
-└── features
-    ├── auth
-    ├── dashboard
-    ├── users
-    ├── projects
-    └── tasks
+└── layout
 ```
-
-Each feature is isolated inside its own module.
-
-The frontend architecture follows:
-
-- Feature Modules
-- Lazy Loading
-- Shared Models
-- Service-based Architecture
-- Separation of Concerns
-
----
 
 ## Backend
 
@@ -196,7 +154,6 @@ backend
 ├── common
 ├── config
 ├── exception
-├── security
 └── user
     ├── controller
     ├── dto
@@ -206,117 +163,15 @@ backend
     └── service
 ```
 
-The backend follows a layered architecture using:
-
-- Controllers
-- Services
-- Repositories
-- DTOs
-- Mappers
-- JPA Entities
-- Spring Security
-- Global Exception Handling
-
 ---
 
-# REST API
+# API Documentation
 
-## Public Endpoint
+Swagger UI is available at:
 
-```http
-POST /api/auth/login
+```text
+http://localhost:8080/swagger-ui/index.html
 ```
-
-Returns:
-
-```json
-{
-	"token": "<JWT_TOKEN>",
-	"mustChangePassword": false
-}
-```
-
----
-
-## Protected Endpoints
-
-```http
-GET    /api/users
-GET    /api/users/{id}
-POST   /api/users
-PUT    /api/users/{id}
-DELETE /api/users/{id}
-```
-
-All protected endpoints require:
-
-```http
-Authorization: Bearer <JWT_TOKEN>
-```
-
----
-
-# Database
-
-PostgreSQL is used as the persistence layer.
-
-Example configuration:
-
-```properties
-spring.datasource.url=jdbc:postgresql://localhost:5432/team_task_management
-spring.datasource.username=postgres
-spring.datasource.password=your_password
-
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
-```
-
-Passwords are securely stored using **BCrypt**.
-
----
-
-# Engineering Principles
-
-This project follows:
-
-- Clean Architecture
-- Clean Code
-- SOLID Principles
-- Separation of Concerns
-- Layered Architecture
-- DTO Pattern
-- Mapper Pattern
-- Stateless Authentication
-- Dependency Injection
-- Feature-based Frontend Architecture
-
----
-
-# Current Development Status
-
-| Feature                         | Status |
-| ------------------------------- | ------ |
-| Angular Architecture            | ✅     |
-| Spring Boot Architecture        | ✅     |
-| PostgreSQL                      | ✅     |
-| JWT Authentication              | ✅     |
-| Authentication                  | ✅     |
-| Dashboard                       | ✅     |
-| Users Frontend CRUD             | ✅     |
-| Users Backend CRUD              | ✅     |
-| Request Validation              | ✅     |
-| Global Exception Handling       | ✅     |
-| Password Management             | ✅     |
-| Force Change Password (Backend) | ✅     |
-| Projects Frontend CRUD          | ✅     |
-| Tasks Frontend CRUD             | ✅     |
-| Frontend/Backend Integration    | 🚧     |
-| Projects Backend                | ⏳     |
-| Tasks Backend                   | ⏳     |
-| Teams Module                    | ⏳     |
-| Unit Tests                      | ⏳     |
-| Docker                          | ⏳     |
-| Deployment                      | ⏳     |
 
 ---
 
@@ -332,7 +187,7 @@ ng serve
 
 Runs on:
 
-```
+```text
 http://localhost:4200
 ```
 
@@ -347,25 +202,62 @@ mvn spring-boot:run
 
 Runs on:
 
-```
+```text
 http://localhost:8080
 ```
 
 ---
 
+# Engineering Principles
+
+* Clean Architecture
+* Clean Code
+* SOLID Principles
+* Separation of Concerns
+* DTO Pattern
+* Mapper Pattern
+* Stateless JWT Authentication
+* Dependency Injection
+* Feature-based Frontend Architecture
+
+---
+
+# Current Status
+
+| Feature                        | Status |
+| ------------------------------ | ------ |
+| Angular Architecture           | ✅      |
+| Spring Boot Architecture       | ✅      |
+| PostgreSQL Integration         | ✅      |
+| JWT Authentication             | ✅      |
+| Swagger / OpenAPI              | ✅      |
+| Authentication                 | ✅      |
+| Dashboard                      | ✅      |
+| Users Frontend                 | ✅      |
+| Users Backend                  | ✅      |
+| Password Management            | ✅      |
+| Projects Frontend              | ✅      |
+| Tasks Frontend                 | ✅      |
+| Frontend ↔ Backend Integration | 🚧     |
+| Projects Backend               | ⏳      |
+| Tasks Backend                  | ⏳      |
+| Teams Module                   | ⏳      |
+| Unit Tests                     | ⏳      |
+| Docker                         | ⏳      |
+| Deployment                     | ⏳      |
+
+---
+
 # Roadmap
 
-Upcoming milestones:
-
-- Integrate Angular with the completed Users REST API
-- Implement Force Change Password in the frontend
-- Projects Backend CRUD
-- Tasks Backend CRUD
-- Pagination
-- Filtering
-- Unit Testing
-- Docker
-- Deployment
+* Complete Frontend ↔ Backend Integration
+* Implement Projects Backend
+* Implement Tasks Backend
+* Implement Teams Module
+* Add Pagination, Sorting and Filtering
+* Add Unit Tests
+* Dockerize the Application
+* Deploy the Project
 
 ---
 
@@ -376,5 +268,3 @@ Upcoming milestones:
 Software Engineer
 
 Frontend & Full-Stack Developer
-
-Germany

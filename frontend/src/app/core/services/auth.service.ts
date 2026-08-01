@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { LoginRequest } from '../models/auth/login-request.model';
-import { LoginResponse } from '../models/auth/login-response.model';
+import { LoginRequest } from '../dto/auth/login-request.model';
+import { LoginResponse } from '../dto/auth/login-response.model';
 import { API_ENDPOINTS } from '../constants/api-endpoints';
 
 @Injectable({

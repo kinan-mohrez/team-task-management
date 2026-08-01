@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
-import { LoginRequest } from 'src/app/core/models/auth/login-request.model';
+import { LoginRequest } from 'src/app/core/dto/auth/login-request.model';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { TokenService } from 'src/app/core/services/token.service';
 
@@ -39,6 +39,11 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.loginRequest).subscribe({
       next: (response) => {
         this.tokenService.setToken(response.token);
+
+        if (response.mustChangePassword) {
+          // سيتم تنفيذ إعادة التوجيه في الخطوة القادمة
+        }
+
         this.router.navigate(['/']);
       },
       error: () => {
