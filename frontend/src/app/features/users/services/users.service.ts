@@ -1,71 +1,75 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { map, Observable } from 'rxjs';
 
+import { CreateUserRequest } from 'src/app/core/dto/users/create-user-request.model';
+import { UpdateUserRequest } from 'src/app/core/dto/users/update-user-request.model';
+import { ChangePasswordRequest } from 'src/app/core/dto/users/change-password-request.model';
+import { ResetPasswordRequest } from 'src/app/core/dto/users/reset-password-request.model';
+import { UserResponse } from 'src/app/core/dto/users/user-response.model';
+import { UserMapper } from 'src/app/core/mappers/user.mapper';
 import { User } from 'src/app/models/users/user.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UsersService {
-  private users: User[] = [
-    {
-      id: 1,
-      firstName: 'Kinan',
-      lastName: 'Mohrez',
-      email: 'kinan.mohrez@example.com',
-      role: 'ADMIN',
-      enabled: true,
-    },
-    {
-      id: 2,
-      firstName: 'Anna',
-      lastName: 'Schmidt',
-      email: 'anna.schmidt@example.com',
-      role: 'MANAGER',
-      enabled: true,
-    },
-    {
-      id: 3,
-      firstName: 'David',
-      lastName: 'Müller',
-      email: 'david.mueller@example.com',
-      role: 'MEMBER',
-      enabled: false,
-    },
-  ];
+  private readonly apiUrl: string = 'http://localhost:8080/api/users';
 
-  public getUsers(): User[] {
-    return [...this.users];
+  public constructor(private readonly http: HttpClient) {}
+
+  public getUsers(): Observable<User[]> {
+    return this.http
+      .get<UserResponse[]>(this.apiUrl)
+      .pipe(
+        map((userResponses: UserResponse[]) =>
+          UserMapper.fromResponses(userResponses),
+        ),
+      );
   }
 
-  public getUserById(id: number): User | undefined {
-    return this.users.find((user: User) => user.id === id);
+  public getUserById(id: number): Observable<User> {
+    return this.http
+      .get<UserResponse>(`${this.apiUrl}/${id}`)
+      .pipe(
+        map((userResponse: UserResponse) =>
+          UserMapper.fromResponse(userResponse),
+        ),
+      );
   }
 
-  public createUser(user: User): void {
-    const nextId =
-      Math.max(...this.users.map((currentUser: User) => currentUser.id), 0) + 1;
-
-    this.users.push({
-      ...user,
-      id: nextId,
-    });
+  public createUser(request: CreateUserRequest): Observable<User> {
+    return this.http
+      .post<UserResponse>(this.apiUrl, request)
+      .pipe(
+        map((userResponse: UserResponse) =>
+          UserMapper.fromResponse(userResponse),
+        ),
+      );
   }
 
-  public updateUser(user: User): void {
-    const userIndex = this.users.findIndex(
-      (currentUser: User) => currentUser.id === user.id,
-    );
-
-    if (userIndex === -1) {
-      return;
-    }
-
-    this.users[userIndex] = {
-      ...user,
-    };
+  public updateUser(id: number, request: UpdateUserRequest): Observable<User> {
+    return this.http
+      .put<UserResponse>(`${this.apiUrl}/${id}`, request)
+      .pipe(
+        map((userResponse: UserResponse) =>
+          UserMapper.fromResponse(userResponse),
+        ),
+      );
   }
 
-  public deleteUser(id: number): void {
-    this.users = this.users.filter((user: User) => user.id !== id);
+  public deleteUser(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  public changePassword(request: ChangePasswordRequest): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/change-password`, request);
+  }
+
+  public resetPassword(
+    id: number,
+    request: ResetPasswordRequest,
+  ): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/${id}/reset-password`, request);
   }
 }

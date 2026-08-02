@@ -2,13 +2,13 @@
 
 > Enterprise-style Full-Stack application built with Angular, Spring Boot, Spring Security, JWT, and PostgreSQL.
 
-**Last Updated:** 2026-08-01
+**Last Updated:** 2026-08-03
 
 ---
 
 # 🎯 Project Goal
 
-Build a production-quality Team Task Management System following enterprise software engineering practices with a clean, scalable, and maintainable architecture.
+Build a production-quality Team Task Management System with clean, scalable, secure, and maintainable architecture.
 
 ---
 
@@ -31,9 +31,6 @@ Build a production-quality Team Task Management System following enterprise soft
 * Spring Data JPA
 * Hibernate
 * JWT Authentication
-
-## Database
-
 * PostgreSQL
 
 ---
@@ -47,201 +44,152 @@ Build a production-quality Team Task Management System following enterprise soft
 * Feature-based Architecture
 * Lazy-loaded Modules
 * Core / Shared / Features / Layout structure
-* DTO Architecture
+* DTO and Model separation
 * Shared Enums
-* Clean folder organization
+* User Mapper
+* RxJS subscription cleanup using `takeUntil`
 
 ### Authentication
 
-* Login
+* Login and Logout
 * JWT Authentication
 * Route Guard
 * HTTP Interceptor
 * Token Storage
-* Logout
-
-### Dashboard
-
-* Statistics
-* Recent Tasks
-* Upcoming Deadlines
-* Responsive Layout
+* Login routing correction
 
 ### Users
 
-* User List
-* Create User
-* Edit User
-* Delete User
-* Angular Material Table
-* Delete Confirmation Dialog
-* Reactive Forms
+* REST API integration using `HttpClient`
+* User List, Create, Edit, View, and Delete
+* `UserResponse` to `User` mapping
+* Create and Update request DTOs
+* Username and password fields
+* Confirm Password frontend validation
+* User Details page
+* Delete confirmation dialog
+* Search and clear filters
+* Refresh from Backend
+* Column sorting
+* Angular Material table
+* Loading and error handling
+* Success and error notifications
 
-### Projects
+### Other Modules
 
-* Complete Frontend CRUD
-
-### Tasks
-
-* Complete Frontend CRUD
-
-### Shared
-
-* Notification Service
-* Shared Enums
-* Angular Material Integration
+* Dashboard completed
+* Projects frontend CRUD completed
+* Tasks frontend CRUD completed
 
 ---
 
 ## Backend
 
-### Authentication
+### Security and Authentication
 
 * Spring Security
 * Stateless JWT Authentication
 * JWT Filter
 * BCrypt Password Encoding
-* Login Endpoint
 * Role-based Authorization
+* CORS configuration for Angular
 
 ### Users
 
-* Complete CRUD
-* DTO Pattern
-* Mapper Pattern
-* Request Validation
-* Global Exception Handling
+* Complete CRUD REST API
+* DTO and Mapper patterns
+* Request validation
+* Global exception handling
 * Password Change
 * Admin Password Reset
 * Force Change Password
 
-### Database
-
-* PostgreSQL Integration
-* Hibernate / JPA
-* BCrypt Password Storage
-
 ### Documentation
 
 * Swagger / OpenAPI
-* Controller Documentation
+* Documented authentication and user endpoints
 
 ---
 
 # 🏗️ Architecture
 
-## Frontend
-
 ```text
-src/app
-│
+frontend/src/app
 ├── core
+│   ├── constants
 │   ├── dto
-│   ├── services
 │   ├── guards
 │   ├── interceptors
-│   └── constants
-│
+│   ├── mappers
+│   └── services
 ├── shared
-│   ├── components
-│   ├── directives
-│   ├── pipes
 │   └── enums
-│
 ├── features
 │   ├── auth
 │   ├── dashboard
 │   ├── users
 │   ├── projects
 │   └── tasks
-│
 └── layout
 ```
 
-## Backend
-
 ```text
-controller
-service
-repository
-entity
-dto
-mapper
-config
-exception
+backend
+├── auth
+├── common
+├── config
+├── exception
+└── user
+    ├── controller
+    ├── dto
+    ├── entity
+    ├── mapper
+    ├── repository
+    └── service
 ```
-
----
-
-# 🔄 Current Work
-
-Frontend ↔ Backend Integration
-
-Completed during this phase:
-
-* Frontend DTO structure
-* CreateUserRequest
-* UpdateUserRequest
-* ChangePasswordRequest
-* ResetPasswordRequest
-* UserResponse
-* UserRole enum
-* Shared Enums structure
-* Swagger integration
 
 ---
 
 # 📈 Development Status
 
-| Feature                        | Status |
-| ------------------------------ | ------ |
-| Angular Architecture           | ✅      |
-| Spring Boot Architecture       | ✅      |
-| PostgreSQL                     | ✅      |
-| JWT Authentication             | ✅      |
-| Swagger / OpenAPI              | ✅      |
-| Authentication                 | ✅      |
-| Dashboard                      | ✅      |
-| Users Frontend                 | ✅      |
-| Users Backend                  | ✅      |
-| Projects Frontend              | ✅      |
-| Tasks Frontend                 | ✅      |
-| Password Management            | ✅      |
-| Frontend DTOs                  | ✅      |
-| Frontend ↔ Backend Integration | 🚧     |
-| Projects Backend               | ⏳      |
-| Tasks Backend                  | ⏳      |
-| Teams Module                   | ⏳      |
-| Unit Tests                     | ⏳      |
-| Docker                         | ⏳      |
-| Deployment                     | ⏳      |
+| Feature                                     | Status |
+| ------------------------------------------- | ------ |
+| Angular and Spring Boot Architecture        | ✅      |
+| PostgreSQL and JWT Authentication           | ✅      |
+| Swagger / OpenAPI                           | ✅      |
+| Users Backend CRUD                          | ✅      |
+| Users Frontend REST Integration             | ✅      |
+| Users Search, Sorting, Refresh, and Details | ✅      |
+| Password Management                         | ✅      |
+| Projects Frontend                           | ✅      |
+| Tasks Frontend                              | ✅      |
+| Projects Backend                            | ⏳      |
+| Tasks Backend                               | ⏳      |
+| Teams Module                                | ⏳      |
+| Unit Tests                                  | ⏳      |
+| Docker and Deployment                       | ⏳      |
 
 ---
 
 # 🎯 Next Steps
 
-1. Connect UsersService to the REST API.
-2. Replace in-memory services with HttpClient.
-3. Complete Users frontend integration.
-4. Implement Projects Backend.
-5. Implement Tasks Backend.
-6. Add Teams Module.
-7. Add Pagination, Sorting and Filtering.
-8. Write Unit Tests.
-9. Dockerize the application.
-10. Deploy the project.
+1. Review and finalize the Users module.
+2. Implement Projects Backend and REST integration.
+3. Implement Tasks Backend and REST integration.
+4. Add Teams Module.
+5. Add backend pagination, sorting, and filtering.
+6. Write unit and integration tests.
+7. Dockerize and deploy the application.
 
 ---
 
 # 📋 Development Rules
 
 * Work one step at a time.
-* Follow Clean Architecture.
-* Follow Clean Code.
-* Follow SOLID principles.
-* Keep Features independent.
-* Use DTOs for all API communication.
+* Follow Clean Architecture, Clean Code, and SOLID.
+* Keep features independent.
+* Use DTOs for API communication.
 * Never expose JPA entities.
 * Protect APIs using JWT.
 * Store passwords using BCrypt.
-* Build the project as a production-quality enterprise application.
+* Maintain production-quality enterprise standards.

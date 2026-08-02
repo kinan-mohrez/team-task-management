@@ -43,7 +43,15 @@ export class TaskListComponent implements OnInit {
 
   public ngOnInit(): void {
     this.projects = this.projectService.getProjects();
-    this.users = this.usersService.getUsers();
+
+    this.usersService.getUsers().subscribe({
+      next: (users: User[]) => {
+        this.users = users;
+      },
+      error: () => {
+        this.notificationService.showError('Failed to load users.');
+      },
+    });
 
     this.loadTasks();
   }

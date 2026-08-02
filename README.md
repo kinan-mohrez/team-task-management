@@ -2,7 +2,7 @@
 
 An enterprise-style Full-Stack application for managing users, projects, teams, and tasks.
 
-The project is built with **Angular**, **Spring Boot**, **Spring Security**, **JWT**, and **PostgreSQL**, following modern software engineering practices with a strong focus on clean architecture, maintainability, scalability, and security.
+Built with **Angular**, **Spring Boot**, **Spring Security**, **JWT**, and **PostgreSQL**, following Clean Architecture, SOLID principles, and modern enterprise development practices.
 
 ---
 
@@ -33,31 +33,18 @@ The project is built with **Angular**, **Spring Boot**, **Spring Security**, **J
 
 ---
 
-# Current Features
+# Features
 
 ## Authentication
 
-### Frontend
-
-* Login
 * JWT Authentication
 * Route Guard
 * HTTP Interceptor
-* Token Storage
-* Logout
-
-### Backend
-
 * Secure Login
-* JWT Generation
-* JWT Validation
-* Stateless Authentication
 * Role-based Authorization
 * Password Change
 * Admin Password Reset
 * Force Change Password
-
----
 
 ## Dashboard
 
@@ -66,52 +53,43 @@ The project is built with **Angular**, **Spring Boot**, **Spring Security**, **J
 * Upcoming Deadlines
 * Responsive Layout
 
----
-
 ## Users
 
 ### Frontend
 
-* View Users
+* REST API Integration
+* User List
+* User Details
 * Create User
 * Edit User
 * Delete User
+* Search
+* Sorting
+* Refresh
 * Angular Material Table
 * Reactive Forms
 * Delete Confirmation Dialog
+* User Mapper
+* DTO-based API Communication
 
 ### Backend
 
 * Complete CRUD
-* DTO Architecture
-* Mapper Architecture
+* DTO Pattern
+* Mapper Pattern
 * Request Validation
 * Global Exception Handling
 * PostgreSQL Persistence
 
----
-
 ## Projects
 
-### Frontend
-
-* Complete CRUD
-
-### Backend
-
-* Planned
-
----
+* Frontend CRUD ✅
+* Backend (In Progress)
 
 ## Tasks
 
-### Frontend
-
-* Complete CRUD
-
-### Backend
-
-* Planned
+* Frontend CRUD ✅
+* Backend (In Progress)
 
 ---
 
@@ -121,27 +99,14 @@ The project is built with **Angular**, **Spring Boot**, **Spring Security**, **J
 
 ```text
 frontend/src/app
-│
 ├── core
-│   ├── dto
-│   ├── services
-│   ├── guards
-│   ├── interceptors
-│   └── constants
-│
 ├── shared
-│   ├── components
-│   ├── directives
-│   ├── pipes
-│   └── enums
-│
 ├── features
 │   ├── auth
 │   ├── dashboard
 │   ├── users
 │   ├── projects
 │   └── tasks
-│
 └── layout
 ```
 
@@ -149,25 +114,18 @@ frontend/src/app
 
 ```text
 backend
-│
 ├── auth
 ├── common
 ├── config
 ├── exception
 └── user
-    ├── controller
-    ├── dto
-    ├── entity
-    ├── mapper
-    ├── repository
-    └── service
 ```
 
 ---
 
 # API Documentation
 
-Swagger UI is available at:
+Swagger UI:
 
 ```text
 http://localhost:8080/swagger-ui/index.html
@@ -177,7 +135,7 @@ http://localhost:8080/swagger-ui/index.html
 
 # Running the Project
 
-## Frontend
+### Frontend
 
 ```bash
 cd frontend
@@ -185,26 +143,16 @@ npm install
 ng serve
 ```
 
-Runs on:
+Runs on: `http://localhost:4200`
 
-```text
-http://localhost:4200
-```
-
----
-
-## Backend
+### Backend
 
 ```bash
 cd backend
 mvn spring-boot:run
 ```
 
-Runs on:
-
-```text
-http://localhost:8080
-```
+Runs on: `http://localhost:8080`
 
 ---
 
@@ -213,49 +161,41 @@ http://localhost:8080
 * Clean Architecture
 * Clean Code
 * SOLID Principles
-* Separation of Concerns
-* DTO Pattern
-* Mapper Pattern
-* Stateless JWT Authentication
+* DTO & Mapper Pattern
 * Dependency Injection
-* Feature-based Frontend Architecture
+* Feature-based Architecture
+* Stateless JWT Authentication
 
 ---
 
 # Current Status
 
-| Feature                        | Status |
-| ------------------------------ | ------ |
-| Angular Architecture           | ✅      |
-| Spring Boot Architecture       | ✅      |
-| PostgreSQL Integration         | ✅      |
-| JWT Authentication             | ✅      |
-| Swagger / OpenAPI              | ✅      |
-| Authentication                 | ✅      |
-| Dashboard                      | ✅      |
-| Users Frontend                 | ✅      |
-| Users Backend                  | ✅      |
-| Password Management            | ✅      |
-| Projects Frontend              | ✅      |
-| Tasks Frontend                 | ✅      |
-| Frontend ↔ Backend Integration | 🚧     |
-| Projects Backend               | ⏳      |
-| Tasks Backend                  | ⏳      |
-| Teams Module                   | ⏳      |
-| Unit Tests                     | ⏳      |
-| Docker                         | ⏳      |
-| Deployment                     | ⏳      |
+| Feature                    | Status |
+| -------------------------- | ------ |
+| Authentication             | ✅      |
+| Dashboard                  | ✅      |
+| Users Frontend             | ✅      |
+| Users Backend              | ✅      |
+| Frontend ↔ Backend (Users) | ✅      |
+| Password Management        | ✅      |
+| Swagger / OpenAPI          | ✅      |
+| Projects Frontend          | ✅      |
+| Tasks Frontend             | ✅      |
+| Projects Backend           | ⏳      |
+| Tasks Backend              | ⏳      |
+| Teams Module               | ⏳      |
+| Unit Tests                 | ⏳      |
+| Docker & Deployment        | ⏳      |
 
 ---
 
 # Roadmap
 
-* Complete Frontend ↔ Backend Integration
-* Implement Projects Backend
-* Implement Tasks Backend
+* Complete Projects Backend
+* Complete Tasks Backend
 * Implement Teams Module
-* Add Pagination, Sorting and Filtering
-* Add Unit Tests
+* Backend Pagination, Sorting & Filtering
+* Unit & Integration Tests
 * Dockerize the Application
 * Deploy the Project
 
@@ -265,6 +205,4 @@ http://localhost:8080
 
 **Kinan Mohrez**
 
-Software Engineer
-
-Frontend & Full-Stack Developer
+Software Engineer | Frontend & Full-Stack Developer

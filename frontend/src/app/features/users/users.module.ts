@@ -20,6 +20,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { DeleteUserDialogComponent } from './components/delete-user-dialog/delete-user-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { UserDetailsComponent } from './pages/user-details/user-details.component';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     UsersListComponent,
     UserFormComponent,
     DeleteUserDialogComponent,
+    UserDetailsComponent,
   ],
   imports: [
     CommonModule,

@@ -1,25 +1,36 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { CreateUserRequest } from 'src/app/core/dto/users/create-user-request.model';
+import { UpdateUserRequest } from 'src/app/core/dto/users/update-user-request.model';
+import { NotificationService } from 'src/app/core/services/notification.service';
 import { User } from 'src/app/models/users/user.model';
+import { UserRole } from 'src/app/shared/enums/user-role';
 
 import { UsersService } from '../../services/users.service';
-import { NotificationService } from 'src/app/core/services/notification.service';
+import { Subject, takeUntil } from 'rxjs';
+
 
 @Component({
   selector: 'app-user-form',
   templateUrl: './user-form.component.html',
   styleUrls: ['./user-form.component.scss'],
 })
-export class UserFormComponent implements OnInit {
+export class UserFormComponent implements OnInit, OnDestroy {
   public userForm!: FormGroup;
-
-  public isEditMode = false;
-
+  public isEditMode: boolean = false;
+  public isLoading: boolean = false;
   public userId: number | null = null;
 
-  public readonly roles: string[] = ['ADMIN', 'MANAGER', 'MEMBER'];
+  private readonly destroy$ = new Subject<void>();
+
+  public readonly roles: UserRole[] = Object.values(UserRole);
 
   public constructor(
     private readonly formBuilder: FormBuilder,
@@ -30,34 +41,31 @@ export class UserFormComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
+    this.initializeRouteMode();
     this.initializeForm();
-    this.initializeEditMode();
+
+    if (this.isEditMode) {
+      this.loadUser();
+    }
   }
 
   public onSubmit(): void {
-    if (this.userForm.invalid) {
+    if (this.userForm.invalid || this.isLoading) {
       this.userForm.markAllAsTouched();
+      if (this.userForm.hasError('passwordMismatch')) {
+        this.userForm
+          .get('confirmPassword')
+          ?.setErrors({ passwordMismatch: true });
+      }
       return;
     }
 
-    const user: User = {
-      id: this.userId ?? 0,
-      firstName: this.userForm.controls['firstName'].value,
-      lastName: this.userForm.controls['lastName'].value,
-      email: this.userForm.controls['email'].value,
-      role: this.userForm.controls['role'].value,
-      enabled: this.userForm.controls['enabled'].value,
-    };
-
     if (this.isEditMode) {
-      this.usersService.updateUser(user);
-      this.notificationService.showSuccess('User updated successfully.');
-    } else {
-      this.usersService.createUser(user);
-      this.notificationService.showSuccess('User created successfully.');
+      this.updateUser();
+      return;
     }
 
-    this.router.navigate(['/users']);
+    this.createUser();
   }
 
   public onCancel(): void {
@@ -65,53 +73,161 @@ export class UserFormComponent implements OnInit {
   }
 
   public hasError(controlName: string, errorName: string): boolean {
-    const control = this.userForm.get(controlName);
+    const control: AbstractControl | null = this.userForm.get(controlName);
 
     return Boolean(control && control.touched && control.hasError(errorName));
+  }
+
+  private initializeRouteMode(): void {
+    const idParameter: string | null =
+      this.activatedRoute.snapshot.paramMap.get('id');
+
+    if (!idParameter) {
+      return;
+    }
+
+    const parsedUserId: number = Number(idParameter);
+
+    if (!Number.isInteger(parsedUserId) || parsedUserId <= 0) {
+      this.notificationService.showError('Invalid user ID.');
+      this.router.navigate(['/users']);
+      return;
+    }
+
+    this.userId = parsedUserId;
+    this.isEditMode = true;
   }
 
   private initializeForm(): void {
     this.userForm = this.formBuilder.group({
       firstName: ['', [Validators.required, Validators.maxLength(50)]],
       lastName: ['', [Validators.required, Validators.maxLength(50)]],
+      username: ['', [Validators.required, Validators.maxLength(50)]],
       email: [
         '',
         [Validators.required, Validators.email, Validators.maxLength(100)],
       ],
+      password: [
+        '',
+        this.isEditMode ? [] : [Validators.required, Validators.minLength(8)],
+      ],
+      confirmPassword: ['', this.isEditMode ? [] : [Validators.required]],
       role: ['', Validators.required],
       enabled: [true],
     });
+
+    if (!this.isEditMode) {
+      this.userForm.addValidators(this.passwordMatchValidator);
+    }
   }
 
-  private initializeEditMode(): void {
-    const idParameter = this.activatedRoute.snapshot.paramMap.get('id');
-
-    if (!idParameter) {
+  private loadUser(): void {
+    if (this.userId === null) {
       return;
     }
 
-    this.userId = Number(idParameter);
+    this.isLoading = true;
 
-    if (Number.isNaN(this.userId)) {
-      this.router.navigate(['/users']);
+    this.usersService
+      .getUserById(this.userId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (user: User) => {
+          this.userForm.patchValue({
+            firstName: user.firstName,
+            lastName: user.lastName,
+            username: user.username,
+            email: user.email,
+            role: user.role,
+            enabled: user.enabled,
+          });
+
+          this.isLoading = false;
+        },
+        error: () => {
+          this.isLoading = false;
+          this.notificationService.showError('Failed to load user.');
+          this.router.navigate(['/users']);
+        },
+      });
+  }
+
+  private passwordMatchValidator = (
+    control: AbstractControl,
+  ): { passwordMismatch: boolean } | null => {
+    const password = control.get('password')?.value;
+    const confirmPassword = control.get('confirmPassword')?.value;
+
+    if (password !== confirmPassword) {
+      return {
+        passwordMismatch: true,
+      };
+    }
+
+    return null;
+  };
+  private createUser(): void {
+    const request: CreateUserRequest = {
+      firstName: this.userForm.controls['firstName'].value,
+      lastName: this.userForm.controls['lastName'].value,
+      username: this.userForm.controls['username'].value,
+      email: this.userForm.controls['email'].value,
+      password: this.userForm.controls['password'].value,
+      role: this.userForm.controls['role'].value,
+      enabled: this.userForm.controls['enabled'].value,
+    };
+
+    this.isLoading = true;
+
+    this.usersService
+      .createUser(request)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.notificationService.showSuccess('User created successfully.');
+          this.router.navigate(['/users']);
+        },
+        error: (error) => {
+          this.isLoading = false;
+          console.error('Create user failed:', error);
+          this.notificationService.showError('Failed to create user.');
+        },
+      });
+  }
+
+  private updateUser(): void {
+    if (this.userId === null) {
       return;
     }
 
-    this.isEditMode = true;
+    const request: UpdateUserRequest = {
+      firstName: this.userForm.controls['firstName'].value,
+      lastName: this.userForm.controls['lastName'].value,
+      username: this.userForm.controls['username'].value,
+      email: this.userForm.controls['email'].value,
+      role: this.userForm.controls['role'].value,
+      enabled: this.userForm.controls['enabled'].value,
+    };
 
-    const user = this.usersService.getUserById(this.userId);
+    this.isLoading = true;
 
-    if (!user) {
-      this.router.navigate(['/users']);
-      return;
-    }
-
-    this.userForm.patchValue({
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      role: user.role,
-      enabled: user.enabled,
-    });
+    this.usersService
+      .updateUser(this.userId, request)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.notificationService.showSuccess('User updated successfully.');
+          this.router.navigate(['/users']);
+        },
+        error: (error) => {
+          this.isLoading = false;
+          console.error('Update user failed:', error);
+          this.notificationService.showError('Failed to update user.');
+        },
+      });
+  }
+  public ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
