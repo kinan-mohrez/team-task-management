@@ -46,7 +46,7 @@ Build a production-quality Team Task Management System with clean, scalable, sec
 * Core / Shared / Features / Layout structure
 * DTO and Model separation
 * Shared Enums
-* User Mapper
+* Mapper Pattern
 * RxJS subscription cleanup using `takeUntil`
 
 ### Authentication
@@ -60,25 +60,36 @@ Build a production-quality Team Task Management System with clean, scalable, sec
 
 ### Users
 
-* REST API integration using `HttpClient`
+* Complete REST API integration
 * User List, Create, Edit, View, and Delete
-* `UserResponse` to `User` mapping
-* Create and Update request DTOs
+* User DTOs and Mapper
 * Username and password fields
-* Confirm Password frontend validation
+* Confirm Password validation
 * User Details page
 * Delete confirmation dialog
 * Search and clear filters
 * Refresh from Backend
 * Column sorting
+* Loading and error handling
+* Success and error notifications
+
+### Projects
+
+* Complete REST API integration
+* Project List, Create, Edit, View, and Delete
+* Project DTOs and Mapper
+* `ProjectStatus` shared enum
+* Project Details page
+* Delete confirmation dialog
 * Angular Material table
 * Loading and error handling
 * Success and error notifications
+* RxJS subscription cleanup
+* Tasks components updated for asynchronous project loading
 
 ### Other Modules
 
 * Dashboard completed
-* Projects frontend CRUD completed
 * Tasks frontend CRUD completed
 
 ---
@@ -104,10 +115,26 @@ Build a production-quality Team Task Management System with clean, scalable, sec
 * Admin Password Reset
 * Force Change Password
 
+### Projects
+
+* Complete CRUD REST API
+* Project Entity and Repository
+* Create, Update, and Response DTOs
+* Project Mapper
+* Project Service
+* Project Controller
+* Duplicate project validation
+* Resource not found handling
+* Role-based endpoint protection
+* Swagger documentation
+* PostgreSQL persistence
+
 ### Documentation
 
 * Swagger / OpenAPI
-* Documented authentication and user endpoints
+* Documented authentication endpoints
+* Documented user endpoints
+* Documented project endpoints
 
 ---
 
@@ -139,10 +166,19 @@ backend
 ├── common
 ├── config
 ├── exception
+├── project
+│   ├── controller
+│   ├── dto
+│   ├── entity
+│   ├── enums
+│   ├── mapper
+│   ├── repository
+│   └── service
 └── user
     ├── controller
     ├── dto
     ├── entity
+    ├── enums
     ├── mapper
     ├── repository
     └── service
@@ -161,22 +197,24 @@ backend
 | Users Frontend REST Integration             | ✅      |
 | Users Search, Sorting, Refresh, and Details | ✅      |
 | Password Management                         | ✅      |
-| Projects Frontend                           | ✅      |
+| Projects Backend CRUD                       | ✅      |
+| Projects Frontend REST Integration          | ✅      |
+| Projects Create, Edit, View, and Delete     | ✅      |
 | Tasks Frontend                              | ✅      |
-| Projects Backend                            | ⏳      |
 | Tasks Backend                               | ⏳      |
 | Teams Module                                | ⏳      |
-| Unit Tests                                  | ⏳      |
+| Pagination, Sorting, and Filtering          | ⏳      |
+| Unit and Integration Tests                  | ⏳      |
 | Docker and Deployment                       | ⏳      |
 
 ---
 
 # 🎯 Next Steps
 
-1. Review and finalize the Users module.
-2. Implement Projects Backend and REST integration.
-3. Implement Tasks Backend and REST integration.
-4. Add Teams Module.
+1. Review and finalize the Projects module.
+2. Implement Tasks Backend and REST integration.
+3. Add Task Details page.
+4. Implement Teams Module.
 5. Add backend pagination, sorting, and filtering.
 6. Write unit and integration tests.
 7. Dockerize and deploy the application.
@@ -192,4 +230,5 @@ backend
 * Never expose JPA entities.
 * Protect APIs using JWT.
 * Store passwords using BCrypt.
+* Use `takeUntil` for component subscription cleanup.
 * Maintain production-quality enterprise standards.

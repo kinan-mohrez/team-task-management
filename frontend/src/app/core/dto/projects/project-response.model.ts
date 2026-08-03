@@ -1,6 +1,6 @@
 import { ProjectStatus } from "src/app/shared/enums/project-status";
 
-export interface Project {
+export interface ProjectResponse {
   id: number;
   name: string;
   description: string;

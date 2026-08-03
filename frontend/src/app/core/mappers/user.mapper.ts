@@ -20,3 +20,5 @@ export class UserMapper {
     );
   }
 }
+
+export { User };

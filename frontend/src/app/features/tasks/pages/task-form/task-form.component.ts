@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -12,14 +12,14 @@ import { UsersService } from '../../../users/services/users.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { TaskStatus } from 'src/app/models/tasks/task-status.enum';
 import { TaskPriority } from 'src/app/models/tasks/task-priority.enum';
-
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-task-form',
   templateUrl: './task-form.component.html',
   styleUrls: ['./task-form.component.scss'],
 })
-export class TaskFormComponent implements OnInit {
+export class TaskFormComponent implements OnInit, OnDestroy {
   public taskForm: FormGroup;
   public isEditMode: boolean = false;
   public taskId: number | null = null;
@@ -38,6 +38,7 @@ export class TaskFormComponent implements OnInit {
 
   public projects: Project[] = [];
   public users: User[] = [];
+  private readonly destroy$ = new Subject<void>();
 
   constructor(
     private readonly formBuilder: FormBuilder,
@@ -60,16 +61,29 @@ export class TaskFormComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.projects = this.projectService.getProjects();
+    this.projectService
+      .getProjects()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (projects: Project[]) => {
+          this.projects = projects;
+        },
+        error: () => {
+          this.notificationService.showError('Failed to load projects.');
+        },
+      });
 
-    this.usersService.getUsers().subscribe({
-      next: (users:User[]) =>{
-        this.users = users;
-      },
-      error : ()=>{
-        this.notificationService.showError('Failed to load users.');
-      }
-    })
+    this.usersService
+      .getUsers()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (users: User[]) => {
+          this.users = users;
+        },
+        error: () => {
+          this.notificationService.showError('Failed to load users.');
+        },
+      });
     const id: string | null = this.activatedRoute.snapshot.paramMap.get('id');
 
     if (id) {
@@ -114,5 +128,10 @@ export class TaskFormComponent implements OnInit {
     }
 
     this.taskForm.patchValue(task);
+  }
+
+  public ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

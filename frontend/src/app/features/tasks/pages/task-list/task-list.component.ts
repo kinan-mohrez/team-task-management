@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 
@@ -11,13 +11,14 @@ import { ProjectService } from '../../../projects/services/project.service';
 import { UsersService } from '../../../users/services/users.service';
 import { DeleteTaskDialogComponent } from '../../components/delete-task-dialog/delete-task-dialog.component';
 import { TaskService } from '../../services/task.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-task-list',
   templateUrl: './task-list.component.html',
   styleUrls: ['./task-list.component.scss'],
 })
-export class TaskListComponent implements OnInit {
+export class TaskListComponent implements OnInit, OnDestroy {
   public displayedColumns: string[] = [
     'title',
     'project',
@@ -31,6 +32,7 @@ export class TaskListComponent implements OnInit {
   public tasks: Task[] = [];
   public projects: Project[] = [];
   public users: User[] = [];
+  private readonly destroy$ = new Subject<void>();
 
   constructor(
     private readonly taskService: TaskService,
@@ -42,16 +44,29 @@ export class TaskListComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.projects = this.projectService.getProjects();
+    this.projectService
+      .getProjects()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (projects: Project[]) => {
+          this.projects = projects;
+        },
+        error: () => {
+          this.notificationService.showError('Failed to load projects.');
+        },
+      });
 
-    this.usersService.getUsers().subscribe({
-      next: (users: User[]) => {
-        this.users = users;
-      },
-      error: () => {
-        this.notificationService.showError('Failed to load users.');
-      },
-    });
+    this.usersService
+      .getUsers()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (users: User[]) => {
+          this.users = users;
+        },
+        error: () => {
+          this.notificationService.showError('Failed to load users.');
+        },
+      });
 
     this.loadTasks();
   }
@@ -74,16 +89,19 @@ export class TaskListComponent implements OnInit {
       data: task,
     });
 
-    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
-      if (!confirmed) {
-        return;
-      }
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((confirmed: boolean) => {
+        if (!confirmed) {
+          return;
+        }
 
-      this.taskService.deleteTask(task.id);
-      this.loadTasks();
+        this.taskService.deleteTask(task.id);
+        this.loadTasks();
 
-      this.notificationService.showSuccess('Task deleted successfully.');
-    });
+        this.notificationService.showSuccess('Task deleted successfully.');
+      });
   }
 
   public getProjectName(projectId: number): string {
@@ -101,4 +119,10 @@ export class TaskListComponent implements OnInit {
 
     return user ? `${user.firstName} ${user.lastName}` : 'Unassigned';
   }
+
+  public ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+  
 }

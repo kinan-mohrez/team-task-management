@@ -16,9 +16,16 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { DeleteProjectDialogComponent } from './components/delete-project-dialog/delete-project-dialog.component';
 import { MatDialogModule } from "@angular/material/dialog";
+import { ProjectDetailsComponent } from './pages/project-details/project-details.component';
+import { MatProgressSpinnerModule, MatSpinner } from '@angular/material/progress-spinner';
 
 @NgModule({
-  declarations: [ProjectListComponent, ProjectFormComponent, DeleteProjectDialogComponent],
+  declarations: [
+    ProjectListComponent,
+    ProjectFormComponent,
+    DeleteProjectDialogComponent,
+    ProjectDetailsComponent,
+  ],
   imports: [
     CommonModule,
     ProjectsRoutingModule,
@@ -31,7 +38,8 @@ import { MatDialogModule } from "@angular/material/dialog";
     MatFormFieldModule,
     MatSelectModule,
     MatInputModule,
-    MatDialogModule
-],
+    MatDialogModule,
+    MatProgressSpinnerModule,
+  ],
 })
 export class ProjectsModule {}

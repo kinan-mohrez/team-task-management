@@ -1,0 +1,67 @@
+package com.kinan.taskmanagement.project.controller;
+
+import com.kinan.taskmanagement.project.dto.CreateProjectRequest;
+import com.kinan.taskmanagement.project.dto.ProjectResponse;
+import com.kinan.taskmanagement.project.dto.UpdateProjectRequest;
+import com.kinan.taskmanagement.project.service.ProjectService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@Tag(
+        name = "Projects",
+        description = "Project management API"
+)
+@RestController
+@RequestMapping("/api/projects")
+public class ProjectController {
+
+    private final ProjectService projectService;
+
+    public ProjectController(ProjectService projectService) {
+        this.projectService = projectService;
+    }
+
+    @Operation(summary = "Get all projects")
+    @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    public List<ProjectResponse> getAllProjects() {
+        return projectService.getAllProjects();
+    }
+
+    @Operation(summary = "Get project by id")
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    public ProjectResponse getProjectById(@PathVariable Long id) {
+        return projectService.getProjectById(id);
+    }
+
+    @Operation(summary = "Create project")
+    @PostMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    public ProjectResponse createProject(
+            @Valid @RequestBody CreateProjectRequest request) {
+
+        return projectService.createProject(request);
+    }
+
+    @Operation(summary = "Delete project")
+    @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    public ProjectResponse updateProject(
+            @PathVariable Long id,
+            @Valid @RequestBody UpdateProjectRequest request) {
+
+        return projectService.updateProject(id, request);
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    public void deleteProject(@PathVariable Long id) {
+        projectService.deleteProject(id);
+    }
+}
