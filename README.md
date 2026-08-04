@@ -38,9 +38,9 @@ Built with **Angular**, **Spring Boot**, **Spring Security**, **JWT**, and **Pos
 ## Authentication
 
 - JWT Authentication
+- Secure Login
 - Route Guard
 - HTTP Interceptor
-- Secure Login
 - Role-based Authorization
 - Password Change
 - Admin Password Reset
@@ -55,79 +55,37 @@ Built with **Angular**, **Spring Boot**, **Spring Security**, **JWT**, and **Pos
 
 ## Users
 
-### Frontend
-
-- Complete REST API Integration
-- User List
+- Complete CRUD
+- REST API Integration
 - User Details
-- Create User
-- Edit User
-- Delete User
-- Search
-- Sorting
-- Refresh
-- Angular Material Table
+- Search, Sorting & Pagination
 - Reactive Forms
+- DTO & Mapper Pattern
 - Delete Confirmation Dialog
-- DTO-based API Communication
-- Mapper Pattern
-- RxJS `takeUntil` Subscription Management
-
-### Backend
-
-- Complete CRUD REST API
-- DTO Pattern
-- Mapper Pattern
-- Request Validation
-- Global Exception Handling
-- PostgreSQL Persistence
 
 ## Projects
 
-### Frontend
-
-- Complete REST API Integration
-- Project List
+- Complete CRUD
+- REST API Integration
 - Project Details
-- Create Project
-- Edit Project
-- Delete Project
-- Angular Material Table
+- Search, Sorting & Pagination
+- Shared ProjectStatus Enum
+- DTO & Mapper Pattern
 - Delete Confirmation Dialog
-- DTO-based API Communication
-- Project Mapper
-- Project Status Enum
-- RxJS `takeUntil` Subscription Management
-
-### Backend
-
-- Complete CRUD REST API
-- DTO Pattern
-- Mapper Pattern
-- Request Validation
-- Swagger Documentation
-- Role-based Authorization
-- PostgreSQL Persistence
 
 ## Tasks
 
-### Frontend
-
-- CRUD Interface
-- Angular Material Table
-- Reactive Forms
-- Project and User Selection
-- RxJS Subscription Management
-
-### Backend
-
-- In Progress
+- Complete CRUD
+- REST API Integration
+- Project & User Assignment
+- Search, Sorting & Pagination
+- Shared TaskStatus & TaskPriority Enums
+- DTO & Mapper Pattern
+- Delete Confirmation Dialog
 
 ---
 
 # Project Architecture
-
-## Frontend
 
 ```text
 frontend/src/app
@@ -139,10 +97,9 @@ frontend/src/app
 │   ├── users
 │   ├── projects
 │   └── tasks
+├── models
 └── layout
 ```
-
-## Backend
 
 ```text
 backend
@@ -151,6 +108,7 @@ backend
 ├── config
 ├── exception
 ├── project
+├── task
 └── user
 ```
 
@@ -158,7 +116,7 @@ backend
 
 # API Documentation
 
-Swagger UI:
+Swagger UI
 
 ```text
 http://localhost:8080/swagger-ui/index.html
@@ -168,7 +126,7 @@ http://localhost:8080/swagger-ui/index.html
 
 # Running the Project
 
-### Frontend
+## Frontend
 
 ```bash
 cd frontend
@@ -182,7 +140,7 @@ Runs on:
 http://localhost:4200
 ```
 
-### Backend
+## Backend
 
 ```bash
 cd backend
@@ -202,40 +160,34 @@ http://localhost:8080
 - Clean Architecture
 - Clean Code
 - SOLID Principles
+- Feature-based Architecture
 - DTO & Mapper Pattern
 - Dependency Injection
-- Feature-based Architecture
 - Stateless JWT Authentication
-- RxJS Subscription Management (`takeUntil`)
+- RxJS (`takeUntil`)
 
 ---
 
 # Current Status
 
-| Feature                            | Status |
-| ---------------------------------- | :----: |
-| Authentication                     |   ✅   |
-| Dashboard                          |   ✅   |
-| Users Backend                      |   ✅   |
-| Users Frontend REST Integration    |   ✅   |
-| Password Management                |   ✅   |
-| Projects Backend                   |   ✅   |
-| Projects Frontend REST Integration |   ✅   |
-| Project Details                    |   ✅   |
-| Tasks Frontend                     |   ✅   |
-| Tasks Backend                      |   ⏳   |
-| Teams Module                       |   ⏳   |
-| Unit Tests                         |   ⏳   |
-| Docker & Deployment                |   ⏳   |
+| Module | Status |
+| :----- | :----: |
+| Authentication | ✅ |
+| Dashboard | ✅ |
+| Users | ✅ |
+| Projects | ✅ |
+| Tasks | ✅ |
+| Teams | ⏳ |
+| Unit Tests | ⏳ |
+| Docker & Deployment | ⏳ |
 
 ---
 
 # Roadmap
 
-- Complete Tasks Backend
-- Integrate Tasks REST API
-- Implement Teams Module
-- Backend Pagination, Sorting & Filtering
+- Task Details
+- Teams Module
+- Backend Pagination & Filtering
 - Unit & Integration Tests
 - Dockerize the Application
 - Deploy the Project

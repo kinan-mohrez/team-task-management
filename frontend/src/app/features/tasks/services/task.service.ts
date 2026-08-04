@@ -1,71 +1,62 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { map, Observable } from 'rxjs';
 
-import { Task } from '../../../models/tasks/task.model';
-import { TaskPriority } from 'src/app/models/tasks/task-priority.enum';
-import { TaskStatus } from 'src/app/models/tasks/task-status.enum';
+import { CreateTaskRequest } from 'src/app/core/dto/tasks/create-task-request.model';
+import { TaskResponse } from 'src/app/core/dto/tasks/task-response.model';
+import { UpdateTaskRequest } from 'src/app/core/dto/tasks/update-task-request.model';
+import { TaskMapper } from 'src/app/core/mappers/task.mapper';
+import { Task } from 'src/app/models/tasks/task.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TaskService {
-  private tasks: Task[] = [
-    {
-      id: 1,
-      title: 'Design project dashboard',
-      description: 'Create the initial dashboard design and layout.',
-      status: TaskStatus.IN_PROGRESS,
-      priority: TaskPriority.HIGH,
-      dueDate: '2026-08-05',
-      projectId: 1,
-      assignedUserId: 1,
-    },
-    {
-      id: 2,
-      title: 'Implement authentication',
-      description: 'Connect the frontend authentication flow to the backend.',
-      status: TaskStatus.TODO,
-      priority: TaskPriority.MEDIUM,
-      dueDate: '2026-08-10',
-      projectId: 1,
-      assignedUserId: 2,
-    },
-  ];
+  private readonly apiUrl: string = 'http://localhost:8080/api/tasks';
 
-  public getTasks(): Task[] {
-    return [...this.tasks];
+  public constructor(private readonly http: HttpClient) {}
+
+  public getTasks(): Observable<Task[]> {
+    return this.http
+      .get<TaskResponse[]>(this.apiUrl)
+      .pipe(
+        map((taskResponses: TaskResponse[]) =>
+          TaskMapper.fromResponses(taskResponses),
+        ),
+      );
   }
 
-  public getTaskById(id: number): Task | undefined {
-    return this.tasks.find((task: Task) => task.id === id);
+  public getTaskById(id: number): Observable<Task> {
+    return this.http
+      .get<TaskResponse>(`${this.apiUrl}/${id}`)
+      .pipe(
+        map((taskResponse: TaskResponse) =>
+          TaskMapper.fromResponse(taskResponse),
+        ),
+      );
   }
 
-  public createTask(task: Task): void {
-    const newId: number =
-      this.tasks.length > 0
-        ? Math.max(...this.tasks.map((item: Task) => item.id)) + 1
-        : 1;
-
-    this.tasks.push({
-      ...task,
-      id: newId,
-    });
+  public createTask(request: CreateTaskRequest): Observable<Task> {
+    return this.http
+      .post<TaskResponse>(this.apiUrl, request)
+      .pipe(
+        map((taskResponse: TaskResponse) =>
+          TaskMapper.fromResponse(taskResponse),
+        ),
+      );
   }
 
-  public updateTask(updatedTask: Task): void {
-    const taskIndex: number = this.tasks.findIndex(
-      (task: Task) => task.id === updatedTask.id,
-    );
-
-    if (taskIndex === -1) {
-      return;
-    }
-
-    this.tasks[taskIndex] = {
-      ...updatedTask,
-    };
+  public updateTask(id: number, request: UpdateTaskRequest): Observable<Task> {
+    return this.http
+      .put<TaskResponse>(`${this.apiUrl}/${id}`, request)
+      .pipe(
+        map((taskResponse: TaskResponse) =>
+          TaskMapper.fromResponse(taskResponse),
+        ),
+      );
   }
 
-  public deleteTask(id: number): void {
-    this.tasks = this.tasks.filter((task: Task) => task.id !== id);
+  public deleteTask(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }

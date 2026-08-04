@@ -13,6 +13,7 @@ import { NotificationService } from 'src/app/core/services/notification.service'
 import { TaskStatus } from 'src/app/models/tasks/task-status.enum';
 import { TaskPriority } from 'src/app/models/tasks/task-priority.enum';
 import { Subject, takeUntil } from 'rxjs';
+import { TaskMapper } from 'src/app/core/mappers/task.mapper';
 
 @Component({
   selector: 'app-task-form',
@@ -105,14 +106,32 @@ export class TaskFormComponent implements OnInit, OnDestroy {
     };
 
     if (this.isEditMode) {
-      this.taskService.updateTask(task);
-      this.notificationService.showSuccess('Task updated successfully.');
+      this.taskService
+        .updateTask(this.taskId!, TaskMapper.toUpdateRequest(task))
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: () => {
+            this.notificationService.showSuccess('Task updated successfully.');
+            this.router.navigate(['/tasks']);
+          },
+          error: () => {
+            this.notificationService.showError('Failed to update task.');
+          },
+        });
     } else {
-      this.taskService.createTask(task);
-      this.notificationService.showSuccess('Task created successfully.');
+      this.taskService
+        .createTask(TaskMapper.toCreateRequest(task))
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: () => {
+            this.notificationService.showSuccess('Task created successfully.');
+            this.router.navigate(['/tasks']);
+          },
+          error: () => {
+            this.notificationService.showError('Failed to create task.');
+          },
+        });
     }
-
-    this.router.navigate(['/tasks']);
   }
 
   public cancel(): void {
@@ -120,14 +139,18 @@ export class TaskFormComponent implements OnInit, OnDestroy {
   }
 
   private loadTask(id: number): void {
-    const task: Task | undefined = this.taskService.getTaskById(id);
-
-    if (!task) {
-      this.router.navigate(['/tasks']);
-      return;
-    }
-
-    this.taskForm.patchValue(task);
+    this.taskService
+      .getTaskById(id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (task: Task) => {
+          this.taskForm.patchValue(task);
+        },
+        error: () => {
+          this.notificationService.showError('Task not found.');
+          this.router.navigate(['/tasks']);
+        },
+      });
   }
 
   public ngOnDestroy(): void {

@@ -2,36 +2,34 @@
 
 > Enterprise-style Full-Stack application built with Angular, Spring Boot, Spring Security, JWT, and PostgreSQL.
 
-**Last Updated:** 2026-08-03
+**Last Updated:** 2026-08-04
 
 ---
 
 # 🎯 Project Goal
 
-Build a production-quality Team Task Management System with clean, scalable, secure, and maintainable architecture.
+Build a production-quality Team Task Management System using Clean Architecture, SOLID principles, and enterprise development practices.
 
 ---
 
 # 🛠️ Technology Stack
 
 ## Frontend
-
-* Angular 13
-* TypeScript
-* Angular Material
-* RxJS
-* Reactive Forms
-* SCSS
+- Angular 13
+- TypeScript
+- Angular Material
+- RxJS
+- Reactive Forms
+- SCSS
 
 ## Backend
-
-* Java
-* Spring Boot
-* Spring Security
-* Spring Data JPA
-* Hibernate
-* JWT Authentication
-* PostgreSQL
+- Java
+- Spring Boot
+- Spring Security
+- Spring Data JPA
+- Hibernate
+- JWT Authentication
+- PostgreSQL
 
 ---
 
@@ -40,195 +38,131 @@ Build a production-quality Team Task Management System with clean, scalable, sec
 ## Frontend
 
 ### Architecture
-
-* Feature-based Architecture
-* Lazy-loaded Modules
-* Core / Shared / Features / Layout structure
-* DTO and Model separation
-* Shared Enums
-* Mapper Pattern
-* RxJS subscription cleanup using `takeUntil`
+- Feature-based Architecture
+- Lazy-loaded Modules
+- Core / Shared / Features / Layout
+- DTO + Mapper Pattern
+- Shared Enums
+- RxJS with `takeUntil`
 
 ### Authentication
+- JWT Authentication
+- Login / Logout
+- Route Guard
+- HTTP Interceptor
+- Token Storage
 
-* Login and Logout
-* JWT Authentication
-* Route Guard
-* HTTP Interceptor
-* Token Storage
-* Login routing correction
+### Dashboard
+- Dashboard module completed
 
 ### Users
-
-* Complete REST API integration
-* User List, Create, Edit, View, and Delete
-* User DTOs and Mapper
-* Username and password fields
-* Confirm Password validation
-* User Details page
-* Delete confirmation dialog
-* Search and clear filters
-* Refresh from Backend
-* Column sorting
-* Loading and error handling
-* Success and error notifications
+- Complete REST API integration
+- List, Create, Edit, View, Delete
+- User DTOs and Mapper
+- Password management
+- Search, Sorting, Pagination, Refresh
+- Delete confirmation dialog
+- Loading and notifications
 
 ### Projects
+- Complete REST API integration
+- List, Create, Edit, View, Delete
+- Project DTOs and Mapper
+- Shared ProjectStatus enum
+- Project Details page
+- Search, Sorting, Pagination, Refresh
+- Delete confirmation dialog
+- Loading and notifications
 
-* Complete REST API integration
-* Project List, Create, Edit, View, and Delete
-* Project DTOs and Mapper
-* `ProjectStatus` shared enum
-* Project Details page
-* Delete confirmation dialog
-* Angular Material table
-* Loading and error handling
-* Success and error notifications
-* RxJS subscription cleanup
-* Tasks components updated for asynchronous project loading
-
-### Other Modules
-
-* Dashboard completed
-* Tasks frontend CRUD completed
+### Tasks
+- Complete REST API integration
+- List, Create, Edit, Delete
+- Task DTOs and Mapper
+- Shared TaskStatus and TaskPriority enums
+- Project and User selection
+- Search, Sorting, Pagination
+- Delete confirmation dialog
+- Loading and notifications
+- Mock service replaced by REST API
 
 ---
 
 ## Backend
 
-### Security and Authentication
-
-* Spring Security
-* Stateless JWT Authentication
-* JWT Filter
-* BCrypt Password Encoding
-* Role-based Authorization
-* CORS configuration for Angular
+### Security
+- Spring Security
+- Stateless JWT Authentication
+- JWT Filter
+- BCrypt Password Encoding
+- Role-based Authorization
+- CORS Configuration
 
 ### Users
-
-* Complete CRUD REST API
-* DTO and Mapper patterns
-* Request validation
-* Global exception handling
-* Password Change
-* Admin Password Reset
-* Force Change Password
+- Complete CRUD REST API
+- DTO + Mapper Pattern
+- Password Change
+- Admin Password Reset
+- Force Change Password
 
 ### Projects
+- Complete CRUD REST API
+- DTO + Mapper Pattern
+- Validation
+- Swagger Documentation
+- PostgreSQL persistence
 
-* Complete CRUD REST API
-* Project Entity and Repository
-* Create, Update, and Response DTOs
-* Project Mapper
-* Project Service
-* Project Controller
-* Duplicate project validation
-* Resource not found handling
-* Role-based endpoint protection
-* Swagger documentation
-* PostgreSQL persistence
+### Tasks
+- Complete CRUD REST API
+- DTO + Mapper Pattern
+- TaskStatus and TaskPriority enums
+- Project and User relationships
+- Validation
+- Swagger Documentation
+- PostgreSQL persistence
 
 ### Documentation
-
-* Swagger / OpenAPI
-* Documented authentication endpoints
-* Documented user endpoints
-* Documented project endpoints
-
----
-
-# 🏗️ Architecture
-
-```text
-frontend/src/app
-├── core
-│   ├── constants
-│   ├── dto
-│   ├── guards
-│   ├── interceptors
-│   ├── mappers
-│   └── services
-├── shared
-│   └── enums
-├── features
-│   ├── auth
-│   ├── dashboard
-│   ├── users
-│   ├── projects
-│   └── tasks
-└── layout
-```
-
-```text
-backend
-├── auth
-├── common
-├── config
-├── exception
-├── project
-│   ├── controller
-│   ├── dto
-│   ├── entity
-│   ├── enums
-│   ├── mapper
-│   ├── repository
-│   └── service
-└── user
-    ├── controller
-    ├── dto
-    ├── entity
-    ├── enums
-    ├── mapper
-    ├── repository
-    └── service
-```
+- Swagger / OpenAPI
+- Authentication, Users, Projects, and Tasks APIs documented
 
 ---
 
 # 📈 Development Status
 
-| Feature                                     | Status |
-| ------------------------------------------- | ------ |
-| Angular and Spring Boot Architecture        | ✅      |
-| PostgreSQL and JWT Authentication           | ✅      |
-| Swagger / OpenAPI                           | ✅      |
-| Users Backend CRUD                          | ✅      |
-| Users Frontend REST Integration             | ✅      |
-| Users Search, Sorting, Refresh, and Details | ✅      |
-| Password Management                         | ✅      |
-| Projects Backend CRUD                       | ✅      |
-| Projects Frontend REST Integration          | ✅      |
-| Projects Create, Edit, View, and Delete     | ✅      |
-| Tasks Frontend                              | ✅      |
-| Tasks Backend                               | ⏳      |
-| Teams Module                                | ⏳      |
-| Pagination, Sorting, and Filtering          | ⏳      |
-| Unit and Integration Tests                  | ⏳      |
-| Docker and Deployment                       | ⏳      |
+| Feature | Status |
+|---------|:------:|
+| Architecture | ✅ |
+| JWT Authentication | ✅ |
+| PostgreSQL | ✅ |
+| Swagger / OpenAPI | ✅ |
+| Users Module | ✅ |
+| Projects Module | ✅ |
+| Tasks Module | ✅ |
+| Task Details | ⏳ |
+| Teams Module | ⏳ |
+| Backend Pagination & Filtering | ⏳ |
+| Unit & Integration Tests | ⏳ |
+| Docker & Deployment | ⏳ |
 
 ---
 
 # 🎯 Next Steps
 
-1. Review and finalize the Projects module.
-2. Implement Tasks Backend and REST integration.
-3. Add Task Details page.
-4. Implement Teams Module.
-5. Add backend pagination, sorting, and filtering.
-6. Write unit and integration tests.
-7. Dockerize and deploy the application.
+1. Implement Task Details page.
+2. Implement Teams module.
+3. Add backend pagination, sorting, and filtering.
+4. Write unit and integration tests.
+5. Dockerize and deploy the application.
 
 ---
 
 # 📋 Development Rules
 
-* Work one step at a time.
-* Follow Clean Architecture, Clean Code, and SOLID.
-* Keep features independent.
-* Use DTOs for API communication.
-* Never expose JPA entities.
-* Protect APIs using JWT.
-* Store passwords using BCrypt.
-* Use `takeUntil` for component subscription cleanup.
-* Maintain production-quality enterprise standards.
+- One step at a time.
+- Follow Clean Architecture, Clean Code, and SOLID.
+- Keep feature modules independent.
+- Use DTOs and Mappers.
+- Never expose JPA entities.
+- Secure APIs with JWT.
+- Use BCrypt for passwords.
+- Manage subscriptions using `takeUntil`.
+- Maintain enterprise-quality code.

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 
@@ -12,13 +12,22 @@ import { UsersService } from '../../../users/services/users.service';
 import { DeleteTaskDialogComponent } from '../../components/delete-task-dialog/delete-task-dialog.component';
 import { TaskService } from '../../services/task.service';
 import { Subject, takeUntil } from 'rxjs';
+import { MatSort, SortDirection } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-task-list',
   templateUrl: './task-list.component.html',
   styleUrls: ['./task-list.component.scss'],
 })
-export class TaskListComponent implements OnInit, OnDestroy {
+export class TaskListComponent implements OnInit, AfterViewInit, OnDestroy {
+  @ViewChild(MatSort)
+  public sort!: MatSort;
+
+  @ViewChild(MatPaginator)
+  public paginator!: MatPaginator;
+
   public displayedColumns: string[] = [
     'title',
     'project',
@@ -29,7 +38,18 @@ export class TaskListComponent implements OnInit, OnDestroy {
     'actions',
   ];
 
-  public tasks: Task[] = [];
+  public dataSource: MatTableDataSource<Task> = new MatTableDataSource<Task>();
+  public searchValue: string = '';
+  public isLoading: boolean = false;
+  public hasActiveFilters: boolean = false;
+
+  public sortField: string = 'title';
+  public sortDirection: SortDirection = 'asc';
+
+  public totalItems: number = 0;
+  public pageIndex: number = 0;
+  public pageSize: number = 10;
+  public pageSizeOptions: number[] = [5, 10, 25, 50];
   public projects: Project[] = [];
   public users: User[] = [];
   private readonly destroy$ = new Subject<void>();
@@ -72,7 +92,22 @@ export class TaskListComponent implements OnInit, OnDestroy {
   }
 
   public loadTasks(): void {
-    this.tasks = this.taskService.getTasks();
+    this.isLoading = true;
+
+    this.taskService
+      .getTasks()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (tasks: Task[]) => {
+          this.dataSource.data = tasks;
+          this.totalItems = tasks.length;
+          this.isLoading = false;
+        },
+        error: () => {
+          this.notificationService.showError('Failed to load tasks.');
+          this.isLoading = false;
+        },
+      });
   }
 
   public addTask(): void {
@@ -97,10 +132,20 @@ export class TaskListComponent implements OnInit, OnDestroy {
           return;
         }
 
-        this.taskService.deleteTask(task.id);
-        this.loadTasks();
-
-        this.notificationService.showSuccess('Task deleted successfully.');
+        this.taskService
+          .deleteTask(task.id)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe({
+            next: () => {
+              this.loadTasks();
+              this.notificationService.showSuccess(
+                'Task deleted successfully.',
+              );
+            },
+            error: () => {
+              this.notificationService.showError('Failed to delete task.');
+            },
+          });
       });
   }
 
@@ -120,9 +165,34 @@ export class TaskListComponent implements OnInit, OnDestroy {
     return user ? `${user.firstName} ${user.lastName}` : 'Unassigned';
   }
 
+  public ngAfterViewInit(): void {
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+
+    this.dataSource.filterPredicate = (task: Task, filter: string): boolean => {
+      const searchText = filter.trim().toLowerCase();
+
+      return (
+        task.title.toLowerCase().includes(searchText) ||
+        task.description.toLowerCase().includes(searchText) ||
+        task.status.toLowerCase().includes(searchText) ||
+        task.priority.toLowerCase().includes(searchText) ||
+        this.getProjectName(task.projectId)
+          .toLowerCase()
+          .includes(searchText) ||
+        this.getAssignedUserName(task.assignedUserId)
+          .toLowerCase()
+          .includes(searchText)
+      );
+    };
+  }
+
+  public applyFilter(): void {
+    this.dataSource.filter = this.searchValue.trim().toLowerCase();
+    this.hasActiveFilters = this.searchValue.trim().length > 0;
+  }
   public ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }
-  
 }
