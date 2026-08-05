@@ -1,0 +1,57 @@
+<section class="team-details-page" *ngIf="!isLoading && team">
+  <header class="page-header">
+    <div class="page-heading">
+      <h1>Team Details</h1>
+      <p>View detailed information about the selected team.</p>
+    </div>
+
+    <div class="header-actions">
+      <button mat-stroked-button color="primary" (click)="editTeam()">
+        <mat-icon>edit</mat-icon>
+        Edit
+      </button>
+
+      <button mat-stroked-button color="warn" (click)="deleteTeam()">
+        <mat-icon>delete</mat-icon>
+        Delete
+      </button>
+
+      <button mat-raised-button (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+        Back
+      </button>
+    </div>
+  </header>
+
+  <mat-card class="profile-card">
+    <div class="profile-avatar">
+      <mat-icon>groups</mat-icon>
+    </div>
+
+    <h2>{{ team.name }}</h2>
+  </mat-card>
+
+  <mat-card class="details-card">
+    <mat-card-header>
+      <mat-card-title>Team Information</mat-card-title>
+    </mat-card-header>
+
+    <mat-divider></mat-divider>
+
+    <mat-card-content>
+      <div class="info-row">
+        <span class="info-label">Name</span>
+        <span class="info-value">{{ team.name }}</span>
+      </div>
+
+      <div class="info-row">
+        <span class="info-label">Description</span>
+        <span class="info-value">{{ team.description }}</span>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</section>
+
+<div class="loading-container" *ngIf="isLoading">
+  <mat-spinner diameter="48"></mat-spinner>
+</div>

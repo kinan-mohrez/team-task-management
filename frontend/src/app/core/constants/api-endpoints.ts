@@ -15,4 +15,8 @@ export const API_ENDPOINTS = {
   tasks: {
     base: '/tasks',
   },
+
+  teams: {
+    base: '/teams',
+  },
 } as const;

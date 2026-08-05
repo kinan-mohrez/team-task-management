@@ -1,8 +1,8 @@
 # Team Task Management System
 
-An enterprise-style Full-Stack application for managing users, projects, teams, and tasks.
+An enterprise-style Full-Stack application for managing users, projects, tasks, and teams.
 
-Built with **Angular**, **Spring Boot**, **Spring Security**, **JWT**, and **PostgreSQL**, following Clean Architecture, SOLID principles, and modern enterprise development practices.
+Built with **Angular**, **Spring Boot**, **Spring Security**, **JWT**, and **PostgreSQL**, following Clean Architecture, SOLID principles, and modern software engineering practices.
 
 ---
 
@@ -48,7 +48,6 @@ Built with **Angular**, **Spring Boot**, **Spring Security**, **JWT**, and **Pos
 * Statistics
 * Recent Tasks
 * Upcoming Deadlines
-* Responsive Layout
 
 ## Users
 
@@ -56,7 +55,6 @@ Built with **Angular**, **Spring Boot**, **Spring Security**, **JWT**, and **Pos
 * REST API Integration
 * User Details
 * Search, Sorting & Pagination
-* DTO & Mapper Pattern
 
 ## Projects
 
@@ -64,7 +62,6 @@ Built with **Angular**, **Spring Boot**, **Spring Security**, **JWT**, and **Pos
 * REST API Integration
 * Project Details
 * Search, Sorting & Pagination
-* DTO & Mapper Pattern
 
 ## Tasks
 
@@ -73,7 +70,13 @@ Built with **Angular**, **Spring Boot**, **Spring Security**, **JWT**, and **Pos
 * Task Details
 * Project & User Assignment
 * Search, Sorting & Pagination
-* DTO & Mapper Pattern
+
+## Teams
+
+* Complete CRUD
+* REST API Integration
+* Team Details
+* Search, Sorting & Pagination
 
 ---
 
@@ -88,7 +91,8 @@ frontend
 │   ├── dashboard
 │   ├── users
 │   ├── projects
-│   └── tasks
+│   ├── tasks
+│   └── teams
 ├── models
 └── layout
 
@@ -97,6 +101,7 @@ backend
 ├── config
 ├── project
 ├── task
+├── team
 └── user
 ```
 
@@ -155,7 +160,7 @@ http://localhost:8080
 | Users               |    ✅   |
 | Projects            |    ✅   |
 | Tasks               |    ✅   |
-| Teams               |    ⏳   |
+| Teams               |    ✅   |
 | Testing             |    ⏳   |
 | Docker & Deployment |    ⏳   |
 
