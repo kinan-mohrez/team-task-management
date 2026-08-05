@@ -19,7 +19,9 @@ export class TaskMapper {
       priority: taskResponse.priority,
       dueDate: taskResponse.dueDate,
       projectId: taskResponse.projectId,
+      projectName: taskResponse.projectName,
       assignedUserId: taskResponse.assignedUserId,
+      assignedUserName: taskResponse.assignedUserName,
     };
   }
 

@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { TaskListComponent } from './pages/task-list/task-list.component';
 import { TaskFormComponent } from './pages/task-form/task-form.component';
+import { TaskDetailsComponent } from './pages/task-details/task-details.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,10 @@ const routes: Routes = [
   {
     path: ':id/edit',
     component: TaskFormComponent,
+  },
+  {
+    path: ':id',
+    component: TaskDetailsComponent,
   },
 ];
 

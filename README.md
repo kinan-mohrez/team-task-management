@@ -10,26 +10,26 @@ Built with **Angular**, **Spring Boot**, **Spring Security**, **JWT**, and **Pos
 
 ## Frontend
 
-- Angular 13
-- TypeScript
-- Angular Material
-- RxJS
-- Reactive Forms
-- SCSS
+* Angular 13
+* TypeScript
+* Angular Material
+* RxJS
+* Reactive Forms
+* SCSS
 
 ## Backend
 
-- Java
-- Spring Boot
-- Spring Security
-- Spring Data JPA
-- Hibernate
-- JWT Authentication
-- Maven
+* Java
+* Spring Boot
+* Spring Security
+* Spring Data JPA
+* Hibernate
+* JWT Authentication
+* Maven
 
 ## Database
 
-- PostgreSQL
+* PostgreSQL
 
 ---
 
@@ -37,58 +37,50 @@ Built with **Angular**, **Spring Boot**, **Spring Security**, **JWT**, and **Pos
 
 ## Authentication
 
-- JWT Authentication
-- Secure Login
-- Route Guard
-- HTTP Interceptor
-- Role-based Authorization
-- Password Change
-- Admin Password Reset
-- Force Change Password
+* JWT Authentication
+* Secure Login
+* Route Guard
+* HTTP Interceptor
+* Role-based Authorization
 
 ## Dashboard
 
-- Statistics
-- Recent Tasks
-- Upcoming Deadlines
-- Responsive Layout
+* Statistics
+* Recent Tasks
+* Upcoming Deadlines
+* Responsive Layout
 
 ## Users
 
-- Complete CRUD
-- REST API Integration
-- User Details
-- Search, Sorting & Pagination
-- Reactive Forms
-- DTO & Mapper Pattern
-- Delete Confirmation Dialog
+* Complete CRUD
+* REST API Integration
+* User Details
+* Search, Sorting & Pagination
+* DTO & Mapper Pattern
 
 ## Projects
 
-- Complete CRUD
-- REST API Integration
-- Project Details
-- Search, Sorting & Pagination
-- Shared ProjectStatus Enum
-- DTO & Mapper Pattern
-- Delete Confirmation Dialog
+* Complete CRUD
+* REST API Integration
+* Project Details
+* Search, Sorting & Pagination
+* DTO & Mapper Pattern
 
 ## Tasks
 
-- Complete CRUD
-- REST API Integration
-- Project & User Assignment
-- Search, Sorting & Pagination
-- Shared TaskStatus & TaskPriority Enums
-- DTO & Mapper Pattern
-- Delete Confirmation Dialog
+* Complete CRUD
+* REST API Integration
+* Task Details
+* Project & User Assignment
+* Search, Sorting & Pagination
+* DTO & Mapper Pattern
 
 ---
 
-# Project Architecture
+# Project Structure
 
 ```text
-frontend/src/app
+frontend
 ├── core
 ├── shared
 ├── features
@@ -99,27 +91,13 @@ frontend/src/app
 │   └── tasks
 ├── models
 └── layout
-```
 
-```text
 backend
 ├── auth
-├── common
 ├── config
-├── exception
 ├── project
 ├── task
 └── user
-```
-
----
-
-# API Documentation
-
-Swagger UI
-
-```text
-http://localhost:8080/swagger-ui/index.html
 ```
 
 ---
@@ -157,40 +135,29 @@ http://localhost:8080
 
 # Engineering Principles
 
-- Clean Architecture
-- Clean Code
-- SOLID Principles
-- Feature-based Architecture
-- DTO & Mapper Pattern
-- Dependency Injection
-- Stateless JWT Authentication
-- RxJS (`takeUntil`)
+* Clean Architecture
+* Clean Code
+* SOLID Principles
+* Feature-based Architecture
+* DTO & Mapper Pattern
+* Dependency Injection
+* Stateless JWT Authentication
+* RxJS (`takeUntil`)
 
 ---
 
 # Current Status
 
-| Module | Status |
-| :----- | :----: |
-| Authentication | ✅ |
-| Dashboard | ✅ |
-| Users | ✅ |
-| Projects | ✅ |
-| Tasks | ✅ |
-| Teams | ⏳ |
-| Unit Tests | ⏳ |
-| Docker & Deployment | ⏳ |
-
----
-
-# Roadmap
-
-- Task Details
-- Teams Module
-- Backend Pagination & Filtering
-- Unit & Integration Tests
-- Dockerize the Application
-- Deploy the Project
+| Module              | Status |
+| :------------------ | :----: |
+| Authentication      |    ✅   |
+| Dashboard           |    ✅   |
+| Users               |    ✅   |
+| Projects            |    ✅   |
+| Tasks               |    ✅   |
+| Teams               |    ⏳   |
+| Testing             |    ⏳   |
+| Docker & Deployment |    ⏳   |
 
 ---
 

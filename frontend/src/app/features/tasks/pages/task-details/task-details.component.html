@@ -1,0 +1,106 @@
+<section class="task-details-page" *ngIf="!isLoading && task">
+  <header class="page-header">
+    <div class="page-heading">
+      <h1>Task Details</h1>
+      <p>View detailed information about the selected task.</p>
+    </div>
+
+    <div class="header-actions">
+
+      
+      <button mat-stroked-button color="primary" (click)="editTask()">
+        <mat-icon>edit</mat-icon>
+        Edit
+      </button>
+
+      <button mat-stroked-button color="warn" (click)="deleteTask()">
+        <mat-icon>delete</mat-icon>
+        Delete
+      </button>
+
+      <button mat-raised-button (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+        Back
+      </button>
+    </div>
+  </header>
+
+  <mat-card class="profile-card">
+    <div class="profile-avatar">
+      <mat-icon>task</mat-icon>
+    </div>
+
+    <h2>{{ task.title }}</h2>
+
+    <div class="profile-meta">
+      <span class="role-chip">
+        {{ task.status }}
+      </span>
+    </div>
+  </mat-card>
+
+  <mat-card class="details-card">
+    <mat-card-header>
+      <mat-card-title>Task Information</mat-card-title>
+    </mat-card-header>
+
+    <mat-divider></mat-divider>
+
+    <mat-card-content>
+      <div class="info-row">
+        <span class="info-label">Title</span>
+        <span class="info-value">{{ task.title }}</span>
+      </div>
+
+      <div class="info-row">
+        <span class="info-label">Description</span>
+        <span class="info-value">{{ task.description }}</span>
+      </div>
+
+      <div class="info-row">
+        <span class="info-label">Assigned User</span>
+        <span class="info-value">{{ task.assignedUserName }}</span>
+      </div>
+
+      <div class="info-row">
+        <span class="info-label">Project</span>
+        <span class="info-value">{{ task.projectName }}</span>
+      </div>
+
+      <div class="info-row">
+        <span class="info-label">Due Date</span>
+        <span class="info-value">{{ task.dueDate }}</span>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="details-card">
+    <mat-card-header>
+      <mat-card-title>Task Status</mat-card-title>
+    </mat-card-header>
+
+    <mat-divider></mat-divider>
+
+    <mat-card-content>
+      <div class="info-row">
+        <span class="info-label">Status</span>
+
+        <span class="role-chip">
+          {{ task.status }}
+        </span>
+      </div>
+
+      <div class="info-row">
+        <span class="info-label">Priority</span>
+
+        <span class="role-chip">
+          {{ task.priority }}
+        </span>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</section>
+
+<div class="loading-container" *ngIf="isLoading">
+  <mat-spinner diameter="48"></mat-spinner>
+</div>

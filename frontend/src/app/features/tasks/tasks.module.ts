@@ -21,12 +21,15 @@ import { DeleteTaskDialogComponent } from './components/delete-task-dialog/delet
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { TaskDetailsComponent } from './pages/task-details/task-details.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
     TaskListComponent,
     TaskFormComponent,
     DeleteTaskDialogComponent,
+    TaskDetailsComponent,
   ],
   imports: [
     CommonModule,
@@ -46,6 +49,7 @@ import { MatSortModule } from '@angular/material/sort';
     MatDatepickerModule,
     MatNativeDateModule,
     MatPaginatorModule,
+    MatProgressSpinnerModule,
   ],
 })
 export class TasksModule {}

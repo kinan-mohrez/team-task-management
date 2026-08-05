@@ -1,0 +1,121 @@
+.task-details-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.page-heading {
+  h1 {
+    margin: 0;
+    font-size: 30px;
+    font-weight: 600;
+  }
+
+  p {
+    margin-top: 6px;
+    color: #757575;
+  }
+}
+
+.header-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.profile-card {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.profile-avatar {
+  margin-bottom: 20px;
+
+  mat-icon {
+    width: 96px;
+    height: 96px;
+    font-size: 96px;
+    color: #3f51b5;
+  }
+}
+
+.profile-card h2 {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.profile-meta {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.role-chip,
+.status-chip {
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.role-chip {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
+.status-chip.active {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.status-chip.inactive {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.details-card {
+  overflow: hidden;
+}
+
+mat-card-title {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 0;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  font-weight: 600;
+  color: #616161;
+}
+
+.info-value {
+  color: #212121;
+  font-weight: 500;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}

@@ -1,7 +1,5 @@
-import { TaskStatus } from "./task-status.enum";
 import { TaskPriority } from './task-priority.enum';
-
-
+import { TaskStatus } from './task-status.enum';
 
 export interface Task {
   id: number;
@@ -10,6 +8,10 @@ export interface Task {
   status: TaskStatus;
   priority: TaskPriority;
   dueDate: string;
+
   projectId: number;
+  projectName: string;
+
   assignedUserId: number;
+  assignedUserName: string;
 }

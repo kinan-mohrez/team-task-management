@@ -114,6 +114,10 @@ export class TaskListComponent implements OnInit, AfterViewInit, OnDestroy {
     this.router.navigate(['/tasks/new']);
   }
 
+  public viewTask(task: Task): void {
+    this.router.navigate(['/tasks', task.id]);
+  }
+
   public editTask(task: Task): void {
     this.router.navigate(['/tasks', task.id, 'edit']);
   }
