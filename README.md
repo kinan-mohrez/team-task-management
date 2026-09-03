@@ -2,7 +2,7 @@
 
 An enterprise-style Full-Stack application for managing users, projects, tasks, and teams.
 
-Built with **Angular**, **Spring Boot**, **Spring Security**, **JWT**, and **PostgreSQL**, following Clean Architecture, SOLID principles, and modern software engineering practices.
+Built with **Angular**, **Spring Boot**, **Spring Security**, **JWT**, and **PostgreSQL**, following Clean Code, SOLID principles, and modern software engineering practices.
 
 ---
 
@@ -10,26 +10,26 @@ Built with **Angular**, **Spring Boot**, **Spring Security**, **JWT**, and **Pos
 
 ## Frontend
 
-* Angular 13
-* TypeScript
-* Angular Material
-* RxJS
-* Reactive Forms
-* SCSS
+- Angular 13
+- TypeScript
+- Angular Material
+- RxJS
+- Reactive Forms
+- SCSS
 
 ## Backend
 
-* Java
-* Spring Boot
-* Spring Security
-* Spring Data JPA
-* Hibernate
-* JWT Authentication
-* Maven
+- Java
+- Spring Boot
+- Spring Security
+- Spring Data JPA
+- Hibernate
+- JWT Authentication
+- Maven
 
 ## Database
 
-* PostgreSQL
+- PostgreSQL
 
 ---
 
@@ -37,46 +37,63 @@ Built with **Angular**, **Spring Boot**, **Spring Security**, **JWT**, and **Pos
 
 ## Authentication
 
-* JWT Authentication
-* Secure Login
-* Route Guard
-* HTTP Interceptor
-* Role-based Authorization
+- JWT Authentication
+- Secure Login
+- Route Guard
+- HTTP Interceptor
+- Role-based Authorization
+- Token-based Session Handling
+
+## Application Layout
+
+- Responsive Main Layout
+- Navigation Sidebar
+- Top Navbar
+- Active Route Navigation
+- Logout Functionality
+- Consistent Application Styling
 
 ## Dashboard
 
-* Statistics
-* Recent Tasks
-* Upcoming Deadlines
+- Backend-driven Statistics
+- User-specific Task Statistics
+- In Progress Tasks
+- Completed Tasks
+- Overdue Tasks
+- Recent Tasks
+- Upcoming Deadlines
+- Interactive Statistic Cards
 
 ## Users
 
-* Complete CRUD
-* REST API Integration
-* User Details
-* Search, Sorting & Pagination
+- Complete CRUD
+- REST API Integration
+- User Details
+- Role & Account Management
+- Search, Sorting & Pagination
 
 ## Projects
 
-* Complete CRUD
-* REST API Integration
-* Project Details
-* Search, Sorting & Pagination
+- Complete CRUD
+- REST API Integration
+- Project Details
+- Search, Sorting & Pagination
 
 ## Tasks
 
-* Complete CRUD
-* REST API Integration
-* Task Details
-* Project & User Assignment
-* Search, Sorting & Pagination
+- Complete CRUD
+- REST API Integration
+- Task Details
+- Project & User Assignment
+- Status & Priority Management
+- Search, Sorting & Pagination
 
 ## Teams
 
-* Complete CRUD
-* REST API Integration
-* Team Details
-* Search, Sorting & Pagination
+- Complete CRUD
+- REST API Integration
+- Team Details
+- Search, Sorting & Pagination
 
 ---
 
@@ -117,11 +134,7 @@ npm install
 ng serve
 ```
 
-Runs on:
-
-```text
-http://localhost:4200
-```
+Runs on `http://localhost:4200`
 
 ## Backend
 
@@ -130,39 +143,36 @@ cd backend
 mvn spring-boot:run
 ```
 
-Runs on:
-
-```text
-http://localhost:8080
-```
+Runs on `http://localhost:8080`
 
 ---
 
 # Engineering Principles
 
-* Clean Architecture
-* Clean Code
-* SOLID Principles
-* Feature-based Architecture
-* DTO & Mapper Pattern
-* Dependency Injection
-* Stateless JWT Authentication
-* RxJS (`takeUntil`)
+- Clean Code
+- SOLID Principles
+- Feature-based Architecture
+- DTO & Mapper Pattern
+- Dependency Injection
+- Stateless JWT Authentication
+- Server-side Pagination, Sorting & Filtering
+- RxJS Subscription Management
 
 ---
 
 # Current Status
 
-| Module              | Status |
-| :------------------ | :----: |
-| Authentication      |    ✅   |
-| Dashboard           |    ✅   |
-| Users               |    ✅   |
-| Projects            |    ✅   |
-| Tasks               |    ✅   |
-| Teams               |    ✅   |
-| Testing             |    ⏳   |
-| Docker & Deployment |    ⏳   |
+| Module | Status |
+| :--- | :---: |
+| Authentication | ✅ |
+| Main Layout & Navigation | ✅ |
+| Dashboard | ✅ |
+| Users | ✅ |
+| Projects | ✅ |
+| Tasks | ✅ |
+| Teams | ✅ |
+| Testing | ⏳ |
+| Docker & Deployment | ⏳ |
 
 ---
 
