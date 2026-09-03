@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 
 import { DashboardStatistic } from 'src/app/models/dashboard/dashboard-statistic.model';
 import { RecentTask } from 'src/app/models/dashboard/recent-task.model';
@@ -12,7 +13,7 @@ import { DashboardService } from '../../services/dashboard.service';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   public statistics: DashboardStatistic[] = [];
   public recentTasks: RecentTask[] = [];
   public upcomingDeadlines: UpcomingDeadline[] = [];
@@ -24,6 +25,8 @@ export class DashboardComponent implements OnInit {
     'dueDate',
   ];
 
+  private readonly destroy$ = new Subject<void>();
+
   public constructor(
     private readonly dashboardService: DashboardService,
     private readonly router: Router,
@@ -34,12 +37,25 @@ export class DashboardComponent implements OnInit {
   }
 
   public loadDashboardData(): void {
-    this.statistics = this.dashboardService.getStatistics();
+    this.dashboardService
+      .getStatistics()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (statistics: DashboardStatistic[]) => {
+          this.statistics = statistics;
+        },
+      });
+
     this.recentTasks = this.dashboardService.getRecentTasks();
     this.upcomingDeadlines = this.dashboardService.getUpcomingDeadlines();
   }
 
   public onStatisticClick(statistic: DashboardStatistic): void {
     this.router.navigate(['/tasks']);
+  }
+
+  public ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

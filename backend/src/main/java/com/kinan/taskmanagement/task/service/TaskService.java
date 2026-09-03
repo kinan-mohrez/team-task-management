@@ -17,6 +17,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import com.kinan.taskmanagement.task.dto.DashboardStatisticsResponse;
+import com.kinan.taskmanagement.task.enums.TaskStatus;
+
+import java.time.LocalDate;
 
 @Service
 @RequiredArgsConstructor
@@ -134,5 +138,40 @@ public class TaskService {
                 );
 
         taskRepository.delete(task);
+    }
+
+    public DashboardStatisticsResponse getDashboardStatistics(
+            String username
+    ) {
+
+        long totalTasks =
+                this.taskRepository.countByAssignedUserUsername(username);
+
+        long inProgressTasks =
+                this.taskRepository.countByAssignedUserUsernameAndStatus(
+                        username,
+                        TaskStatus.IN_PROGRESS
+                );
+
+        long completedTasks =
+                this.taskRepository.countByAssignedUserUsernameAndStatus(
+                        username,
+                        TaskStatus.COMPLETED
+                );
+
+        long overdueTasks =
+                this.taskRepository
+                        .countByAssignedUserUsernameAndDueDateBeforeAndStatusNot(
+                                username,
+                                LocalDate.now(),
+                                TaskStatus.COMPLETED
+                        );
+
+        return new DashboardStatisticsResponse(
+                totalTasks,
+                inProgressTasks,
+                completedTasks,
+                overdueTasks
+        );
     }
 }
