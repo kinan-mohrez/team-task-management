@@ -1,91 +1,84 @@
-:host {
-  display: block;
+@import 'src/app/shared/styles/shared-table';
+
+.teams-page {
+  @extend .table-page;
 }
 
-mat-card {
-  margin: 24px;
+.page-header {
+  @extend .table-page__header;
 }
 
-mat-card-header {
-  padding: 24px 24px 0;
+.page-heading {
+  @extend .table-page__heading;
 }
 
-mat-card-title {
-  font-size: 24px;
-  font-weight: 600;
+.teams-card {
+  @extend .table-card;
 }
 
-mat-card-content {
-  padding: 24px;
+.teams-toolbar {
+  @extend .table-toolbar;
 }
 
-.team-list-actions {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 16px;
+.search-field {
+  @extend .table-toolbar__search;
 }
 
-mat-form-field {
-  width: 100%;
-  margin-bottom: 8px;
+.toolbar-actions {
+  @extend .table-toolbar__actions;
 }
 
-table {
-  width: 100%;
-  min-width: 720px;
+.table-container {
+  @extend .table-wrapper;
 }
 
-.mat-column-id {
-  width: 80px;
+.teams-table {
+  @extend .app-table;
 }
 
-.mat-column-name {
-  width: 220px;
-  font-weight: 500;
-}
-
-.mat-column-description {
-  min-width: 320px;
-}
-
-.mat-column-actions {
-  width: 160px;
-  text-align: center;
-  white-space: nowrap;
-}
-
-th.mat-header-cell {
-  font-weight: 600;
-}
-
-td.mat-cell,
-th.mat-header-cell {
-  padding: 0 16px;
-}
-
-tr.mat-row {
-  height: 64px;
+.loading-container {
+  @extend .table-loading;
 }
 
 mat-paginator {
-  margin-top: 8px;
+  @extend .table-paginator;
 }
 
-@media (max-width: 768px) {
-  mat-card {
-    margin: 12px;
-  }
+.actions-cell {
+  @extend .table-actions;
+}
 
-  mat-card-content {
-    overflow-x: auto;
-    padding: 16px;
-  }
+.empty-cell {
+  @extend .table-empty;
+}
 
-  .team-list-actions {
-    justify-content: stretch;
-  }
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
 
-  .team-list-actions button {
-    width: 100%;
-  }
+.empty-state mat-icon {
+  width: 32px;
+  height: 32px;
+  font-size: 32px;
+  color: #9ca3af;
+}
+
+.empty-state h2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.empty-state p {
+  margin: 0;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.actions-header {
+  text-align: center;
 }

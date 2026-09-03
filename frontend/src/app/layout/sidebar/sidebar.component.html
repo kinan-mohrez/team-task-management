@@ -1,1 +1,58 @@
-<p>sidebar works!</p>
+<aside class="sidebar">
+  <div class="sidebar__brand">
+    <mat-icon>task_alt</mat-icon>
+    <span>Task Management</span>
+  </div>
+
+  <nav class="sidebar__navigation">
+    <a
+      mat-button
+      routerLink="/dashboard"
+      routerLinkActive="sidebar__link--active"
+      class="sidebar__link"
+    >
+      <mat-icon>dashboard</mat-icon>
+      <span>Dashboard</span>
+    </a>
+
+    <a
+      mat-button
+      routerLink="/users"
+      routerLinkActive="sidebar__link--active"
+      class="sidebar__link"
+    >
+      <mat-icon>people</mat-icon>
+      <span>Users</span>
+    </a>
+
+    <a
+      mat-button
+      routerLink="/projects"
+      routerLinkActive="sidebar__link--active"
+      class="sidebar__link"
+    >
+      <mat-icon>folder</mat-icon>
+      <span>Projects</span>
+    </a>
+
+    <a
+      mat-button
+      routerLink="/tasks"
+      routerLinkActive="sidebar__link--active"
+      class="sidebar__link"
+    >
+      <mat-icon>assignment</mat-icon>
+      <span>Tasks</span>
+    </a>
+
+    <a
+      mat-button
+      routerLink="/teams"
+      routerLinkActive="sidebar__link--active"
+      class="sidebar__link"
+    >
+      <mat-icon>groups</mat-icon>
+      <span>Teams</span>
+    </a>
+  </nav>
+</aside>

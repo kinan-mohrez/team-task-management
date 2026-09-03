@@ -10,6 +10,7 @@ import { MainLayoutComponent } from './layout/main-layout/main-layout.component'
 import { HttpClientModule } from '@angular/common/http';
 import { CoreModule } from './core/core.module';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     HttpClientModule,
     CoreModule,
     MatSnackBarModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent],

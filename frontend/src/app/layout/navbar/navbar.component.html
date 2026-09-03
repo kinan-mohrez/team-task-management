@@ -1,1 +1,40 @@
-<p>navbar works!</p>
+<header class="navbar">
+  <div class="navbar__left">
+    <span class="navbar__title">Team Task Management</span>
+  </div>
+
+  <div class="navbar__right">
+    <button
+      mat-icon-button
+      type="button"
+      class="navbar__icon-button"
+      aria-label="Notifications"
+    >
+      <mat-icon>notifications_none</mat-icon>
+    </button>
+
+    <div class="navbar__profile">
+      <div class="navbar__avatar">
+        <mat-icon>person</mat-icon>
+      </div>
+
+      <div class="navbar__profile-info">
+        <span class="navbar__profile-name">Account</span>
+        <span class="navbar__profile-role">User</span>
+      </div>
+    </div>
+
+    <div class="navbar__divider"></div>
+
+    <button
+      mat-icon-button
+      type="button"
+      class="navbar__logout"
+      aria-label="Logout"
+      title="Logout"
+      (click)="logout()"
+    >
+      <mat-icon>logout</mat-icon>
+    </button>
+  </div>
+</header>

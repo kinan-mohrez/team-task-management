@@ -1,0 +1,68 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.app-layout {
+  min-height: 100vh;
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(99, 102, 241, 0.16),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      rgba(14, 165, 233, 0.12),
+      transparent 35%
+    ),
+    linear-gradient(
+      135deg,
+      #e8edf7 0%,
+      #f1f5f9 45%,
+      #e7edf5 100%
+    );
+}
+
+.app-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: block;
+}
+
+.app-body {
+  display: flex;
+  min-height: calc(100vh - 64px);
+}
+
+.app-sidebar {
+  flex: 0 0 240px;
+}
+
+.app-content {
+  flex: 1;
+  min-width: 0;
+  padding: 28px 32px 40px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 1024px) {
+  .app-sidebar {
+    flex-basis: 210px;
+  }
+
+  .app-content {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .app-sidebar {
+    display: none;
+  }
+
+  .app-content {
+    padding: 20px 16px 32px;
+  }
+}

@@ -1,109 +1,151 @@
-<div class="dashboard">
-  <div class="dashboard-header">
+<section class="dashboard-page">
+  <header class="dashboard-header">
     <div>
       <h1>Dashboard</h1>
       <p>Welcome back! Here's an overview of your workspace.</p>
     </div>
-  </div>
+  </header>
 
   <div class="statistics-grid">
-    <mat-card class="stat-card" *ngFor="let statistic of statistics" (click)="onStatisticClick(statistic)">
+    <mat-card
+      class="stat-card"
+      *ngFor="let statistic of statistics"
+      (click)="onStatisticClick(statistic)"
+    >
       <mat-card-content>
-        <div class="stat-card-content">
-          <div>
+        <div class="stat-content">
+          <div class="stat-info">
             <span class="stat-title">
               {{ statistic.title }}
             </span>
 
-            <h2 class="stat-value">
+            <span class="stat-value">
               {{ statistic.value }}
-            </h2>
+            </span>
           </div>
 
-          <mat-icon class="stat-icon">
-            {{ statistic.icon }}
-          </mat-icon>
+          <div class="stat-icon-wrapper">
+            <mat-icon>
+              {{ statistic.icon }}
+            </mat-icon>
+          </div>
         </div>
       </mat-card-content>
     </mat-card>
   </div>
 
-  <mat-card class="recent-tasks-card">
-    <mat-card-header>
-      <mat-card-title>Recent Tasks</mat-card-title>
-    </mat-card-header>
+  <div class="dashboard-grid">
+    <mat-card class="dashboard-card recent-tasks-card">
+      <mat-card-header>
+        <div class="card-heading">
+          <div>
+            <mat-card-title>Recent Tasks</mat-card-title>
+            <mat-card-subtitle>
+              Latest activity across your workspace
+            </mat-card-subtitle>
+          </div>
 
-    <mat-divider></mat-divider>
+          <button
+            mat-stroked-button
+            type="button"
+            class="view-all-button"
+            routerLink="/tasks"
+          >
+            <span>View all</span>
+            <mat-icon>arrow_forward</mat-icon>
+          </button>
+        </div>
+      </mat-card-header>
 
-    <div class="table-container">
-      <table mat-table [dataSource]="recentTasks" class="recent-tasks-table">
-        <ng-container matColumnDef="title">
-          <th mat-header-cell *matHeaderCellDef>Task</th>
-          <td mat-cell *matCellDef="let task">
-            {{ task.title }}
-          </td>
-        </ng-container>
+      <mat-divider></mat-divider>
 
-        <ng-container matColumnDef="project">
-          <th mat-header-cell *matHeaderCellDef>Project</th>
-          <td mat-cell *matCellDef="let task">
-            {{ task.project }}
-          </td>
-        </ng-container>
+      <div class="table-container">
+        <table mat-table [dataSource]="recentTasks" class="dashboard-table">
+          <ng-container matColumnDef="title">
+            <th mat-header-cell *matHeaderCellDef>Task</th>
 
-        <ng-container matColumnDef="status">
-  <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let task">
+              <span class="task-title">
+                {{ task.title }}
+              </span>
+            </td>
+          </ng-container>
 
-  <td mat-cell *matCellDef="let task">
-    <span
-      class="status-badge"
-      [ngClass]="{
-        'status-badge--completed': task.status === 'Completed',
-        'status-badge--in-progress': task.status === 'In Progress',
-        'status-badge--todo': task.status === 'To Do'
-      }"
-    >
-      {{ task.status }}
-    </span>
-  </td>
-</ng-container>
+          <ng-container matColumnDef="project">
+            <th mat-header-cell *matHeaderCellDef>Project</th>
 
-        <ng-container matColumnDef="dueDate">
-          <th mat-header-cell *matHeaderCellDef>Due Date</th>
-          <td mat-cell *matCellDef="let task">
-            {{ task.dueDate | date: "dd.MM.yyyy" }}
-          </td>
-        </ng-container>
+            <td mat-cell *matCellDef="let task">
+              {{ task.project }}
+            </td>
+          </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
 
-        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-      </table>
-    </div>
-  </mat-card>
-  <mat-card class="upcoming-deadlines-card">
-  <mat-card-header>
-    <mat-card-title>Upcoming Deadlines</mat-card-title>
-  </mat-card-header>
+            <td mat-cell *matCellDef="let task">
+              <span
+                class="status-badge"
+                [class.status-badge--completed]="task.status === 'Completed'"
+                [class.status-badge--progress]="task.status === 'In Progress'"
+                [class.status-badge--todo]="task.status === 'To Do'"
+              >
+                {{ task.status }}
+              </span>
+            </td>
+          </ng-container>
 
-  <mat-divider></mat-divider>
+          <ng-container matColumnDef="dueDate">
+            <th mat-header-cell *matHeaderCellDef>Due Date</th>
 
-  <mat-list>
-    <mat-list-item *ngFor="let deadline of upcomingDeadlines">
-      <mat-icon mat-list-icon>event</mat-icon>
+            <td mat-cell *matCellDef="let task">
+              {{ task.dueDate | date: "dd.MM.yyyy" }}
+            </td>
+          </ng-container>
 
-      <div mat-line>
-        {{ deadline.title }}
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
       </div>
+    </mat-card>
 
-      <div mat-line>
-        {{ deadline.project }}
-      </div>
+    <mat-card class="dashboard-card deadlines-card">
+      <mat-card-header>
+        <div class="card-heading">
+          <div>
+            <mat-card-title>Upcoming Deadlines</mat-card-title>
+            <mat-card-subtitle>
+              Tasks requiring attention soon
+            </mat-card-subtitle>
+          </div>
 
-      <div class="deadline-date">
-        {{ deadline.dueDate | date : 'dd.MM.yyyy' }}
+          <mat-icon class="card-header-icon"> event </mat-icon>
+        </div>
+      </mat-card-header>
+
+      <mat-divider></mat-divider>
+
+      <div class="deadlines-list">
+        <div class="deadline-item" *ngFor="let deadline of upcomingDeadlines">
+          <div class="deadline-icon">
+            <mat-icon>event</mat-icon>
+          </div>
+
+          <div class="deadline-content">
+            <span class="deadline-title">
+              {{ deadline.title }}
+            </span>
+
+            <span class="deadline-project">
+              {{ deadline.project }}
+            </span>
+          </div>
+
+          <span class="deadline-date">
+            {{ deadline.dueDate | date: "dd.MM.yyyy" }}
+          </span>
+        </div>
       </div>
-    </mat-list-item>
-  </mat-list>
-</mat-card>
-</div>
+    </mat-card>
+  </div>
+</section>

@@ -19,15 +19,9 @@ import { TeamService } from '../../services/team.service';
   styleUrls: ['./team-list.component.scss'],
 })
 export class TeamListComponent implements OnInit, OnDestroy {
-  public displayedColumns: string[] = [
-    'id',
-    'name',
-    'description',
-    'actions',
-  ];
+  public displayedColumns: string[] = ['id', 'name', 'description', 'actions'];
 
-  public dataSource: MatTableDataSource<Team> =
-    new MatTableDataSource<Team>();
+  public dataSource: MatTableDataSource<Team> = new MatTableDataSource<Team>();
 
   public searchValue: string = '';
   public isLoading: boolean = false;
@@ -74,23 +68,24 @@ export class TeamListComponent implements OnInit, OnDestroy {
         },
         error: () => {
           this.isLoading = false;
-          this.notificationService.showError(
-            'Failed to load teams.',
-          );
+
+          this.notificationService.showError('Failed to load teams.');
         },
       });
   }
 
-  public applyFilter(): void {
-    this.hasActiveFilters =
-      this.searchValue.trim().length > 0;
+  public onSearch(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+
+    this.searchValue = inputElement.value;
+    this.hasActiveFilters = this.searchValue.trim().length > 0;
 
     this.pageIndex = 0;
 
     this.loadTeams();
   }
 
-  public onClearFilters(): void {
+  public onRefresh(): void {
     this.searchValue = '';
     this.hasActiveFilters = false;
     this.pageIndex = 0;
@@ -98,7 +93,7 @@ export class TeamListComponent implements OnInit, OnDestroy {
     this.loadTeams();
   }
 
-  public onRefresh(): void {
+  public onClearFilters(): void {
     this.searchValue = '';
     this.hasActiveFilters = false;
     this.pageIndex = 0;
@@ -159,9 +154,7 @@ export class TeamListComponent implements OnInit, OnDestroy {
               );
             },
             error: () => {
-              this.notificationService.showError(
-                'Failed to delete team.',
-              );
+              this.notificationService.showError('Failed to delete team.');
             },
           });
       });

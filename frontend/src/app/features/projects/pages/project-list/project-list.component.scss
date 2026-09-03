@@ -1,19 +1,115 @@
-.page-container {
-  padding: 24px;
+@import 'src/app/shared/styles/shared-table';
+
+.projects-page {
+  @extend .table-page;
 }
 
 .page-header {
+  @extend .table-page__header;
+}
+
+.page-heading {
+  @extend .table-page__heading;
+}
+
+.projects-card {
+  @extend .table-card;
+}
+
+.projects-toolbar {
+  @extend .table-toolbar;
+}
+
+.search-field {
+  @extend .table-toolbar__search;
+}
+
+.toolbar-actions {
+  @extend .table-toolbar__actions;
+}
+
+.table-container {
+  @extend .table-wrapper;
+}
+
+.projects-table {
+  @extend .app-table;
+}
+
+.loading-container {
+  @extend .table-loading;
+}
+
+.table-paginator {
+  @extend .table-paginator;
+}
+
+.actions-cell {
+  @extend .table-actions;
+}
+
+.empty-cell {
+  @extend .table-empty;
+}
+
+.empty-state {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: 24px;
+  gap: 8px;
 }
 
-table {
-  width: 100%;
+.empty-state mat-icon {
+  width: 32px;
+  height: 32px;
+  font-size: 32px;
+  color: #9ca3af;
 }
 
-.mat-column-actions {
-  width: 160px;
+.empty-state h2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.empty-state p {
+  margin: 0;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.project-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 92px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.project-status--planning {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.project-status--progress {
+  background: #eef2ff;
+  color: #4338ca;
+}
+
+.project-status--hold {
+  background: #fff7ed;
+  color: #c2410c;
+}
+
+.project-status--completed {
+  background: #ecfdf3;
+  color: #15803d;
+}
+
+.actions-header {
   text-align: center;
 }

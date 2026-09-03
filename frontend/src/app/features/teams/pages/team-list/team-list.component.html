@@ -1,127 +1,199 @@
-<mat-card>
-  <mat-card-header>
-    <mat-card-title>Teams</mat-card-title>
-  </mat-card-header>
-
-  <mat-card-content>
-    <div class="team-list-actions">
-      <button
-        mat-raised-button
-        color="primary"
-        type="button"
-        (click)="addTeam()"
-      >
-        <mat-icon>add</mat-icon>
-        Add Team
-      </button>
+<section class="teams-page">
+  <header class="page-header">
+    <div class="page-heading">
+      <h1>Teams</h1>
+      <p>Manage teams and organize collaboration across the workspace.</p>
     </div>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Search teams</mat-label>
-
-      <input
-        matInput
-        [(ngModel)]="searchValue"
-        (keyup)="applyFilter()"
-        placeholder="Search by name or description..."
-      />
-
-      <button
-        *ngIf="searchValue"
-        matSuffix
-        mat-icon-button
-        type="button"
-        (click)="onClearFilters()"
-      >
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
-
-    <div *ngIf="isLoading">
-      <mat-spinner diameter="48"></mat-spinner>
-    </div>
-
-    <table
-      mat-table
-      matSort
-      [dataSource]="dataSource"
-      [matSortActive]="sortField"
-      [matSortDirection]="sortDirection"
-      (matSortChange)="onSortChange($event)"
-      class="mat-elevation-z2"
+    <button
+      mat-raised-button
+      color="primary"
+      type="button"
+      (click)="addTeam()"
     >
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header="id">ID</th>
+      <mat-icon>add</mat-icon>
+      <span>Add Team</span>
+    </button>
+  </header>
 
-        <td mat-cell *matCellDef="let team">
-          {{ team.id }}
-        </td>
-      </ng-container>
+  <mat-card class="teams-card">
+    <div class="teams-toolbar">
+      <mat-form-field
+        appearance="outline"
+        class="search-field"
+      >
+        <mat-label>Search teams</mat-label>
 
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header="name">Name</th>
+        <input
+          matInput
+          type="search"
+          autocomplete="off"
+          placeholder="Search by name or description"
+          [value]="searchValue"
+          (input)="onSearch($event)"
+        />
 
-        <td mat-cell *matCellDef="let team">
-          {{ team.name }}
-        </td>
-      </ng-container>
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
 
-      <ng-container matColumnDef="description">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header="description">
-          Description
-        </th>
+      <div class="toolbar-actions">
+        <button
+          mat-stroked-button
+          type="button"
+          (click)="onRefresh()"
+          [disabled]="isLoading"
+        >
+          <mat-icon>refresh</mat-icon>
+          <span>Refresh</span>
+        </button>
 
-        <td mat-cell *matCellDef="let team">
-          {{ team.description }}
-        </td>
-      </ng-container>
+        <button
+          mat-stroked-button
+          type="button"
+          (click)="onClearFilters()"
+          [disabled]="!hasActiveFilters"
+        >
+          <mat-icon>filter_alt_off</mat-icon>
+          <span>Clear filters</span>
+        </button>
+      </div>
+    </div>
 
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef>Actions</th>
+    <div
+      class="loading-container"
+      *ngIf="isLoading"
+    >
+      <mat-spinner diameter="48"></mat-spinner>
+      <p>Loading teams...</p>
+    </div>
 
-        <td mat-cell *matCellDef="let team">
-          <button
-            mat-icon-button
-            color="accent"
-            type="button"
-            aria-label="View team"
-            (click)="viewTeam(team)"
+    <div class="table-container">
+      <table
+        mat-table
+        matSort
+        [dataSource]="dataSource"
+        [matSortActive]="sortField"
+        [matSortDirection]="sortDirection"
+        (matSortChange)="onSortChange($event)"
+        class="teams-table"
+      >
+        <ng-container matColumnDef="id">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header="id"
           >
-            <mat-icon>visibility</mat-icon>
-          </button>
+            ID
+          </th>
 
-          <button
-            mat-icon-button
-            color="primary"
-            type="button"
-            aria-label="Edit team"
-            (click)="editTeam(team)"
+          <td mat-cell *matCellDef="let team">
+            {{ team.id }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header="name"
           >
-            <mat-icon>edit</mat-icon>
-          </button>
+            Name
+          </th>
 
-          <button
-            mat-icon-button
-            color="warn"
-            type="button"
-            aria-label="Delete team"
-            (click)="deleteTeam(team)"
+          <td mat-cell *matCellDef="let team">
+            {{ team.name }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="description">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header="description"
           >
-            <mat-icon>delete</mat-icon>
-          </button>
-        </td>
-      </ng-container>
+            Description
+          </th>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <td mat-cell *matCellDef="let team">
+            {{ team.description }}
+          </td>
+        </ng-container>
 
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        <ng-container matColumnDef="actions">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class="actions-header"
+          >
+            Actions
+          </th>
 
-      <tr *matNoDataRow>
-        <td [attr.colspan]="displayedColumns.length">No teams found.</td>
-      </tr>
-    </table>
+          <td
+            mat-cell
+            *matCellDef="let team"
+            class="actions-cell"
+          >
+            <button
+              mat-icon-button
+              type="button"
+              aria-label="View team"
+              (click)="viewTeam(team)"
+            >
+              <mat-icon>visibility</mat-icon>
+            </button>
+
+            <button
+              mat-icon-button
+              color="primary"
+              type="button"
+              aria-label="Edit team"
+              (click)="editTeam(team)"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+
+            <button
+              mat-icon-button
+              color="warn"
+              type="button"
+              aria-label="Delete team"
+              (click)="deleteTeam(team)"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr
+          mat-header-row
+          *matHeaderRowDef="displayedColumns; sticky: true"
+        ></tr>
+
+        <tr
+          mat-row
+          *matRowDef="let row; columns: displayedColumns"
+        ></tr>
+
+        <tr *matNoDataRow>
+          <td
+            class="empty-cell"
+            [attr.colspan]="displayedColumns.length"
+          >
+            <div
+              class="empty-state"
+              *ngIf="!isLoading"
+            >
+              <mat-icon>groups</mat-icon>
+              <h2>No teams found</h2>
+              <p>No teams match the current search criteria.</p>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
 
     <mat-paginator
+      class="table-paginator"
       [length]="totalItems"
       [pageIndex]="pageIndex"
       [pageSize]="pageSize"
@@ -131,5 +203,5 @@
       aria-label="Select teams page"
     >
     </mat-paginator>
-  </mat-card-content>
-</mat-card>
+  </mat-card>
+</section>
