@@ -8,9 +8,11 @@ import com.kinan.taskmanagement.team.dto.UpdateTeamRequest;
 import com.kinan.taskmanagement.team.entity.Team;
 import com.kinan.taskmanagement.team.mapper.TeamMapper;
 import com.kinan.taskmanagement.team.repository.TeamRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class TeamService {
@@ -20,24 +22,52 @@ public class TeamService {
 
     public TeamService(
             TeamRepository teamRepository,
-            TeamMapper teamMapper) {
+            TeamMapper teamMapper
+    ) {
         this.teamRepository = teamRepository;
         this.teamMapper = teamMapper;
     }
 
-    public List<TeamResponse> getAllTeams() {
+    public Page<TeamResponse> getAllTeams(
+            int page,
+            int size,
+            String sortBy,
+            String sortDirection,
+            String search
+    ) {
 
-        return teamRepository.findAll()
-                .stream()
-                .map(teamMapper::toResponse)
-                .toList();
+        Sort sort = sortDirection.equalsIgnoreCase("desc")
+                ? Sort.by(sortBy).descending()
+                : Sort.by(sortBy).ascending();
+
+        Pageable pageable = PageRequest.of(
+                page,
+                size,
+                sort
+        );
+
+        if (search == null || search.isBlank()) {
+            return this.teamRepository.findAll(pageable)
+                    .map(this.teamMapper::toResponse);
+        }
+
+        return this.teamRepository
+                .findByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCase(
+                        search,
+                        search,
+                        pageable
+                )
+                .map(this.teamMapper::toResponse);
     }
 
     public TeamResponse getTeamById(Long id) {
 
         Team team = teamRepository.findById(id)
                 .orElseThrow(() ->
-                        new ResourceNotFoundException("Team not found with id: " + id));
+                        new ResourceNotFoundException(
+                                "Team not found with id: " + id
+                        )
+                );
 
         return teamMapper.toResponse(team);
     }
@@ -46,7 +76,8 @@ public class TeamService {
 
         if (teamRepository.existsByName(request.getName())) {
             throw new DuplicateResourceException(
-                    "Team with name '" + request.getName() + "' already exists.");
+                    "Team with name '" + request.getName() + "' already exists."
+            );
         }
 
         Team team = teamMapper.toEntity(request);
@@ -56,16 +87,24 @@ public class TeamService {
         return teamMapper.toResponse(savedTeam);
     }
 
-    public TeamResponse updateTeam(Long id, UpdateTeamRequest request) {
+    public TeamResponse updateTeam(
+            Long id,
+            UpdateTeamRequest request
+    ) {
 
         Team team = teamRepository.findById(id)
                 .orElseThrow(() ->
-                        new ResourceNotFoundException("Team not found with id: " + id));
+                        new ResourceNotFoundException(
+                                "Team not found with id: " + id
+                        )
+                );
 
         if (!team.getName().equals(request.getName())
                 && teamRepository.existsByName(request.getName())) {
+
             throw new DuplicateResourceException(
-                    "Team with name '" + request.getName() + "' already exists.");
+                    "Team with name '" + request.getName() + "' already exists."
+            );
         }
 
         teamMapper.updateEntity(team, request);
@@ -79,9 +118,11 @@ public class TeamService {
 
         Team team = teamRepository.findById(id)
                 .orElseThrow(() ->
-                        new ResourceNotFoundException("Team not found with id: " + id));
+                        new ResourceNotFoundException(
+                                "Team not found with id: " + id
+                        )
+                );
 
         teamRepository.delete(team);
     }
-
 }

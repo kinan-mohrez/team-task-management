@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 
 import { CreateTaskRequest } from 'src/app/core/dto/tasks/create-task-request.model';
 import { TaskResponse } from 'src/app/core/dto/tasks/task-response.model';
 import { UpdateTaskRequest } from 'src/app/core/dto/tasks/update-task-request.model';
+import { PageResponse } from 'src/app/core/dto/pagination/page-response.model';
 import { TaskMapper } from 'src/app/core/mappers/task.mapper';
 import { Task } from 'src/app/models/tasks/task.model';
 
@@ -16,13 +17,30 @@ export class TaskService {
 
   public constructor(private readonly http: HttpClient) {}
 
-  public getTasks(): Observable<Task[]> {
+  public getTasks(
+    page: number,
+    size: number,
+    sortBy: string,
+    sortDirection: string,
+    search?: string,
+  ): Observable<PageResponse<Task>> {
+    let params: HttpParams = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString())
+      .set('sortBy', sortBy)
+      .set('sortDirection', sortDirection);
+
+    if (search?.trim()) {
+      params = params.set('search', search.trim());
+    }
+
     return this.http
-      .get<TaskResponse[]>(this.apiUrl)
+      .get<PageResponse<TaskResponse>>(this.apiUrl, { params })
       .pipe(
-        map((taskResponses: TaskResponse[]) =>
-          TaskMapper.fromResponses(taskResponses),
-        ),
+        map((response: PageResponse<TaskResponse>) => ({
+          ...response,
+          content: TaskMapper.fromResponses(response.content),
+        })),
       );
   }
 

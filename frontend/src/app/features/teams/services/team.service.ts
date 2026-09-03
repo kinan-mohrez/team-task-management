@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 
 import { CreateTeamRequest } from 'src/app/core/dto/teams/create-team-request.model';
 import { TeamResponse } from 'src/app/core/dto/teams/team-response.model';
 import { UpdateTeamRequest } from 'src/app/core/dto/teams/update-team-request.model';
+import { PageResponse } from 'src/app/core/dto/pagination/page-response.model';
 import { TeamMapper } from 'src/app/core/mappers/team.mapper';
 import { Team } from 'src/app/models/team/team.model';
 import { API_ENDPOINTS } from 'src/app/core/constants/api-endpoints';
@@ -17,13 +18,30 @@ export class TeamService {
 
   public constructor(private readonly http: HttpClient) {}
 
-  public getTeams(): Observable<Team[]> {
+  public getTeams(
+    page: number,
+    size: number,
+    sortBy: string,
+    sortDirection: string,
+    search?: string,
+  ): Observable<PageResponse<Team>> {
+    let params: HttpParams = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString())
+      .set('sortBy', sortBy)
+      .set('sortDirection', sortDirection);
+
+    if (search?.trim()) {
+      params = params.set('search', search.trim());
+    }
+
     return this.http
-      .get<TeamResponse[]>(this.apiUrl)
+      .get<PageResponse<TeamResponse>>(this.apiUrl, { params })
       .pipe(
-        map((teamResponses: TeamResponse[]) =>
-          TeamMapper.fromResponses(teamResponses),
-        ),
+        map((response: PageResponse<TeamResponse>) => ({
+          ...response,
+          content: TeamMapper.fromResponses(response.content),
+        })),
       );
   }
 

@@ -1,17 +1,12 @@
-import {
-  AfterViewInit,
-  Component,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort, SortDirection } from '@angular/material/sort';
+import { PageEvent } from '@angular/material/paginator';
+import { Sort, SortDirection } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 
+import { PageResponse } from 'src/app/core/dto/pagination/page-response.model';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { Team } from 'src/app/models/team/team.model';
 
@@ -23,16 +18,16 @@ import { TeamService } from '../../services/team.service';
   templateUrl: './team-list.component.html',
   styleUrls: ['./team-list.component.scss'],
 })
-export class TeamListComponent implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild(MatSort)
-  public sort!: MatSort;
+export class TeamListComponent implements OnInit, OnDestroy {
+  public displayedColumns: string[] = [
+    'id',
+    'name',
+    'description',
+    'actions',
+  ];
 
-  @ViewChild(MatPaginator)
-  public paginator!: MatPaginator;
-
-  public displayedColumns: string[] = ['id', 'name', 'description', 'actions'];
-
-  public dataSource: MatTableDataSource<Team> = new MatTableDataSource<Team>();
+  public dataSource: MatTableDataSource<Team> =
+    new MatTableDataSource<Team>();
 
   public searchValue: string = '';
   public isLoading: boolean = false;
@@ -63,19 +58,67 @@ export class TeamListComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isLoading = true;
 
     this.teamService
-      .getTeams()
+      .getTeams(
+        this.pageIndex,
+        this.pageSize,
+        this.sortField,
+        this.sortDirection || 'asc',
+        this.searchValue,
+      )
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (teams: Team[]) => {
-          this.dataSource.data = teams;
-          this.totalItems = teams.length;
+        next: (response: PageResponse<Team>) => {
+          this.dataSource.data = response.content;
+          this.totalItems = response.totalElements;
           this.isLoading = false;
         },
         error: () => {
-          this.notificationService.showError('Failed to load teams.');
           this.isLoading = false;
+          this.notificationService.showError(
+            'Failed to load teams.',
+          );
         },
       });
+  }
+
+  public applyFilter(): void {
+    this.hasActiveFilters =
+      this.searchValue.trim().length > 0;
+
+    this.pageIndex = 0;
+
+    this.loadTeams();
+  }
+
+  public onClearFilters(): void {
+    this.searchValue = '';
+    this.hasActiveFilters = false;
+    this.pageIndex = 0;
+
+    this.loadTeams();
+  }
+
+  public onRefresh(): void {
+    this.searchValue = '';
+    this.hasActiveFilters = false;
+    this.pageIndex = 0;
+
+    this.loadTeams();
+  }
+
+  public onSortChange(sort: Sort): void {
+    this.sortField = sort.active;
+    this.sortDirection = sort.direction || 'asc';
+    this.pageIndex = 0;
+
+    this.loadTeams();
+  }
+
+  public onPageChange(event: PageEvent): void {
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
+
+    this.loadTeams();
   }
 
   public addTeam(): void {
@@ -116,29 +159,12 @@ export class TeamListComponent implements OnInit, AfterViewInit, OnDestroy {
               );
             },
             error: () => {
-              this.notificationService.showError('Failed to delete team.');
+              this.notificationService.showError(
+                'Failed to delete team.',
+              );
             },
           });
       });
-  }
-
-  public ngAfterViewInit(): void {
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
-
-    this.dataSource.filterPredicate = (team: Team, filter: string): boolean => {
-      const searchText = filter.trim().toLowerCase();
-
-      return (
-        team.name.toLowerCase().includes(searchText) ||
-        team.description.toLowerCase().includes(searchText)
-      );
-    };
-  }
-
-  public applyFilter(): void {
-    this.dataSource.filter = this.searchValue.trim().toLowerCase();
-    this.hasActiveFilters = this.searchValue.trim().length > 0;
   }
 
   public ngOnDestroy(): void {

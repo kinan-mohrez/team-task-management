@@ -20,11 +20,11 @@ export class LoginComponent implements OnInit {
     password: '',
   };
 
-  constructor(
-    private authService: AuthService,
-    private tokenService: TokenService,
-    private router: Router,
-    private snackBar: MatSnackBar,
+  public constructor(
+    private readonly authService: AuthService,
+    private readonly tokenService: TokenService,
+    private readonly router: Router,
+    private readonly snackBar: MatSnackBar,
   ) {}
 
   public ngOnInit(): void {}
@@ -41,10 +41,11 @@ export class LoginComponent implements OnInit {
         this.tokenService.setToken(response.token);
 
         if (response.mustChangePassword) {
-          // سيتم تنفيذ إعادة التوجيه في الخطوة القادمة
+          this.router.navigate(['/change-password']);
+          return;
         }
 
-        this.router.navigate(['/']);
+        this.router.navigate(['/dashboard']);
       },
       error: () => {
         this.isLoading = false;

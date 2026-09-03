@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 
 import { CreateProjectRequest } from 'src/app/core/dto/projects/create-project-request.model';
 import { UpdateProjectRequest } from 'src/app/core/dto/projects/update-project-request.model';
 import { ProjectResponse } from 'src/app/core/dto/projects/project-response.model';
+import { PageResponse } from 'src/app/core/dto/pagination/page-response.model';
 import { ProjectMapper } from 'src/app/core/mappers/project.mapper';
 import { Project } from 'src/app/models/project/project.model';
 
@@ -16,13 +17,30 @@ export class ProjectService {
 
   public constructor(private readonly http: HttpClient) {}
 
-  public getProjects(): Observable<Project[]> {
+  public getProjects(
+    page: number,
+    size: number,
+    sortBy: string,
+    sortDirection: string,
+    search?: string,
+  ): Observable<PageResponse<Project>> {
+    let params: HttpParams = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString())
+      .set('sortBy', sortBy)
+      .set('sortDirection', sortDirection);
+
+    if (search?.trim()) {
+      params = params.set('search', search.trim());
+    }
+
     return this.http
-      .get<ProjectResponse[]>(this.apiUrl)
+      .get<PageResponse<ProjectResponse>>(this.apiUrl, { params })
       .pipe(
-        map((projectResponses: ProjectResponse[]) =>
-          ProjectMapper.fromResponses(projectResponses),
-        ),
+        map((response: PageResponse<ProjectResponse>) => ({
+          ...response,
+          content: ProjectMapper.fromResponses(response.content),
+        })),
       );
   }
 

@@ -1,19 +1,21 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
+
+import { PageResponse } from 'src/app/core/dto/pagination/page-response.model';
+import { NotificationService } from 'src/app/core/services/notification.service';
+import { TaskMapper } from 'src/app/core/mappers/task.mapper';
 
 import { Task } from '../../../../models/tasks/task.model';
 import { Project } from '../../../../models/project/project.model';
 import { User } from '../../../../models/users/user.model';
+import { TaskStatus } from 'src/app/models/tasks/task-status.enum';
+import { TaskPriority } from 'src/app/models/tasks/task-priority.enum';
 
 import { TaskService } from '../../services/task.service';
 import { ProjectService } from '../../../projects/services/project.service';
 import { UsersService } from '../../../users/services/users.service';
-import { NotificationService } from 'src/app/core/services/notification.service';
-import { TaskStatus } from 'src/app/models/tasks/task-status.enum';
-import { TaskPriority } from 'src/app/models/tasks/task-priority.enum';
-import { Subject, takeUntil } from 'rxjs';
-import { TaskMapper } from 'src/app/core/mappers/task.mapper';
 
 @Component({
   selector: 'app-task-form',
@@ -39,9 +41,10 @@ export class TaskFormComponent implements OnInit, OnDestroy {
 
   public projects: Project[] = [];
   public users: User[] = [];
+
   private readonly destroy$ = new Subject<void>();
 
-  constructor(
+  public constructor(
     private readonly formBuilder: FormBuilder,
     private readonly taskService: TaskService,
     private readonly projectService: ProjectService,
@@ -62,29 +65,9 @@ export class TaskFormComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.projectService
-      .getProjects()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (projects: Project[]) => {
-          this.projects = projects;
-        },
-        error: () => {
-          this.notificationService.showError('Failed to load projects.');
-        },
-      });
+    this.loadProjects();
+    this.loadUsers();
 
-    this.usersService
-      .getUsers()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (users: User[]) => {
-          this.users = users;
-        },
-        error: () => {
-          this.notificationService.showError('Failed to load users.');
-        },
-      });
     const id: string | null = this.activatedRoute.snapshot.paramMap.get('id');
 
     if (id) {
@@ -112,6 +95,7 @@ export class TaskFormComponent implements OnInit, OnDestroy {
         .subscribe({
           next: () => {
             this.notificationService.showSuccess('Task updated successfully.');
+
             this.router.navigate(['/tasks']);
           },
           error: () => {
@@ -125,6 +109,7 @@ export class TaskFormComponent implements OnInit, OnDestroy {
         .subscribe({
           next: () => {
             this.notificationService.showSuccess('Task created successfully.');
+
             this.router.navigate(['/tasks']);
           },
           error: () => {
@@ -138,6 +123,34 @@ export class TaskFormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/tasks']);
   }
 
+  private loadProjects(): void {
+    this.projectService
+      .getProjects(0, 1000, 'name', 'asc')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response: PageResponse<Project>) => {
+          this.projects = response.content;
+        },
+        error: () => {
+          this.notificationService.showError('Failed to load projects.');
+        },
+      });
+  }
+
+  private loadUsers(): void {
+    this.usersService
+      .getUsers(0, 1000, 'firstName', 'asc')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response: PageResponse<User>) => {
+          this.users = response.content;
+        },
+        error: () => {
+          this.notificationService.showError('Failed to load users.');
+        },
+      });
+  }
+
   private loadTask(id: number): void {
     this.taskService
       .getTaskById(id)
@@ -148,6 +161,7 @@ export class TaskFormComponent implements OnInit, OnDestroy {
         },
         error: () => {
           this.notificationService.showError('Task not found.');
+
           this.router.navigate(['/tasks']);
         },
       });

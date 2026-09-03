@@ -8,11 +8,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/tasks")
@@ -25,14 +24,28 @@ public class TaskController {
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     @Operation(summary = "Get all tasks")
-    public List<TaskResponse> getAllTasks() {
-        return taskService.getAllTasks();
+    public Page<TaskResponse> getAllTasks(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortDirection,
+            @RequestParam(required = false) String search
+    ) {
+
+        return this.taskService.getAllTasks(
+                page,
+                size,
+                sortBy,
+                sortDirection,
+                search
+        );
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     @Operation(summary = "Get task by id")
     public TaskResponse getTaskById(@PathVariable Long id) {
+
         return taskService.getTaskById(id);
     }
 
@@ -41,7 +54,8 @@ public class TaskController {
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     @Operation(summary = "Create task")
     public TaskResponse createTask(
-            @Valid @RequestBody CreateTaskRequest request) {
+            @Valid @RequestBody CreateTaskRequest request
+    ) {
 
         return taskService.createTask(request);
     }
@@ -51,7 +65,8 @@ public class TaskController {
     @Operation(summary = "Update task")
     public TaskResponse updateTask(
             @PathVariable Long id,
-            @Valid @RequestBody UpdateTaskRequest request) {
+            @Valid @RequestBody UpdateTaskRequest request
+    ) {
 
         return taskService.updateTask(id, request);
     }
@@ -64,5 +79,4 @@ public class TaskController {
 
         taskService.deleteTask(id);
     }
-
 }

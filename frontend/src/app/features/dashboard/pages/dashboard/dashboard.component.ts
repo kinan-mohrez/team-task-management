@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { DashboardStatistic } from 'src/app/models/dashboard/dashboard-statistic.model';
 import { RecentTask } from 'src/app/models/dashboard/recent-task.model';
 import { UpcomingDeadline } from 'src/app/models/dashboard/upcoming-deadline.model';
+
 import { DashboardService } from '../../services/dashboard.service';
 
 @Component({
@@ -22,7 +24,10 @@ export class DashboardComponent implements OnInit {
     'dueDate',
   ];
 
-  public constructor(private dashboardService: DashboardService) {}
+  public constructor(
+    private readonly dashboardService: DashboardService,
+    private readonly router: Router,
+  ) {}
 
   public ngOnInit(): void {
     this.loadDashboardData();
@@ -32,5 +37,9 @@ export class DashboardComponent implements OnInit {
     this.statistics = this.dashboardService.getStatistics();
     this.recentTasks = this.dashboardService.getRecentTasks();
     this.upcomingDeadlines = this.dashboardService.getUpcomingDeadlines();
+  }
+
+  public onStatisticClick(statistic: DashboardStatistic): void {
+    this.router.navigate(['/tasks']);
   }
 }

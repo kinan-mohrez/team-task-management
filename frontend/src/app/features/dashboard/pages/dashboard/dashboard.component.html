@@ -7,7 +7,7 @@
   </div>
 
   <div class="statistics-grid">
-    <mat-card class="stat-card" *ngFor="let statistic of statistics">
+    <mat-card class="stat-card" *ngFor="let statistic of statistics" (click)="onStatisticClick(statistic)">
       <mat-card-content>
         <div class="stat-card-content">
           <div>

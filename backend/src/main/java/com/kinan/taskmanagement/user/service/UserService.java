@@ -9,8 +9,10 @@ import com.kinan.taskmanagement.user.mapper.UserMapper;
 import com.kinan.taskmanagement.user.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import java.util.Optional;
 
 @Service
@@ -47,12 +49,38 @@ public class UserService {
         return this.userRepository.save(user);
     }
 
-    public List<UserResponse> getAllUsers() {
+    public Page<UserResponse> getAllUsers(
+            int page,
+            int size,
+            String sortBy,
+            String sortDirection,
+            String search
+    ) {
 
-        return this.userRepository.findAll()
-                .stream()
-                .map(UserMapper::toResponse)
-                .toList();
+        Sort sort = sortDirection.equalsIgnoreCase("desc")
+                ? Sort.by(sortBy).descending()
+                : Sort.by(sortBy).ascending();
+
+        Pageable pageable = PageRequest.of(
+                page,
+                size,
+                sort
+        );
+
+        if (search == null || search.isBlank()) {
+            return this.userRepository.findAll(pageable)
+                    .map(UserMapper::toResponse);
+        }
+
+        return this.userRepository
+                .findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCaseOrUsernameContainingIgnoreCaseOrEmailContainingIgnoreCase(
+                        search,
+                        search,
+                        search,
+                        search,
+                        pageable
+                )
+                .map(UserMapper::toResponse);
     }
 
     public UserResponse createUser(CreateUserRequest request) {

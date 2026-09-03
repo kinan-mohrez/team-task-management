@@ -9,8 +9,10 @@ import com.kinan.taskmanagement.project.mapper.ProjectMapper;
 import com.kinan.taskmanagement.project.repository.ProjectRepository;
 import org.springframework.stereotype.Service;
 import com.kinan.taskmanagement.project.dto.UpdateProjectRequest;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 @Service
 public class ProjectService {
@@ -25,12 +27,36 @@ public class ProjectService {
         this.projectMapper = projectMapper;
     }
 
-    public List<ProjectResponse> getAllProjects() {
+    public Page<ProjectResponse> getAllProjects(
+            int page,
+            int size,
+            String sortBy,
+            String sortDirection,
+            String search
+    ) {
 
-        return projectRepository.findAll()
-                .stream()
-                .map(projectMapper::toResponse)
-                .toList();
+        Sort sort = sortDirection.equalsIgnoreCase("desc")
+                ? Sort.by(sortBy).descending()
+                : Sort.by(sortBy).ascending();
+
+        Pageable pageable = PageRequest.of(
+                page,
+                size,
+                sort
+        );
+
+        if (search == null || search.isBlank()) {
+            return this.projectRepository.findAll(pageable)
+                    .map(this.projectMapper::toResponse);
+        }
+
+        return this.projectRepository
+                .findByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCase(
+                        search,
+                        search,
+                        pageable
+                )
+                .map(this.projectMapper::toResponse);
     }
 
     public ProjectResponse getProjectById(Long id) {

@@ -1,7 +1,12 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { PageEvent } from '@angular/material/paginator';
+import { Sort, SortDirection } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 
+import { PageResponse } from '../../../../core/dto/pagination/page-response.model';
 import { NotificationService } from '../../../../core/services/notification.service';
 import { Project } from '../../../../models/project/project.model';
 import { Task } from '../../../../models/tasks/task.model';
@@ -11,23 +16,13 @@ import { ProjectService } from '../../../projects/services/project.service';
 import { UsersService } from '../../../users/services/users.service';
 import { DeleteTaskDialogComponent } from '../../components/delete-task-dialog/delete-task-dialog.component';
 import { TaskService } from '../../services/task.service';
-import { Subject, takeUntil } from 'rxjs';
-import { MatSort, SortDirection } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-task-list',
   templateUrl: './task-list.component.html',
   styleUrls: ['./task-list.component.scss'],
 })
-export class TaskListComponent implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild(MatSort)
-  public sort!: MatSort;
-
-  @ViewChild(MatPaginator)
-  public paginator!: MatPaginator;
-
+export class TaskListComponent implements OnInit, OnDestroy {
   public displayedColumns: string[] = [
     'title',
     'project',
@@ -39,6 +34,7 @@ export class TaskListComponent implements OnInit, AfterViewInit, OnDestroy {
   ];
 
   public dataSource: MatTableDataSource<Task> = new MatTableDataSource<Task>();
+
   public searchValue: string = '';
   public isLoading: boolean = false;
   public hasActiveFilters: boolean = false;
@@ -50,11 +46,13 @@ export class TaskListComponent implements OnInit, AfterViewInit, OnDestroy {
   public pageIndex: number = 0;
   public pageSize: number = 10;
   public pageSizeOptions: number[] = [5, 10, 25, 50];
+
   public projects: Project[] = [];
   public users: User[] = [];
+
   private readonly destroy$ = new Subject<void>();
 
-  constructor(
+  public constructor(
     private readonly taskService: TaskService,
     private readonly projectService: ProjectService,
     private readonly usersService: UsersService,
@@ -64,30 +62,8 @@ export class TaskListComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
-    this.projectService
-      .getProjects()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (projects: Project[]) => {
-          this.projects = projects;
-        },
-        error: () => {
-          this.notificationService.showError('Failed to load projects.');
-        },
-      });
-
-    this.usersService
-      .getUsers()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (users: User[]) => {
-          this.users = users;
-        },
-        error: () => {
-          this.notificationService.showError('Failed to load users.');
-        },
-      });
-
+    this.loadProjects();
+    this.loadUsers();
     this.loadTasks();
   }
 
@@ -95,19 +71,92 @@ export class TaskListComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isLoading = true;
 
     this.taskService
-      .getTasks()
+      .getTasks(
+        this.pageIndex,
+        this.pageSize,
+        this.sortField,
+        this.sortDirection || 'asc',
+        this.searchValue,
+      )
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (tasks: Task[]) => {
-          this.dataSource.data = tasks;
-          this.totalItems = tasks.length;
+        next: (response: PageResponse<Task>) => {
+          this.dataSource.data = response.content;
+          this.totalItems = response.totalElements;
           this.isLoading = false;
         },
         error: () => {
-          this.notificationService.showError('Failed to load tasks.');
           this.isLoading = false;
+          this.notificationService.showError('Failed to load tasks.');
         },
       });
+  }
+
+  private loadProjects(): void {
+    this.projectService
+      .getProjects(0, 1000, 'name', 'asc')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response: PageResponse<Project>) => {
+          this.projects = response.content;
+        },
+        error: () => {
+          this.notificationService.showError('Failed to load projects.');
+        },
+      });
+  }
+
+  private loadUsers(): void {
+    this.usersService
+      .getUsers(0, 1000, 'firstName', 'asc')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response: PageResponse<User>) => {
+          this.users = response.content;
+        },
+        error: () => {
+          this.notificationService.showError('Failed to load users.');
+        },
+      });
+  }
+
+  public applyFilter(): void {
+    this.hasActiveFilters = this.searchValue.trim().length > 0;
+
+    this.pageIndex = 0;
+
+    this.loadTasks();
+  }
+
+  public onClearFilters(): void {
+    this.searchValue = '';
+    this.hasActiveFilters = false;
+    this.pageIndex = 0;
+
+    this.loadTasks();
+  }
+
+  public onRefresh(): void {
+    this.searchValue = '';
+    this.hasActiveFilters = false;
+    this.pageIndex = 0;
+
+    this.loadTasks();
+  }
+
+  public onSortChange(sort: Sort): void {
+    this.sortField = sort.active;
+    this.sortDirection = sort.direction || 'asc';
+    this.pageIndex = 0;
+
+    this.loadTasks();
+  }
+
+  public onPageChange(event: PageEvent): void {
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
+
+    this.loadTasks();
   }
 
   public addTask(): void {
@@ -142,6 +191,7 @@ export class TaskListComponent implements OnInit, AfterViewInit, OnDestroy {
           .subscribe({
             next: () => {
               this.loadTasks();
+
               this.notificationService.showSuccess(
                 'Task deleted successfully.',
               );
@@ -169,32 +219,6 @@ export class TaskListComponent implements OnInit, AfterViewInit, OnDestroy {
     return user ? `${user.firstName} ${user.lastName}` : 'Unassigned';
   }
 
-  public ngAfterViewInit(): void {
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
-
-    this.dataSource.filterPredicate = (task: Task, filter: string): boolean => {
-      const searchText = filter.trim().toLowerCase();
-
-      return (
-        task.title.toLowerCase().includes(searchText) ||
-        task.description.toLowerCase().includes(searchText) ||
-        task.status.toLowerCase().includes(searchText) ||
-        task.priority.toLowerCase().includes(searchText) ||
-        this.getProjectName(task.projectId)
-          .toLowerCase()
-          .includes(searchText) ||
-        this.getAssignedUserName(task.assignedUserId)
-          .toLowerCase()
-          .includes(searchText)
-      );
-    };
-  }
-
-  public applyFilter(): void {
-    this.dataSource.filter = this.searchValue.trim().toLowerCase();
-    this.hasActiveFilters = this.searchValue.trim().length > 0;
-  }
   public ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();

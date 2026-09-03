@@ -1,30 +1,23 @@
-import {
-  AfterViewInit,
-  Component,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
-import { MatSort, Sort, SortDirection } from '@angular/material/sort';
+import { Sort, SortDirection } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Subject, takeUntil } from 'rxjs';
 
 import { User } from '../../../../models/users/user.model';
 import { UsersService } from '../../services/users.service';
-import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
 import { DeleteUserDialogComponent } from '../../components/delete-user-dialog/delete-user-dialog.component';
 import { NotificationService } from 'src/app/core/services/notification.service';
-import { Subject, takeUntil } from 'rxjs';
+import { PageResponse } from 'src/app/core/dto/pagination/page-response.model';
 
 @Component({
   selector: 'app-users-list',
   templateUrl: './users-list.component.html',
   styleUrls: ['./users-list.component.scss'],
 })
-export class UsersListComponent implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild(MatSort)
-  public sort!: MatSort;
+export class UsersListComponent implements OnInit, OnDestroy {
   public displayedColumns: string[] = [
     'id',
     'firstName',
@@ -36,8 +29,6 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnDestroy {
   ];
 
   public dataSource: MatTableDataSource<User> = new MatTableDataSource<User>();
-
-  private readonly destroy$ = new Subject<void>();
 
   public searchValue: string = '';
   public isLoading: boolean = false;
@@ -51,6 +42,8 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnDestroy {
   public pageSize: number = 10;
   public pageSizeOptions: number[] = [5, 10, 25, 50];
 
+  private readonly destroy$ = new Subject<void>();
+
   public constructor(
     private readonly usersService: UsersService,
     private readonly router: Router,
@@ -62,36 +55,27 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnDestroy {
     this.loadUsers();
   }
 
-  public ngAfterViewInit(): void {
-    this.dataSource.sort = this.sort;
-  }
-
   public loadUsers(): void {
     this.isLoading = true;
 
     this.usersService
-      .getUsers()
+      .getUsers(
+        this.pageIndex,
+        this.pageSize,
+        this.sortField,
+        this.sortDirection || 'asc',
+        this.searchValue,
+      )
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (users: User[]) => {
-          this.dataSource.data = users;
-          this.totalItems = users.length;
-
-          this.dataSource.filterPredicate = (
-            user: User,
-            filter: string,
-          ): boolean => {
-            const search = filter.trim().toLowerCase();
-
-            return (
-              user.firstName.toLowerCase().includes(search) ||
-              user.lastName.toLowerCase().includes(search) ||
-              user.email.toLowerCase().includes(search) ||
-              user.role.toLowerCase().includes(search)
-            );
-          };
-
+        next: (response: PageResponse<User>) => {
+          this.dataSource.data = response.content;
+          this.totalItems = response.totalElements;
           this.isLoading = false;
+        },
+        error: () => {
+          this.isLoading = false;
+          this.notificationService.showError('Failed to load users.');
         },
       });
   }
@@ -101,10 +85,9 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.searchValue = inputElement.value;
     this.hasActiveFilters = this.searchValue.trim().length > 0;
-
-    this.dataSource.filter = this.searchValue.trim().toLowerCase();
-
     this.pageIndex = 0;
+
+    this.loadUsers();
   }
 
   public onRefresh(): void {
@@ -112,7 +95,28 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnDestroy {
     this.hasActiveFilters = false;
     this.pageIndex = 0;
 
-    this.dataSource.filter = '';
+    this.loadUsers();
+  }
+
+  public onClearFilters(): void {
+    this.searchValue = '';
+    this.hasActiveFilters = false;
+    this.pageIndex = 0;
+
+    this.loadUsers();
+  }
+
+  public onSortChange(sort: Sort): void {
+    this.sortField = sort.active;
+    this.sortDirection = sort.direction || 'asc';
+    this.pageIndex = 0;
+
+    this.loadUsers();
+  }
+
+  public onPageChange(event: PageEvent): void {
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
 
     this.loadUsers();
   }
@@ -132,43 +136,29 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnDestroy {
       data: user,
     });
 
-    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
-      if (!confirmed) {
-        return;
-      }
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((confirmed: boolean) => {
+        if (!confirmed) {
+          return;
+        }
 
-      this.usersService
-        .deleteUser(user.id)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe({
-          next: () => {
-            this.loadUsers();
-            this.notificationService.showSuccess('User deleted successfully.');
-          },
-          error: () => {
-            this.notificationService.showError('Failed to delete user.');
-          },
-        });
-    });
-  }
-
-  public onClearFilters(): void {
-    this.searchValue = '';
-    this.hasActiveFilters = false;
-    this.pageIndex = 0;
-
-    this.dataSource.filter = '';
-  }
-
-  public onSortChange(sort: Sort): void {
-    this.sortField = sort.active;
-    this.sortDirection = sort.direction;
-    this.pageIndex = 0;
-  }
-
-  public onPageChange(event: PageEvent): void {
-    this.pageIndex = event.pageIndex;
-    this.pageSize = event.pageSize;
+        this.usersService
+          .deleteUser(user.id)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe({
+            next: () => {
+              this.loadUsers();
+              this.notificationService.showSuccess(
+                'User deleted successfully.',
+              );
+            },
+            error: () => {
+              this.notificationService.showError('Failed to delete user.');
+            },
+          });
+      });
   }
 
   public onViewUser(user: User): void {

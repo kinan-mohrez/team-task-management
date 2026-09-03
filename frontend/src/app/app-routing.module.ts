@@ -12,11 +12,16 @@ const routes: Routes = [
   },
   {
     path: '',
+    pathMatch: 'full',
+    redirectTo: 'login',
+  },
+  {
+    path: '',
     component: MainLayoutComponent,
     canActivate: [AuthGuard],
     children: [
       {
-        path: '',
+        path: 'dashboard',
         loadChildren: () =>
           import('./features/dashboard/dashboard.module').then(
             (m) => m.DashboardModule,
@@ -48,7 +53,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: '',
+    redirectTo: 'login',
   },
 ];
 

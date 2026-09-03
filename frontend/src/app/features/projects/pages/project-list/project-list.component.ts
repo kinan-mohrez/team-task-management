@@ -1,14 +1,17 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
+import { PageEvent } from '@angular/material/paginator';
+import { Sort, SortDirection } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subject, takeUntil } from 'rxjs';
 
+import { PageResponse } from 'src/app/core/dto/pagination/page-response.model';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { Project } from 'src/app/models/project/project.model';
 
 import { DeleteProjectDialogComponent } from '../../components/delete-project-dialog/delete-project-dialog.component';
 import { ProjectService } from '../../services/project.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-project-list',
@@ -29,6 +32,18 @@ export class ProjectListComponent implements OnInit, OnDestroy {
   public dataSource: MatTableDataSource<Project> =
     new MatTableDataSource<Project>();
 
+  public searchValue: string = '';
+  public isLoading: boolean = false;
+  public hasActiveFilters: boolean = false;
+
+  public sortField: string = 'id';
+  public sortDirection: SortDirection = 'asc';
+
+  public totalItems: number = 0;
+  public pageIndex: number = 0;
+  public pageSize: number = 10;
+  public pageSizeOptions: number[] = [5, 10, 25, 50];
+
   private readonly destroy$ = new Subject<void>();
 
   public constructor(
@@ -43,17 +58,69 @@ export class ProjectListComponent implements OnInit, OnDestroy {
   }
 
   public loadProjects(): void {
+    this.isLoading = true;
+
     this.projectService
-      .getProjects()
+      .getProjects(
+        this.pageIndex,
+        this.pageSize,
+        this.sortField,
+        this.sortDirection || 'asc',
+        this.searchValue,
+      )
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (projects: Project[]) => {
-          this.dataSource.data = projects;
+        next: (response: PageResponse<Project>) => {
+          this.dataSource.data = response.content;
+          this.totalItems = response.totalElements;
+          this.isLoading = false;
         },
         error: () => {
+          this.isLoading = false;
           this.notificationService.showError('Failed to load projects.');
         },
       });
+  }
+
+  public onSearch(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+
+    this.searchValue = inputElement.value;
+    this.hasActiveFilters = this.searchValue.trim().length > 0;
+    this.pageIndex = 0;
+
+    this.loadProjects();
+  }
+
+  public onRefresh(): void {
+    this.searchValue = '';
+    this.hasActiveFilters = false;
+    this.pageIndex = 0;
+
+    this.loadProjects();
+  }
+
+  public onClearFilters(): void {
+    this.searchValue = '';
+    this.hasActiveFilters = false;
+    this.pageIndex = 0;
+
+    this.loadProjects();
+  }
+
+  public onSortChange(sort: Sort): void {
+    this.sortField = sort.active;
+    this.sortDirection = sort.direction || 'asc';
+    this.pageIndex = 0;
+
+    this.loadProjects();
+  }
+
+  public onPageChange(event: PageEvent): void {
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
+
+    this.loadProjects();
   }
 
   public addProject(): void {

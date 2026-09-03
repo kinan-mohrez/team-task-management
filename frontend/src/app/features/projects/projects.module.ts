@@ -17,7 +17,9 @@ import { MatInputModule } from '@angular/material/input';
 import { DeleteProjectDialogComponent } from './components/delete-project-dialog/delete-project-dialog.component';
 import { MatDialogModule } from "@angular/material/dialog";
 import { ProjectDetailsComponent } from './pages/project-details/project-details.component';
-import { MatProgressSpinnerModule, MatSpinner } from '@angular/material/progress-spinner';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -40,6 +42,8 @@ import { MatProgressSpinnerModule, MatSpinner } from '@angular/material/progress
     MatInputModule,
     MatDialogModule,
     MatProgressSpinnerModule,
+    MatPaginatorModule,
+    MatSortModule,
   ],
 })
 export class ProjectsModule {}

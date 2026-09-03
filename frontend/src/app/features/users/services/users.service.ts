@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 
 import { CreateUserRequest } from 'src/app/core/dto/users/create-user-request.model';
@@ -7,6 +7,7 @@ import { UpdateUserRequest } from 'src/app/core/dto/users/update-user-request.mo
 import { ChangePasswordRequest } from 'src/app/core/dto/users/change-password-request.model';
 import { ResetPasswordRequest } from 'src/app/core/dto/users/reset-password-request.model';
 import { UserResponse } from 'src/app/core/dto/users/user-response.model';
+import { PageResponse } from 'src/app/core/dto/pagination/page-response.model';
 import { UserMapper } from 'src/app/core/mappers/user.mapper';
 import { User } from 'src/app/models/users/user.model';
 
@@ -18,13 +19,30 @@ export class UsersService {
 
   public constructor(private readonly http: HttpClient) {}
 
-  public getUsers(): Observable<User[]> {
+  public getUsers(
+    page: number,
+    size: number,
+    sortBy: string,
+    sortDirection: string,
+    search?: string,
+  ): Observable<PageResponse<User>> {
+    let params: HttpParams = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString())
+      .set('sortBy', sortBy)
+      .set('sortDirection', sortDirection);
+
+    if (search?.trim()) {
+      params = params.set('search', search.trim());
+    }
+
     return this.http
-      .get<UserResponse[]>(this.apiUrl)
+      .get<PageResponse<UserResponse>>(this.apiUrl, { params })
       .pipe(
-        map((userResponses: UserResponse[]) =>
-          UserMapper.fromResponses(userResponses),
-        ),
+        map((response: PageResponse<UserResponse>) => ({
+          ...response,
+          content: UserMapper.fromResponses(response.content),
+        })),
       );
   }
 

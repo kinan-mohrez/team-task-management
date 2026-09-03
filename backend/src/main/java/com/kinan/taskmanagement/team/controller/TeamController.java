@@ -7,10 +7,9 @@ import com.kinan.taskmanagement.team.service.TeamService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/teams")
@@ -25,13 +24,27 @@ public class TeamController {
 
     @GetMapping
     @Operation(summary = "Get all teams")
-    public List<TeamResponse> getAllTeams() {
-        return teamService.getAllTeams();
+    public Page<TeamResponse> getAllTeams(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortDirection,
+            @RequestParam(required = false) String search
+    ) {
+
+        return this.teamService.getAllTeams(
+                page,
+                size,
+                sortBy,
+                sortDirection,
+                search
+        );
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "Get team by id")
     public TeamResponse getTeamById(@PathVariable Long id) {
+
         return teamService.getTeamById(id);
     }
 
@@ -39,7 +52,8 @@ public class TeamController {
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create a new team")
     public TeamResponse createTeam(
-            @Valid @RequestBody CreateTeamRequest request) {
+            @Valid @RequestBody CreateTeamRequest request
+    ) {
 
         return teamService.createTeam(request);
     }
@@ -48,7 +62,8 @@ public class TeamController {
     @Operation(summary = "Update a team")
     public TeamResponse updateTeam(
             @PathVariable Long id,
-            @Valid @RequestBody UpdateTeamRequest request) {
+            @Valid @RequestBody UpdateTeamRequest request
+    ) {
 
         return teamService.updateTeam(id, request);
     }
@@ -57,7 +72,7 @@ public class TeamController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Delete a team")
     public void deleteTeam(@PathVariable Long id) {
+
         teamService.deleteTeam(id);
     }
-
 }
