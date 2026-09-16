@@ -1,7 +1,7 @@
-import { Task.Mapper } from './task.mapper';
+import { TaskMapper } from './task.mapper';
 
 describe('Task.Mapper', () => {
   it('should create an instance', () => {
-    expect(new Task.Mapper()).toBeTruthy();
+    expect(new TaskMapper()).toBeTruthy();
   });
 });

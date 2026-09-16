@@ -10,26 +10,27 @@ Built with **Angular**, **Spring Boot**, **Spring Security**, **JWT**, and **Pos
 
 ## Frontend
 
-- Angular 13
-- TypeScript
-- Angular Material
-- RxJS
-- Reactive Forms
-- SCSS
+* Angular 13
+* TypeScript
+* Angular Material
+* RxJS
+* Reactive Forms
+* SCSS
+* Karma / Jasmine
 
 ## Backend
 
-- Java
-- Spring Boot
-- Spring Security
-- Spring Data JPA
-- Hibernate
-- JWT Authentication
-- Maven
+* Java
+* Spring Boot
+* Spring Security
+* Spring Data JPA
+* Hibernate
+* JWT Authentication
+* Maven
 
 ## Database
 
-- PostgreSQL
+* PostgreSQL
 
 ---
 
@@ -37,89 +38,68 @@ Built with **Angular**, **Spring Boot**, **Spring Security**, **JWT**, and **Pos
 
 ## Authentication
 
-- JWT Authentication
-- Secure Login
-- Route Guard
-- HTTP Interceptor
-- Role-based Authorization
-- Token-based Session Handling
+* JWT Authentication
+* Secure Login
+* Route Guard
+* HTTP Interceptor
+* Role-based Authorization
 
 ## Application Layout
 
-- Responsive Main Layout
-- Navigation Sidebar
-- Top Navbar
-- Active Route Navigation
-- Logout Functionality
-- Consistent Application Styling
+* Responsive Main Layout
+* Navigation Sidebar
+* Top Navbar
+* Active Route Navigation
+* Logout Functionality
 
 ## Dashboard
 
-- Backend-driven Statistics
-- User-specific Task Statistics
-- In Progress Tasks
-- Completed Tasks
-- Overdue Tasks
-- Recent Tasks
-- Upcoming Deadlines
-- Interactive Statistic Cards
+* Backend-driven User-specific Statistics
+* In Progress, Completed & Overdue Tasks
+* Interactive Statistic Cards
+* Recent Tasks & Upcoming Deadlines UI
 
-## Users
+## Users, Projects & Teams
 
-- Complete CRUD
-- REST API Integration
-- User Details
-- Role & Account Management
-- Search, Sorting & Pagination
-
-## Projects
-
-- Complete CRUD
-- REST API Integration
-- Project Details
-- Search, Sorting & Pagination
+* Complete CRUD
+* REST API Integration
+* Details Pages
+* Server-side Search, Sorting & Pagination
 
 ## Tasks
 
-- Complete CRUD
-- REST API Integration
-- Task Details
-- Project & User Assignment
-- Status & Priority Management
-- Search, Sorting & Pagination
-
-## Teams
-
-- Complete CRUD
-- REST API Integration
-- Team Details
-- Search, Sorting & Pagination
+* Complete CRUD
+* REST API Integration
+* Project & User Assignment
+* Status & Priority Management
+* Server-side Search, Sorting & Pagination
 
 ---
 
 # Project Structure
 
 ```text
-frontend
-├── core
-├── shared
-├── features
-│   ├── auth
-│   ├── dashboard
-│   ├── users
-│   ├── projects
-│   ├── tasks
-│   └── teams
-├── models
-└── layout
+frontend/
+└── src/app/
+    ├── core/
+    ├── shared/
+    ├── features/
+    │   ├── auth/
+    │   ├── dashboard/
+    │   ├── users/
+    │   ├── projects/
+    │   ├── tasks/
+    │   └── teams/
+    ├── models/
+    └── layout/
 
-backend
-├── auth
-├── config
-├── project
-├── task
-├── team
-└── user
+backend/
+├── auth/
+├── config/
+├── project/
+├── task/
+├── team/
+└── user/
 ```
 
 ---
@@ -131,10 +111,10 @@ backend
 ```bash
 cd frontend
 npm install
-ng serve
+npx ng serve
 ```
 
-Runs on `http://localhost:4200`
+Runs on http://localhost:4200
 
 ## Backend
 
@@ -143,36 +123,59 @@ cd backend
 mvn spring-boot:run
 ```
 
-Runs on `http://localhost:8080`
+Runs on http://localhost:8080
+
+---
+
+# Testing
+
+Frontend unit tests use **Karma and Jasmine**.
+
+Run all frontend tests:
+
+```bash
+cd frontend
+npx ng test --watch=false --browsers=ChromeHeadless
+```
+
+**Latest result (2026-09-17):** 57/57 tests passed, as reported by Codex.
+
+* Existing Component, Service, Guard and Mapper tests repaired.
+* TokenService unit tests implemented.
+* HTTP requests mocked using Angular HTTP testing utilities.
+* Comprehensive Service unit tests are in progress.
+
+Backend unit and integration tests are planned.
 
 ---
 
 # Engineering Principles
 
-- Clean Code
-- SOLID Principles
-- Feature-based Architecture
-- DTO & Mapper Pattern
-- Dependency Injection
-- Stateless JWT Authentication
-- Server-side Pagination, Sorting & Filtering
-- RxJS Subscription Management
+* Clean Code & SOLID
+* Feature-based Architecture
+* DTO & Mapper Pattern
+* Dependency Injection
+* Stateless JWT Authentication
+* Server-side Pagination, Sorting & Filtering
+* RxJS Subscription Management
 
 ---
 
 # Current Status
 
-| Module | Status |
-| :--- | :---: |
-| Authentication | ✅ |
-| Main Layout & Navigation | ✅ |
-| Dashboard | ✅ |
-| Users | ✅ |
-| Projects | ✅ |
-| Tasks | ✅ |
-| Teams | ✅ |
-| Testing | ⏳ |
-| Docker & Deployment | ⏳ |
+| Module                      | Status |
+| --------------------------- | :----: |
+| Authentication              |    ✅   |
+| Main Layout & Navigation    |    ✅   |
+| Dashboard                   |    ✅   |
+| Users                       |    ✅   |
+| Projects                    |    ✅   |
+| Tasks                       |    ✅   |
+| Teams                       |    ✅   |
+| Existing Frontend Tests     |    ✅   |
+| Comprehensive Service Tests |    ⏳   |
+| Backend Tests               |    ⏳   |
+| Docker & Deployment         |    ⏳   |
 
 ---
 

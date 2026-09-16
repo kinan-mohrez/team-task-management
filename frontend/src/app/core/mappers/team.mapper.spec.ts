@@ -1,7 +1,7 @@
-import { Team.Mapper } from './team.mapper';
+import { TeamMapper } from './team.mapper';
 
 describe('Team.Mapper', () => {
   it('should create an instance', () => {
-    expect(new Team.Mapper()).toBeTruthy();
+    expect(new TeamMapper()).toBeTruthy();
   });
 });

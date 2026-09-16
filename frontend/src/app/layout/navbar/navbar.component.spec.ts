@@ -1,4 +1,8 @@
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { NavbarComponent } from './navbar.component';
 
@@ -8,6 +12,12 @@ describe('NavbarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [
+        RouterTestingModule,
+        MatIconModule,
+        MatButtonModule,
+        NoopAnimationsModule,
+      ],
       declarations: [ NavbarComponent ]
     })
     .compileComponents();

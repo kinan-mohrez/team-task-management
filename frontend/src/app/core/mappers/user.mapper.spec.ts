@@ -1,7 +1,7 @@
-import { User } from './user.mapper';
+import { UserMapper } from './user.mapper';
 
 describe('User', () => {
   it('should create an instance', () => {
-    expect(new User()).toBeTruthy();
+    expect(new UserMapper()).toBeTruthy();
   });
 });
