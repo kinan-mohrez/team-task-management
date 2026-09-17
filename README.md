@@ -138,14 +138,26 @@ cd frontend
 npx ng test --watch=false --browsers=ChromeHeadless
 ```
 
-**Latest result (2026-09-17):** 57/57 tests passed, as reported by Codex.
+**Latest result (2026-09-17): 128/128 tests passed (0 failed, 0 skipped).**
+
+### Implemented Tests
 
 * Existing Component, Service, Guard and Mapper tests repaired.
 * TokenService unit tests implemented.
+* UsersService unit tests implemented and passing.
+* TeamService, ProjectService and TaskService tests expanded.
+* CRUD, pagination, sorting and search scenarios covered.
+* Response mapping and HTTP error handling tested.
 * HTTP requests mocked using Angular HTTP testing utilities.
-* Comprehensive Service unit tests are in progress.
+* TypeScript checking passed.
+* No production code changes required.
 
-Backend unit and integration tests are planned.
+### Planned Testing
+
+* Measure code coverage.
+* Expand Component, Guard and dedicated Mapper behavioral tests.
+* Implement Backend unit and integration tests.
+* Verify end-to-end application workflows.
 
 ---
 
@@ -163,19 +175,22 @@ Backend unit and integration tests are planned.
 
 # Current Status
 
-| Module                      | Status |
-| --------------------------- | :----: |
-| Authentication              |    ✅   |
-| Main Layout & Navigation    |    ✅   |
-| Dashboard                   |    ✅   |
-| Users                       |    ✅   |
-| Projects                    |    ✅   |
-| Tasks                       |    ✅   |
-| Teams                       |    ✅   |
-| Existing Frontend Tests     |    ✅   |
-| Comprehensive Service Tests |    ⏳   |
-| Backend Tests               |    ⏳   |
-| Docker & Deployment         |    ⏳   |
+| Module                                   | Status |
+| ---------------------------------------- | :----: |
+| Authentication                           |    ✅   |
+| Main Layout & Navigation                 |    ✅   |
+| Dashboard                                |    ✅   |
+| Users                                    |    ✅   |
+| Projects                                 |    ✅   |
+| Tasks                                    |    ✅   |
+| Teams                                    |    ✅   |
+| Frontend Unit Tests (128/128)            |    ✅   |
+| Frontend Service Tests                   |    ✅   |
+| Code Coverage Measurement                |    ⏳   |
+| Extended Component, Guard & Mapper Tests |    ⏳   |
+| Backend Tests                            |    ⏳   |
+| End-to-End Verification                  |    ⏳   |
+| Docker & Deployment                      |    ⏳   |
 
 ---
 
