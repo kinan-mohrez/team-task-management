@@ -2,7 +2,7 @@
 
 An enterprise-style Full-Stack application for managing users, projects, tasks, and teams.
 
-Built with **Angular**, **Spring Boot**, **Spring Security**, **JWT**, and **PostgreSQL**, following Clean Code, SOLID principles, and modern software engineering practices.
+Built with **Angular**, **Spring Boot**, **Spring Security**, **JWT**, **PostgreSQL**, and **Docker**, following Clean Code, SOLID principles, and modern software engineering practices.
 
 ---
 
@@ -10,27 +10,34 @@ Built with **Angular**, **Spring Boot**, **Spring Security**, **JWT**, and **Pos
 
 ## Frontend
 
-* Angular 13
-* TypeScript
-* Angular Material
-* RxJS
-* Reactive Forms
-* SCSS
-* Karma / Jasmine
+- Angular 13
+- TypeScript
+- Angular Material
+- RxJS
+- Reactive Forms
+- SCSS
+- Karma / Jasmine
 
 ## Backend
 
-* Java
-* Spring Boot
-* Spring Security
-* Spring Data JPA
-* Hibernate
-* JWT Authentication
-* Maven
+- Java 21
+- Spring Boot
+- Spring Security
+- Spring Data JPA
+- Hibernate
+- JWT Authentication
+- Maven
 
 ## Database
 
-* PostgreSQL
+- PostgreSQL 16
+
+## DevOps / Containerization
+
+- Docker
+- Docker Compose
+- Nginx
+- PostgreSQL Docker Volume
 
 ---
 
@@ -38,41 +45,41 @@ Built with **Angular**, **Spring Boot**, **Spring Security**, **JWT**, and **Pos
 
 ## Authentication
 
-* JWT Authentication
-* Secure Login
-* Route Guard
-* HTTP Interceptor
-* Role-based Authorization
+- JWT Authentication
+- Secure Login
+- Route Guard
+- HTTP Interceptor
+- Role-based Authorization
 
 ## Application Layout
 
-* Responsive Main Layout
-* Navigation Sidebar
-* Top Navbar
-* Active Route Navigation
-* Logout Functionality
+- Responsive Main Layout
+- Navigation Sidebar
+- Top Navbar
+- Active Route Navigation
+- Logout Functionality
 
 ## Dashboard
 
-* Backend-driven User-specific Statistics
-* In Progress, Completed & Overdue Tasks
-* Interactive Statistic Cards
-* Recent Tasks & Upcoming Deadlines UI
+- Backend-driven User-specific Statistics
+- In Progress, Completed & Overdue Tasks
+- Interactive Statistic Cards
+- Recent Tasks & Upcoming Deadlines UI
 
 ## Users, Projects & Teams
 
-* Complete CRUD
-* REST API Integration
-* Details Pages
-* Server-side Search, Sorting & Pagination
+- Complete CRUD
+- REST API Integration
+- Details Pages
+- Server-side Search, Sorting & Pagination
 
 ## Tasks
 
-* Complete CRUD
-* REST API Integration
-* Project & User Assignment
-* Status & Priority Management
-* Server-side Search, Sorting & Pagination
+- Complete CRUD
+- REST API Integration
+- Project & User Assignment
+- Status & Priority Management
+- Server-side Search, Sorting & Pagination
 
 ---
 
@@ -100,13 +107,41 @@ backend/
 ├── task/
 ├── team/
 └── user/
+
+docker-compose.yml
 ```
 
 ---
 
 # Running the Project
 
-## Frontend
+## Run with Docker
+
+Make sure Docker Desktop is running.
+
+From the project root directory:
+
+```bash
+docker compose up -d
+```
+
+The application services will start in separate containers:
+
+- Frontend: http://localhost:4200
+- Backend: http://localhost:8080
+- PostgreSQL: localhost:5433
+
+To stop the containers:
+
+```bash
+docker compose stop
+```
+
+PostgreSQL data is persisted using a Docker Volume.
+
+## Run Locally
+
+### Frontend
 
 ```bash
 cd frontend
@@ -116,7 +151,7 @@ npx ng serve
 
 Runs on http://localhost:4200
 
-## Backend
+### Backend
 
 ```bash
 cd backend
@@ -124,6 +159,31 @@ mvn spring-boot:run
 ```
 
 Runs on http://localhost:8080
+
+---
+
+# Docker Architecture
+
+The application is containerized into three separate services:
+
+```text
+Angular Frontend
+      │
+      ▼
+Spring Boot Backend
+      │
+      ▼
+PostgreSQL Database
+      │
+      ▼
+Docker Volume
+```
+
+- Angular is built with Node.js and served using Nginx.
+- Spring Boot runs in a Java 21 container.
+- PostgreSQL 16 runs in a dedicated container.
+- Docker Compose manages the application services.
+- PostgreSQL data is persisted using a named Docker Volume.
 
 ---
 
@@ -138,38 +198,40 @@ cd frontend
 npx ng test --watch=false --browsers=ChromeHeadless
 ```
 
-**Latest result (2026-09-17): 128/128 tests passed (0 failed, 0 skipped).**
+**Latest result: 128/128 tests passed (0 failed, 0 skipped).**
 
 ### Implemented Tests
 
-* Existing Component, Service, Guard and Mapper tests repaired.
-* TokenService unit tests implemented.
-* UsersService unit tests implemented and passing.
-* TeamService, ProjectService and TaskService tests expanded.
-* CRUD, pagination, sorting and search scenarios covered.
-* Response mapping and HTTP error handling tested.
-* HTTP requests mocked using Angular HTTP testing utilities.
-* TypeScript checking passed.
-* No production code changes required.
+- Existing Component, Service, Guard and Mapper tests repaired.
+- TokenService unit tests implemented.
+- UsersService unit tests implemented and passing.
+- TeamService, ProjectService and TaskService tests expanded.
+- CRUD, pagination, sorting and search scenarios covered.
+- Response mapping and HTTP error handling tested.
+- HTTP requests mocked using Angular HTTP testing utilities.
+- TypeScript checking passed.
+- No production code changes required.
 
 ### Planned Testing
 
-* Measure code coverage.
-* Expand Component, Guard and dedicated Mapper behavioral tests.
-* Implement Backend unit and integration tests.
-* Verify end-to-end application workflows.
+- Measure code coverage.
+- Expand Component, Guard and dedicated Mapper behavioral tests.
+- Implement Backend unit and integration tests.
+- Verify end-to-end application workflows.
 
 ---
 
 # Engineering Principles
 
-* Clean Code & SOLID
-* Feature-based Architecture
-* DTO & Mapper Pattern
-* Dependency Injection
-* Stateless JWT Authentication
-* Server-side Pagination, Sorting & Filtering
-* RxJS Subscription Management
+- Clean Code & SOLID
+- Feature-based Architecture
+- DTO & Mapper Pattern
+- Dependency Injection
+- Stateless JWT Authentication
+- Server-side Pagination, Sorting & Filtering
+- RxJS Subscription Management
+- Containerized Application Architecture
+- Persistent Database Storage
 
 ---
 
@@ -177,20 +239,23 @@ npx ng test --watch=false --browsers=ChromeHeadless
 
 | Module                                   | Status |
 | ---------------------------------------- | :----: |
-| Authentication                           |    ✅   |
-| Main Layout & Navigation                 |    ✅   |
-| Dashboard                                |    ✅   |
-| Users                                    |    ✅   |
-| Projects                                 |    ✅   |
-| Tasks                                    |    ✅   |
-| Teams                                    |    ✅   |
-| Frontend Unit Tests (128/128)            |    ✅   |
-| Frontend Service Tests                   |    ✅   |
-| Code Coverage Measurement                |    ⏳   |
-| Extended Component, Guard & Mapper Tests |    ⏳   |
-| Backend Tests                            |    ⏳   |
-| End-to-End Verification                  |    ⏳   |
-| Docker & Deployment                      |    ⏳   |
+| Authentication                           |   ✅   |
+| Main Layout & Navigation                 |   ✅   |
+| Dashboard                                |   ✅   |
+| Users                                    |   ✅   |
+| Projects                                 |   ✅   |
+| Tasks                                    |   ✅   |
+| Teams                                    |   ✅   |
+| Frontend Unit Tests (128/128)            |   ✅   |
+| Frontend Service Tests                   |   ✅   |
+| Docker Containerization                  |   ✅   |
+| Docker Compose                           |   ✅   |
+| PostgreSQL Persistent Volume             |   ✅   |
+| Code Coverage Measurement                |   ⏳   |
+| Extended Component, Guard & Mapper Tests |   ⏳   |
+| Backend Tests                            |   ⏳   |
+| End-to-End Verification                  |   ⏳   |
+| Deployment                               |   ⏳   |
 
 ---
 

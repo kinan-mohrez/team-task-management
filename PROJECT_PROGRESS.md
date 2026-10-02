@@ -1,8 +1,8 @@
 # 🚀 Team Task Management System — Project Progress
 
-> Enterprise-style Full-Stack application built with Angular, Spring Boot, Spring Security, JWT, and PostgreSQL.
+> Enterprise-style Full-Stack application built with Angular, Spring Boot, Spring Security, JWT, PostgreSQL, and Docker.
 
-**Last Updated:** 2026-09-17
+**Last Updated:** 2026-10-02
 
 ---
 
@@ -26,7 +26,7 @@ Build a production-quality Team Task Management System using Clean Code, SOLID p
 
 ## Backend
 
-- Java
+- Java 21
 - Spring Boot
 - Spring Security
 - Spring Data JPA
@@ -34,6 +34,13 @@ Build a production-quality Team Task Management System using Clean Code, SOLID p
 - JWT Authentication
 - PostgreSQL
 - Swagger / OpenAPI
+
+## DevOps / Containerization
+
+- Docker
+- Docker Compose
+- Nginx
+- PostgreSQL Docker Volume
 
 ---
 
@@ -158,6 +165,21 @@ Build a production-quality Team Task Management System using Clean Code, SOLID p
 
 ---
 
+# 🐳 Docker & Containerization
+
+- Frontend containerized using Node.js build stage and Nginx
+- Backend containerized using Eclipse Temurin Java 21
+- PostgreSQL 16 running in a dedicated container
+- Docker Compose configured for Frontend, Backend, and PostgreSQL
+- Frontend, Backend, and Database run as separate services
+- Internal Docker networking between Backend and PostgreSQL
+- PostgreSQL data persisted using a named Docker Volume
+- Existing PostgreSQL database backed up and restored into the containerized database
+- Full application startup verified with Docker Compose
+- Authentication workflow verified successfully through the containerized stack
+
+---
+
 # 📈 Development Status
 
 | Feature                                  | Status |
@@ -177,6 +199,9 @@ Build a production-quality Team Task Management System using Clean Code, SOLID p
 | Frontend Service Unit Tests              |   ✅   |
 | Frontend Test Suite (128/128)            |   ✅   |
 | TypeScript Checking                      |   ✅   |
+| Docker Containerization                  |   ✅   |
+| Docker Compose                           |   ✅   |
+| PostgreSQL Persistent Volume             |   ✅   |
 | Code Coverage Measurement                |   ⏳   |
 | Extended Component, Guard & Mapper Tests |   ⏳   |
 | Dashboard Task Filtering                 |   ⏳   |
@@ -184,7 +209,7 @@ Build a production-quality Team Task Management System using Clean Code, SOLID p
 | Upcoming Deadlines Backend Integration   |   ⏳   |
 | Backend Unit & Integration Tests         |   ⏳   |
 | End-to-End Workflow Verification         |   ⏳   |
-| Docker & Deployment                      |   ⏳   |
+| Deployment                               |   ⏳   |
 
 ---
 
@@ -196,8 +221,8 @@ Build a production-quality Team Task Management System using Clean Code, SOLID p
 4. Replace Recent Tasks mock data with backend data.
 5. Replace Upcoming Deadlines mock data with backend data.
 6. Implement and verify Backend unit and integration tests.
-7. Verify end-to-end application workflows.
-8. Dockerize and deploy the application.
+7. Continue end-to-end workflow verification.
+8. Prepare the containerized application for deployment.
 
 ---
 
