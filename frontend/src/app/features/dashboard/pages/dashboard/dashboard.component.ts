@@ -7,9 +7,22 @@ import { RecentTask } from 'src/app/models/dashboard/recent-task.model';
 import { UpcomingDeadline } from 'src/app/models/dashboard/upcoming-deadline.model';
 
 import { DashboardService } from '../../services/dashboard.service';
+import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatTableModule } from '@angular/material/table';
 
 @Component({
   selector: 'app-dashboard',
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatCardModule,
+    MatIconModule,
+    MatDividerModule,
+    MatTableModule,
+  ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })

@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { TokenService } from 'src/app/core/services/token.service';
+import { MatIconModule } from '@angular/material/icon';
+import { TokenService } from '../../core/services/token.service';
 
 @Component({
   selector: 'app-navbar',
+  standalone: true,
+  imports: [MatIconModule],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
 })

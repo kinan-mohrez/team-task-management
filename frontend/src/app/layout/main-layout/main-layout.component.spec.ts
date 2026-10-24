@@ -12,12 +12,12 @@ describe('MainLayoutComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
+    imports: [
         RouterTestingModule,
         MatIconModule,
-      ],
-      declarations: [MainLayoutComponent, NavbarComponent, SidebarComponent]
-    })
+        MainLayoutComponent, NavbarComponent, SidebarComponent,
+    ]
+})
     .compileComponents();
   });
 

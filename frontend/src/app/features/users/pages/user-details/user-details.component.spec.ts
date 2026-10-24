@@ -23,25 +23,25 @@ describe('UserDetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      providers: [
+    providers: [
         {
-          provide: MatSnackBar,
-          useValue: jasmine.createSpyObj('MatSnackBar', ['open']),
+            provide: MatSnackBar,
+            useValue: jasmine.createSpyObj('MatSnackBar', ['open']),
         },
         {
-          provide: MatDialog,
-          useValue: jasmine.createSpyObj('MatDialog', {
-            open: { afterClosed: () => of(false) },
-          }),
+            provide: MatDialog,
+            useValue: jasmine.createSpyObj('MatDialog', {
+                open: { afterClosed: () => of(false) },
+            }),
         },
         {
-          provide: ActivatedRoute,
-          useValue: {
-            snapshot: { paramMap: convertToParamMap({ id: '1' }) },
-          },
+            provide: ActivatedRoute,
+            useValue: {
+                snapshot: { paramMap: convertToParamMap({ id: '1' }) },
+            },
         },
-      ],
-      imports: [
+    ],
+    imports: [
         RouterTestingModule,
         MatCardModule,
         MatIconModule,
@@ -50,9 +50,9 @@ describe('UserDetailsComponent', () => {
         MatDividerModule,
         NoopAnimationsModule,
         HttpClientTestingModule,
-      ],
-      declarations: [UserDetailsComponent],
-    }).compileComponents();
+        UserDetailsComponent,
+    ],
+}).compileComponents();
   });
 
   beforeEach(() => {

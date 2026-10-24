@@ -11,31 +11,31 @@ describe('DeleteUserDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
+    imports: [
         MatButtonModule,
         MatDialogModule,
         NoopAnimationsModule,
-      ],
-      declarations: [DeleteUserDialogComponent],
-      providers: [
+        DeleteUserDialogComponent,
+    ],
+    providers: [
         {
-          provide: MatDialogRef,
-          useValue: jasmine.createSpyObj('MatDialogRef', ['close']),
+            provide: MatDialogRef,
+            useValue: jasmine.createSpyObj('MatDialogRef', ['close']),
         },
         {
-          provide: MAT_DIALOG_DATA,
-          useValue: {
-            id: 1,
-            firstName: 'Test',
-            lastName: 'User',
-            username: 'testuser',
-            email: 'test@example.com',
-            role: 'MEMBER',
-            enabled: true,
-          },
+            provide: MAT_DIALOG_DATA,
+            useValue: {
+                id: 1,
+                firstName: 'Test',
+                lastName: 'User',
+                username: 'testuser',
+                email: 'test@example.com',
+                role: 'MEMBER',
+                enabled: true,
+            },
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   });
 
   beforeEach(() => {

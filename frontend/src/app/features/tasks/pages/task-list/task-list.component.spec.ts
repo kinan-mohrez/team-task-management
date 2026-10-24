@@ -27,7 +27,7 @@ describe('TaskListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
+    imports: [
         HttpClientTestingModule,
         MatCardModule,
         MatIconModule,
@@ -41,21 +41,21 @@ describe('TaskListComponent', () => {
         FormsModule,
         NoopAnimationsModule,
         RouterTestingModule,
-      ],
-      declarations: [TaskListComponent],
-      providers: [
+        TaskListComponent,
+    ],
+    providers: [
         {
-          provide: MatDialog,
-          useValue: jasmine.createSpyObj('MatDialog', {
-            open: { afterClosed: () => of(false) },
-          }),
+            provide: MatDialog,
+            useValue: jasmine.createSpyObj('MatDialog', {
+                open: { afterClosed: () => of(false) },
+            }),
         },
         {
-          provide: MatSnackBar,
-          useValue: jasmine.createSpyObj('MatSnackBar', ['open']),
+            provide: MatSnackBar,
+            useValue: jasmine.createSpyObj('MatSnackBar', ['open']),
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   });
 
   beforeEach(() => {

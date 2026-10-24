@@ -12,16 +12,16 @@ import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
-  declarations: [DashboardComponent],
-  imports: [
-    CommonModule,
-    DashboardRoutingModule,
-    MatCardModule,
-    MatIconModule,
-    MatDividerModule,
-    MatListModule,
-    MatTableModule,
-    MatButtonModule,
-  ],
+    imports: [
+        CommonModule,
+        DashboardRoutingModule,
+        MatCardModule,
+        MatIconModule,
+        MatDividerModule,
+        MatListModule,
+        MatTableModule,
+        MatButtonModule,
+        DashboardComponent,
+    ],
 })
 export class DashboardModule {}

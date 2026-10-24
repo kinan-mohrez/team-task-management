@@ -26,19 +26,19 @@ describe('TeamListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      providers: [
+    providers: [
         {
-          provide: MatSnackBar,
-          useValue: jasmine.createSpyObj('MatSnackBar', ['open']),
+            provide: MatSnackBar,
+            useValue: jasmine.createSpyObj('MatSnackBar', ['open']),
         },
         {
-          provide: MatDialog,
-          useValue: jasmine.createSpyObj('MatDialog', {
-            open: { afterClosed: () => of(false) },
-          }),
+            provide: MatDialog,
+            useValue: jasmine.createSpyObj('MatDialog', {
+                open: { afterClosed: () => of(false) },
+            }),
         },
-      ],
-      imports: [
+    ],
+    imports: [
         HttpClientTestingModule,
         MatCardModule,
         MatIconModule,
@@ -51,9 +51,9 @@ describe('TeamListComponent', () => {
         MatProgressSpinnerModule,
         NoopAnimationsModule,
         RouterTestingModule,
-      ],
-      declarations: [TeamListComponent],
-    }).compileComponents();
+        TeamListComponent,
+    ],
+}).compileComponents();
   });
 
   beforeEach(() => {

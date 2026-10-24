@@ -11,34 +11,34 @@ describe('DeleteTaskDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      providers: [
+    providers: [
         {
-          provide: MatDialogRef,
-          useValue: jasmine.createSpyObj('MatDialogRef', ['close']),
+            provide: MatDialogRef,
+            useValue: jasmine.createSpyObj('MatDialogRef', ['close']),
         },
         {
-          provide: MAT_DIALOG_DATA,
-          useValue: {
-            id: 1,
-            title: 'Test task',
-            description: 'Task description',
-            status: 'TODO',
-            priority: 'MEDIUM',
-            dueDate: '2026-09-30',
-            projectId: 1,
-            projectName: 'Test project',
-            assignedUserId: 1,
-            assignedUserName: 'Test User',
-          },
+            provide: MAT_DIALOG_DATA,
+            useValue: {
+                id: 1,
+                title: 'Test task',
+                description: 'Task description',
+                status: 'TODO',
+                priority: 'MEDIUM',
+                dueDate: '2026-09-30',
+                projectId: 1,
+                projectName: 'Test project',
+                assignedUserId: 1,
+                assignedUserName: 'Test User',
+            },
         },
-      ],
-      imports: [
+    ],
+    imports: [
         MatButtonModule,
         MatDialogModule,
         NoopAnimationsModule,
-      ],
-      declarations: [ DeleteTaskDialogComponent ]
-    })
+        DeleteTaskDialogComponent,
+    ]
+})
     .compileComponents();
   });
 

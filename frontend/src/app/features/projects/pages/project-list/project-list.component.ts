@@ -13,8 +13,30 @@ import { Project } from 'src/app/models/project/project.model';
 import { DeleteProjectDialogComponent } from '../../components/delete-project-dialog/delete-project-dialog.component';
 import { ProjectService } from '../../services/project.service';
 
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+
 @Component({
   selector: 'app-project-list',
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatCardModule,
+    MatFormFieldModule,
+  ],
   templateUrl: './project-list.component.html',
   styleUrls: ['./project-list.component.scss'],
 })

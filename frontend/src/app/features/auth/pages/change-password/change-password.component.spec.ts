@@ -15,7 +15,7 @@ describe('ChangePasswordComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
+    imports: [
         ReactiveFormsModule,
         MatCardModule,
         MatIconModule,
@@ -23,9 +23,9 @@ describe('ChangePasswordComponent', () => {
         MatFormFieldModule,
         MatInputModule,
         NoopAnimationsModule,
-      ],
-      declarations: [ChangePasswordComponent],
-    }).compileComponents();
+        ChangePasswordComponent,
+    ],
+}).compileComponents();
   });
 
   beforeEach(() => {

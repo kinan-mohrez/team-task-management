@@ -17,8 +17,32 @@ import { UsersService } from '../../../users/services/users.service';
 import { DeleteTaskDialogComponent } from '../../components/delete-task-dialog/delete-task-dialog.component';
 import { TaskService } from '../../services/task.service';
 
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { CommonModule } from '@angular/common';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { MatIconModule } from '@angular/material/icon';
+import { FormsModule } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 @Component({
   selector: 'app-task-list',
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatTableModule,
+    MatSortModule,
+    MatIconModule,
+    MatPaginatorModule,
+    FormsModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatProgressSpinnerModule,
+  ],
   templateUrl: './task-list.component.html',
   styleUrls: ['./task-list.component.scss'],
 })

@@ -19,7 +19,7 @@ describe('DashboardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
+    imports: [
         MatCardModule,
         MatIconModule,
         MatButtonModule,
@@ -28,9 +28,9 @@ describe('DashboardComponent', () => {
         NoopAnimationsModule,
         RouterTestingModule,
         HttpClientTestingModule,
-      ],
-      declarations: [ DashboardComponent ]
-    })
+        DashboardComponent,
+    ]
+})
     .compileComponents();
   });
 

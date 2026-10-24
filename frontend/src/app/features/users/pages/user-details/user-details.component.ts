@@ -10,8 +10,22 @@ import { UsersService } from '../../services/users.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteUserDialogComponent } from '../../components/delete-user-dialog/delete-user-dialog.component';
 
+import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 @Component({
   selector: 'app-user-details',
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatIconModule,
+    MatCardModule,
+    MatDividerModule,
+    MatProgressSpinnerModule,
+  ],
   templateUrl: './user-details.component.html',
   styleUrls: ['./user-details.component.scss'],
 })

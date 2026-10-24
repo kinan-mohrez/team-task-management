@@ -12,8 +12,33 @@ import { DeleteUserDialogComponent } from '../../components/delete-user-dialog/d
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { PageResponse } from 'src/app/core/dto/pagination/page-response.model';
 
+import { MatIconModule } from '@angular/material/icon';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+
+import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatTableModule } from '@angular/material/table';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 @Component({
   selector: 'app-users-list',
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatButtonModule,
+    MatCardModule,
+    MatTableModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatProgressSpinnerModule,
+    MatIconModule,
+    MatPaginatorModule,
+    MatSortModule,
+  ],
   templateUrl: './users-list.component.html',
   styleUrls: ['./users-list.component.scss'],
 })

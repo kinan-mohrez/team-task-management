@@ -8,9 +8,26 @@ import { Project } from 'src/app/models/project/project.model';
 
 import { DeleteProjectDialogComponent } from '../../components/delete-project-dialog/delete-project-dialog.component';
 import { ProjectService } from '../../services/project.service';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-project-details',
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterModule,
+    MatCardModule,
+    MatIconModule,
+    MatButtonModule,
+    MatDividerModule,
+    MatProgressSpinnerModule,
+  ],
   templateUrl: './project-details.component.html',
   styleUrls: ['./project-details.component.scss'],
 })

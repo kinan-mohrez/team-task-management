@@ -9,8 +9,22 @@ import { Team } from 'src/app/models/team/team.model';
 import { DeleteTeamDialogComponent } from '../../components/delete-team-dialog/delete-team-dialog.component';
 import { TeamService } from '../../services/team.service';
 
+import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatIconModule } from '@angular/material/icon';
+
 @Component({
   selector: 'app-team-details',
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatCardModule,
+    MatDividerModule,
+    MatProgressSpinnerModule,
+    MatIconModule,
+  ],
   templateUrl: './team-details.component.html',
   styleUrls: ['./team-details.component.scss'],
 })

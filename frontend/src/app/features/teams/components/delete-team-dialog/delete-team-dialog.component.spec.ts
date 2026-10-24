@@ -11,27 +11,27 @@ describe('DeleteTeamDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      providers: [
+    providers: [
         {
-          provide: MatDialogRef,
-          useValue: jasmine.createSpyObj('MatDialogRef', ['close']),
+            provide: MatDialogRef,
+            useValue: jasmine.createSpyObj('MatDialogRef', ['close']),
         },
         {
-          provide: MAT_DIALOG_DATA,
-          useValue: {
-            id: 1,
-            name: 'Test team',
-            description: 'Team description',
-          },
+            provide: MAT_DIALOG_DATA,
+            useValue: {
+                id: 1,
+                name: 'Test team',
+                description: 'Team description',
+            },
         },
-      ],
-      imports: [
+    ],
+    imports: [
         MatButtonModule,
         MatDialogModule,
         NoopAnimationsModule,
-      ],
-      declarations: [ DeleteTeamDialogComponent ]
-    })
+        DeleteTeamDialogComponent,
+    ]
+})
     .compileComponents();
   });
 

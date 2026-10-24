@@ -26,19 +26,19 @@ describe('ProjectListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      providers: [
+    providers: [
         {
-          provide: MatSnackBar,
-          useValue: jasmine.createSpyObj('MatSnackBar', ['open']),
+            provide: MatSnackBar,
+            useValue: jasmine.createSpyObj('MatSnackBar', ['open']),
         },
         {
-          provide: MatDialog,
-          useValue: jasmine.createSpyObj('MatDialog', {
-            open: { afterClosed: () => of(false) },
-          }),
+            provide: MatDialog,
+            useValue: jasmine.createSpyObj('MatDialog', {
+                open: { afterClosed: () => of(false) },
+            }),
         },
-      ],
-      imports: [
+    ],
+    imports: [
         MatCardModule,
         MatIconModule,
         MatButtonModule,
@@ -51,9 +51,9 @@ describe('ProjectListComponent', () => {
         NoopAnimationsModule,
         RouterTestingModule,
         HttpClientTestingModule,
-      ],
-      declarations: [ ProjectListComponent ]
-    })
+        ProjectListComponent,
+    ]
+})
     .compileComponents();
   });
 

@@ -23,13 +23,13 @@ describe('ProjectFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      providers: [
+    providers: [
         {
-          provide: MatSnackBar,
-          useValue: jasmine.createSpyObj('MatSnackBar', ['open']),
+            provide: MatSnackBar,
+            useValue: jasmine.createSpyObj('MatSnackBar', ['open']),
         },
-      ],
-      imports: [
+    ],
+    imports: [
         ReactiveFormsModule,
         MatCardModule,
         MatIconModule,
@@ -41,9 +41,9 @@ describe('ProjectFormComponent', () => {
         NoopAnimationsModule,
         RouterTestingModule,
         HttpClientTestingModule,
-      ],
-      declarations: [ProjectFormComponent],
-    }).compileComponents();
+        ProjectFormComponent,
+    ],
+}).compileComponents();
   });
 
   beforeEach(() => {

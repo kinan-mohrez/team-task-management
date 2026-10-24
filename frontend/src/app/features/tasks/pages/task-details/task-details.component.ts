@@ -9,8 +9,22 @@ import { Task } from 'src/app/models/tasks/task.model';
 import { DeleteTaskDialogComponent } from '../../components/delete-task-dialog/delete-task-dialog.component';
 import { TaskService } from '../../services/task.service';
 
+import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatIconModule } from '@angular/material/icon';
+
 @Component({
   selector: 'app-task-details',
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatCardModule,
+    MatDividerModule,
+    MatProgressSpinnerModule,
+    MatIconModule,
+  ],
   templateUrl: './task-details.component.html',
   styleUrls: ['./task-details.component.scss'],
 })

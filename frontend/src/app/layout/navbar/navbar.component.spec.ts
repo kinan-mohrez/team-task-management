@@ -12,14 +12,14 @@ describe('NavbarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
+    imports: [
         RouterTestingModule,
         MatIconModule,
         MatButtonModule,
         NoopAnimationsModule,
-      ],
-      declarations: [ NavbarComponent ]
-    })
+        NavbarComponent,
+    ]
+})
     .compileComponents();
   });
 

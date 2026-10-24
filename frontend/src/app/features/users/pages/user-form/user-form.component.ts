@@ -15,10 +15,33 @@ import { UserRole } from 'src/app/shared/enums/user-role';
 
 import { UsersService } from '../../services/users.service';
 import { Subject, takeUntil } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
 
 
 @Component({
   selector: 'app-user-form',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatSelectModule,
+    MatSlideToggleModule,
+    MatDividerModule,
+    MatCardModule,
+    MatButtonModule,
+  ],
   templateUrl: './user-form.component.html',
   styleUrls: ['./user-form.component.scss'],
 })

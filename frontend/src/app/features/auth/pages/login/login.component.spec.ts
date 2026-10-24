@@ -22,13 +22,13 @@ describe('LoginComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      providers: [
+    providers: [
         {
-          provide: MatSnackBar,
-          useValue: jasmine.createSpyObj('MatSnackBar', ['open']),
+            provide: MatSnackBar,
+            useValue: jasmine.createSpyObj('MatSnackBar', ['open']),
         },
-      ],
-      imports: [
+    ],
+    imports: [
         MatCardModule,
         MatIconModule,
         MatButtonModule,
@@ -39,9 +39,9 @@ describe('LoginComponent', () => {
         NoopAnimationsModule,
         RouterTestingModule,
         HttpClientTestingModule,
-      ],
-      declarations: [ LoginComponent ]
-    })
+        LoginComponent,
+    ]
+})
     .compileComponents();
   });
 
