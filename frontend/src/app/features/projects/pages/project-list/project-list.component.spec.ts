@@ -1,3 +1,4 @@
+/// <reference types="jasmine" />
 import { of } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -17,6 +18,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatSelectModule } from '@angular/material/select';
 
 import { ProjectListComponent } from './project-list.component';
 
@@ -26,24 +28,25 @@ describe('ProjectListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    providers: [
+      providers: [
         {
-            provide: MatSnackBar,
-            useValue: jasmine.createSpyObj('MatSnackBar', ['open']),
+          provide: MatSnackBar,
+          useValue: jasmine.createSpyObj('MatSnackBar', ['open']),
         },
         {
-            provide: MatDialog,
-            useValue: jasmine.createSpyObj('MatDialog', {
-                open: { afterClosed: () => of(false) },
-            }),
+          provide: MatDialog,
+          useValue: jasmine.createSpyObj('MatDialog', {
+            open: { afterClosed: () => of(false) },
+          }),
         },
-    ],
-    imports: [
+      ],
+      imports: [
         MatCardModule,
         MatIconModule,
         MatButtonModule,
         MatFormFieldModule,
         MatInputModule,
+        MatSelectModule,
         MatTableModule,
         MatSortModule,
         MatPaginatorModule,
@@ -52,9 +55,8 @@ describe('ProjectListComponent', () => {
         RouterTestingModule,
         HttpClientTestingModule,
         ProjectListComponent,
-    ]
-})
-    .compileComponents();
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -63,7 +65,7 @@ describe('ProjectListComponent', () => {
     fixture.detectChanges();
     const http = TestBed.inject(HttpTestingController);
     const projectsRequest = http.expectOne(
-      request => request.url === 'http://localhost:8080/api/projects',
+      (request) => request.url === 'http://localhost:8080/api/projects',
     );
     expect(projectsRequest.request.method).toBe('GET');
     projectsRequest.flush({

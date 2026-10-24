@@ -22,6 +22,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-project-list',
@@ -36,6 +37,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatPaginatorModule,
     MatCardModule,
     MatFormFieldModule,
+    MatInputModule,
   ],
   templateUrl: './project-list.component.html',
   styleUrls: ['./project-list.component.scss'],

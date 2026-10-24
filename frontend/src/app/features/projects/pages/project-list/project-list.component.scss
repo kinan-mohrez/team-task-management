@@ -1,4 +1,4 @@
-@import 'src/app/shared/styles/shared-table';
+@use 'src/app/shared/styles/shared-table' as *;
 
 .projects-page {
   @extend .table-page;
